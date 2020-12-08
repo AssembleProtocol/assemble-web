@@ -33,7 +33,7 @@
   .my-asm-wrapper {
     margin: 10px 10px 0 10px;
     padding: 20px;
-    border-radius: 16px;
+    border-radius: 32px;
     background-color: #F7F8FA;
   }
 
@@ -50,6 +50,7 @@
   }
 
   .withdraw {
+    height: 28px;
     padding: 2px 15px;
     border-radius: 8px;
     color: #ffffff;
@@ -69,7 +70,7 @@
   .QRcode-wrapper {
     margin: 10px 10px 0 10px;
     padding: 20px 20px 30px 20px;
-    border-radius: 16px;
+    border-radius: 32px;
     background-color: #F7F8FA;
   }
 
@@ -87,6 +88,7 @@
 
   .copy-link {
     color: #1D6AFE;
+    font-weight: bold;
   }
 
   .group-center {
@@ -117,7 +119,7 @@
     header.header-wrapper
       h1.page-title 지갑
       .icon-wrapper
-        .user-icon-button.icon-button
+        button.user-icon-button.icon-button
           img.user-icon.icon(src="@/assets/img/user-icon.png")
 
     .my-asm-wrapper
@@ -129,7 +131,7 @@
     .QRcode-wrapper
       .group-title
         .deposit 입금
-        .copy-link 주소 복사하기
+        router-link(to="#").copy-link 주소 복사하기
       .group-center
         img.QRcode(src="@/assets/img/qrcode.png")
       .QRcode-text bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh

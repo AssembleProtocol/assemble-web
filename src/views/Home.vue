@@ -37,9 +37,9 @@
   // ----------------------------------- //
 
   .my-asm-wrapper {
-    margin: 20px 10px 0 10px;
-    padding: 20px;
-    border-radius: 16px;
+    margin: 10px 10px 0 10px;
+    padding: 20px 25px 20px 20px;
+    border-radius: 32px;
     background-color: #F7F8FA;
   }
 
@@ -56,6 +56,9 @@
   }
 
   .wallet {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 150%;
     color: #4886FD;
   }
 
@@ -70,11 +73,11 @@
   // ------------------------------ //
 
   .partners-wrapper {
-    padding: 0 10px;
+    padding: 0 0 0 20px;
   }
 
   .partners-wrapper-title {
-    margin-top: 23px;
+    margin-top: 40px;
     font-weight: bold;
     font-size: 24px;
     line-height: 150%;
@@ -82,7 +85,7 @@
   }
 
   .partners {
-    padding: 10px 0;
+    padding-top: 20px;
   }
 
   .partners-inner-wrapper {
@@ -116,6 +119,7 @@
 
   .pattners-domain {
     color: #48596D;
+    opacity: 0.6;
   }
 
   .partners-point {
@@ -155,13 +159,13 @@
     header.header-wrapper
       img.assemble-logo(src="@/assets/img/assemble-logo.png")
       .icon-wrapper
-        .user-icon-button.icon-button
+        button.user-icon-button.icon-button
           img.user-icon.icon(src="@/assets/img/user-icon.png")
 
     .my-asm-wrapper
       .title-and-wallet
         .my-asm MY ASM
-        .wallet 지갑보기 〉
+        router-link(to="/wallet").wallet 지갑보기 〉
       .my-balance 3.535 ASM (14,363 KRW)
 
     .partners-wrapper
@@ -177,7 +181,7 @@
             .partners-point
               .point-num 1,131
               img.point-image(src="@/assets/img/point-icon.png")
-              .arrow-icon-button
+              button.arrow-icon-button
                 img.arrow-icon(src="@/assets/img/arrow-icon.png")
 </template>
 
