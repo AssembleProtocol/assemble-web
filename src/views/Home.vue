@@ -40,7 +40,6 @@
   // ----------------------------------- //
 
   .my-asm-wrapper {
-    margin: 10px 10px 0 10px;
     padding: 20px 25px 20px 20px;
     border-radius: 32px;
     background-color: #F7F8FA;
@@ -155,6 +154,37 @@
     width: 16px;
     height: 16px;
   }
+
+  .chart-container {
+    position: relative;
+    margin-top: 10px;
+    border-radius: 32px;
+    background-color: #F7F8FA;
+
+    &:after {
+      content: 'ASM/KRW';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 150%;
+      color: #48596D;
+    }
+
+    &:before {
+      content: '시가 22.05 종가 25.01 고가 42.10 저가 12.11\A등락률 -6% 거래량 104,337';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 150%;
+      white-space: pre;
+      text-align: right;
+      color: #919BA7;
+    }
+  }
 </style>
 
 <template lang="pug">
@@ -172,6 +202,7 @@
       .my-balance 3.535 ASM (14,363 KRW)
 
     chart(:data="data")
+      .chart-title ASM/KRW
     .partners-wrapper
       .partners-wrapper-title Partners
 
