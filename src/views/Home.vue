@@ -72,10 +72,43 @@
     color: #1F2E44;
   }
 
-  // ------------------------------ //
+  // -------------------------------------------------- //
+
+  .chart-container {
+    position: relative;
+    margin-top: 10px;
+    border-radius: 32px;
+    background-color: #F7F8FA;
+
+    &:after {
+      content: 'ASM/KRW';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 150%;
+      color: #48596D;
+    }
+
+    &:before {
+      content: '시가 22.05 종가 25.01 고가 42.10 저가 12.11\A등락률 -6% 거래량 104,337';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 150%;
+      white-space: pre;
+      text-align: right;
+      color: #919BA7;
+    }
+  }
+
+  // -------------------------------------------------- //
 
   .partners-wrapper {
-    padding: 0 0 0 20px;
+    padding: 0 0 0 10px;
   }
 
   .partners-wrapper-title {
@@ -153,37 +186,6 @@
   .arrow-icon {
     width: 16px;
     height: 16px;
-  }
-
-  .chart-container {
-    position: relative;
-    margin-top: 10px;
-    border-radius: 32px;
-    background-color: #F7F8FA;
-
-    &:after {
-      content: 'ASM/KRW';
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 150%;
-      color: #48596D;
-    }
-
-    &:before {
-      content: '시가 22.05 종가 25.01 고가 42.10 저가 12.11\A등락률 -6% 거래량 104,337';
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-weight: bold;
-      font-size: 12px;
-      line-height: 150%;
-      white-space: pre;
-      text-align: right;
-      color: #919BA7;
-    }
   }
 </style>
 
