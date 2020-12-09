@@ -52,6 +52,7 @@
   .withdraw {
     height: 28px;
     padding: 2px 15px;
+    font-weight: bold;
     border-radius: 8px;
     color: #ffffff;
     background-color: #1D6AFE;
