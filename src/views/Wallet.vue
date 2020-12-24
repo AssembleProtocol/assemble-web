@@ -121,7 +121,7 @@
       h1.page-title 지갑
       .icon-wrapper
         button.user-icon-button.icon-button
-          img.user-icon.icon(src="@/assets/img/user-icon.png")
+          img.user-icon.icon(src="@/assets/user-icon.png")
 
     .my-asm-wrapper
       .title-and-wallet
@@ -134,7 +134,7 @@
         .deposit 입금
         router-link(to="#").copy-link 주소 복사하기
       .group-center
-        img.QRcode(src="@/assets/img/qrcode.png")
+        img.QRcode(src="@/assets/qrcode.png")
       .QRcode-text bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
 </template>
 

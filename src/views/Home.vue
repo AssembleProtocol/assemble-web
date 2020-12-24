@@ -1,256 +1,105 @@
 <style lang="less" scoped>
-  .container {
-    padding: 0 10px;
-  }
-  .header-wrapper {
+  .nav {
+    position: sticky;
+    top: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 24px 20px;
+    width: 100%;
+    height: 80px;
+    padding: 0 20px;
+    z-index: 999;
   }
-
-  .assemble-logo {
-    width: 201.59px;
-    height: 32px;
-  }
-
-  .icon-wrapper {
-    display: flex;
-  }
-
-  .icon-button {
+  .profile-button {
     width: 32px;
     height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
+    border-radius: 50%;
+    background-color: #F7F8FA;
+    background-image: url(~@/assets/user-icon.png);
+    background-size: 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .section {
+    padding: 20px;
+  }
+  .point-box {
+    height: 145px;
+    border-radius: 46px;
+    padding: 20px 28px;
     background-color: #F7F8FA;
   }
-
-  .user-icon-button {
-    margin-left: 20px;
-  }
-
-  .icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  // ----------------------------------- //
-
-  .my-asm-wrapper {
-    padding: 20px 25px 20px 20px;
-    border-radius: 32px;
-    background-color: #F7F8FA;
-  }
-
-  .title-and-wallet {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 150%;
-  }
-
-  .my-asm {
-    color: #48596D;
-  }
-
-  .wallet {
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 150%;
-    color: #4886FD;
-  }
-
-  .my-balance {
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 150%;
-    margin-top: 10px;
-    color: #1F2E44;
-  }
-
-  // -------------------------------------------------- //
-
-  .chart-container {
+  .point-box-text {
     position: relative;
     margin-top: 10px;
-    border-radius: 32px;
-    background-color: #F7F8FA;
-
-    &:after {
-      content: 'ASM/KRW';
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 150%;
-      color: #48596D;
-    }
-
-    &:before {
-      content: '시가 22.05 종가 25.01 고가 42.10 저가 12.11\A등락률 -6% 거래량 104,337';
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-weight: bold;
-      font-size: 12px;
-      line-height: 150%;
-      white-space: pre;
-      text-align: right;
-      color: #919BA7;
-    }
-  }
-
-  // -------------------------------------------------- //
-
-  .partners-wrapper {
-    padding: 0 0 0 10px;
-  }
-
-  .partners-wrapper-title {
-    margin-top: 40px;
+    padding-right: 37px;
+    font-size: 46px;
     font-weight: bold;
+    line-height: 69px;
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 37px;
+      height: 69px;
+      background-image: url(~@/assets/asp-icon-large.svg);
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  }
+  .section-title {
     font-size: 24px;
-    line-height: 150%;
-    color: #1F2E44;
+    line-height: 36px;
   }
-
-  .partners {
-    padding-top: 20px;
-  }
-
-  .partners-inner-wrapper {
+  .partner-item {
     display: flex;
+    align-items: center;
   }
-
-  .partners-logo {
+  .partner-item-thumbnail {
     width: 75px;
     height: 75px;
+    border-radius: 50%;
   }
-
-  .partners-info-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-left: 10px;
-    padding:10px 20px 23px 10px;
-    width: 100%;
-    border-bottom: 1px solid #F7F8FA;
+  .partner-item-contents {
+    flex: 1;
   }
-
-  .partners-info {
+  .partner-item-title {
     font-size: 16px;
-    line-height: 150%;
   }
-
-  .partners-title {
-    font-weight: bold;
-    color: #1F2E44;
-  }
-
-  .pattners-domain {
+  .partner-item-subtitle {
     color: #48596D;
-    opacity: 0.6;
-  }
-
-  .partners-point {
-    display: flex;
-  }
-
-  .point-num {
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 150%;
-  }
-
-  .point-image {
-    width: 16.03px;
-    height: 21.41px;
-  }
-
-  .arrow-icon-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    margin-left: 20.78px;
-    border-radius: 10px;
-    background-color: #F7F8FA;
-  }
-
-  .arrow-icon {
-    width: 16px;
-    height: 16px;
   }
 </style>
 
 <template lang="pug">
-  section.container
-    header.header-wrapper
-      img.assemble-logo(src="@/assets/img/assemble-logo.png")
-      .icon-wrapper
-        button.user-icon-button.icon-button
-          img.user-icon.icon(src="@/assets/img/user-icon.png")
-
-    .my-asm-wrapper
-      .title-and-wallet
-        .my-asm MY ASM
-        router-link(to="/wallet").wallet 지갑보기 〉
-      .my-balance 3.535 ASM (14,363 KRW)
-
-    chart(:data="data")
-      .chart-title ASM/KRW
-    .partners-wrapper
-      .partners-wrapper-title Partners
-
-      .partners
-        .partners-inner-wrapper
-          img.partners-logo(src="@/assets/img/partners-logo.png")
-          .partners-info-wrapper
-            .partners-info
-              .partners-title 클럽패스
-              .pattners-domain club-pass.com
-            .partners-point
-              .point-num 1,131
-              img.point-image(src="@/assets/img/point-icon.png")
-              button.arrow-icon-button
-                img.arrow-icon(src="@/assets/img/arrow-icon.png")
+  section.home-container
+    nav.nav
+      img.logo(src="@/assets/assemble-logo.png", height="32")
+      router-link.profile-button(to="/profile")
+    article.article
+      section.section
+        .point-box
+          nav.point-box-nav
+            strong.point-box-title 보유 포인트
+          p.point-box-text 37,131
+      section.section
+        h1.section-title 연결된 앱
+        .partner-item
+          .partner-item-thumbnail
+          .partner-item-contents
+            h2.partner-item-title 클럽패스
+            p.partner-item-subtitle club-pass.com
+          p.partner-item-point 131
+      section.section
+        h1.section-title 포인트 내역
+        .history-item
+          .history-item-thumbnail
+          .history-item-contents
+            h2.history-item-title 클럽패스 #[span.history-item-created 1일전]
+            p.history-item-description 게시물 작성 (오늘 존잘2명이랑 넷플릭
+          p.history-item-point +10
 </template>
 
 <script>
-
-import Chart from '@/components/Chart';
-
-const DATA = [
-  { min: 120, max: 140, start: 120, end: 135, date: '2020-12-09' },
-  { min: 100, max: 135, start: 135, end: 125, date: '2020-12-10' },
-  { min: 120, max: 140, start: 125, end: 140, date: '2020-12-11' },
-  { min: 130, max: 160, start: 140, end: 150, date: '2020-12-12' },
-  { min: 120, max: 170, start: 150, end: 110, date: '2020-12-13' },
-  { min: 100, max: 130, start: 110, end: 115, date: '2020-12-14' },
-  { min: 100, max: 130, start: 110, end: 115, date: '2020-12-15' },
-  { min: 120, max: 140, start: 120, end: 135, date: '2020-12-16' },
-  { min: 100, max: 135, start: 135, end: 125, date: '2020-12-17' },
-  { min: 120, max: 140, start: 125, end: 140, date: '2020-12-18' },
-  { min: 130, max: 160, start: 140, end: 150, date: '2020-12-19' },
-  { min: 120, max: 170, start: 150, end: 110, date: '2020-12-20' },
-  { min: 100, max: 130, start: 110, end: 115, date: '2020-12-21' },
-  { min: 100, max: 130, start: 110, end: 115, date: '2020-12-22' },
-];
-
 export default {
-  components: {
-    Chart,
-  },
-  data() {
-    return {
-      data: DATA,
-    };
-  },
 };
 </script>
