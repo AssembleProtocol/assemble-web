@@ -9,9 +9,19 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 
+let canGoBack = false;
+
 Vue.config.productionTip = false;
 
 Vue.use(ActionSheet);
+
+router.afterEach((_, from) => {
+  if (from.name) canGoBack = true;
+});
+
+Vue.prototype.$history = {
+  canGoBack: () => canGoBack,
+};
 
 new Vue({
   router,
