@@ -29,18 +29,16 @@ const routes = [
     component: Setting,
   },
   {
-    path: '/account-join',
+    path: '/signup-to-connecting',
     name: 'AccountJoin',
     component: AccountJoin,
   },
   {
-    path: '/account',
-    name: 'Account',
+    path: '/signin-to-connecting',
     component: Account,
   },
   {
-    path: '/account-data',
-    name: 'AccountData',
+    path: '/connecting',
     component: AccountData,
   },
   {
@@ -49,12 +47,12 @@ const routes = [
     component: EmailAuthentication,
   },
   {
-    path: '/join',
+    path: '/signup',
     name: 'Join',
     component: Join,
   },
   {
-    path: '/login',
+    path: '/signin',
     name: 'Login',
     component: Login,
   },
