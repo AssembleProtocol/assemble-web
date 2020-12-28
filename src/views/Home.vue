@@ -56,10 +56,12 @@
       section.section
         h1.section-title 연결된 앱
         .list-item-group
-          list-item(title="클럽패스", subtitle="club-pass.com")
-            point-text.partner-item-point(slot="suffix", :value="131", size="small")
-          list-item(title="ASM 교환소", subtitle="asm.assembleprotocol.io")
-            point-text.partner-item-point(slot="suffix", :value="131", size="small")
+          a.list-item-wrapper(href="", target="_blank", @click="handleLink($event, '')")
+            list-item(title="클럽패스", subtitle="club-pass.com")
+              point-text.partner-item-point(slot="suffix", :value="131", size="small")
+          a.list-item-wrapper(href="/exchange-center", target="_blank", @click="handleLink($event, '/exchange-center')")
+            list-item(title="ASM 교환소", subtitle="asm.assembleprotocol.io")
+              point-text.partner-item-point(slot="suffix", :value="131", size="small")
       section.section
         h1.section-title 포인트 내역
         .list-item-group
@@ -94,6 +96,13 @@ export default {
   components: {
     PointText,
     ListItem,
+  },
+  methods: {
+    handleLink(e, url) {
+      e.preventDefault();
+      if (window.s3app) window.s3app.openInAppBrowser(url);
+      else window.open(url);
+    },
   },
 };
 </script>

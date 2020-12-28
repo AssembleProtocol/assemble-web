@@ -1,13 +1,17 @@
 import '@/styles/normalize.css';
 import '@/styles/index.less';
+import 'vant/lib/index.css';
 
 import Vue from 'vue';
+import { ActionSheet } from 'vant';
 
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 
 Vue.config.productionTip = false;
+
+Vue.use(ActionSheet);
 
 new Vue({
   router,

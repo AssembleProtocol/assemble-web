@@ -22,6 +22,11 @@
       }
     }
   }
+  .point-text-icon {
+    &.asm {
+      margin-left: 5px;
+    }
+  }
 </style>
 
 <template lang="pug">
@@ -29,6 +34,7 @@
     p.point-text {{ displayValue }}
     img.point-text-icon(
       :src="iconSrc",
+      :class="{ asm: pointType === 'asm' }",
       :height="size === 'large' ? 69 : 27",
     )
 </template>
@@ -37,6 +43,7 @@
 import DefaultLargeIcon from '@/assets/asp-icon-large.svg';
 import DefaultSmallIcon from '@/assets/asp-icon-small.svg';
 import BlueSmallIcon from '@/assets/asp-icon-small-blue.svg';
+import AsmIcon from '@/assets/asm-icon-large.svg';
 
 export default {
   props: {
@@ -52,17 +59,20 @@ export default {
       type: String,
       default: 'default', // 'default', 'plus', 'minus';
     },
+    pointType: {
+      type: String,
+      default: 'asp', // 'asp', 'asm'
+    },
   },
   computed: {
     displayValue() {
-      if (this.type === 'default') {
-        const numberValue = Number(this.value || 0);
-        return numberValue.toLocaleString();
-      }
       if (this.type === 'plus') return `+${this.value}`;
-      return `-${this.value}`;
+      if (this.type === 'minus') return `-${this.value}`;
+      const numberValue = Number(this.value || 0);
+      return numberValue.toLocaleString();
     },
     iconSrc() {
+      if (this.pointType === 'asm') return AsmIcon;
       if (this.type === 'large') return DefaultLargeIcon;
       if (this.type === 'plus') return BlueSmallIcon;
       return DefaultSmallIcon;
