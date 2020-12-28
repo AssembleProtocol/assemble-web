@@ -3,12 +3,12 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
 import Wallet from '@/views/Wallet.vue';
 import Setting from '@/views/Setting.vue';
-import AccountJoin from '@/views/AccountJoin.vue';
-import Account from '@/views/Account.vue';
-import AccountData from '@/views/AccountData.vue';
+import signupToConnecting from '@/views/signup-to-connecting.vue';
+import signinToConnecting from '@/views/signin-to-connecting.vue';
+import Connecting from '@/views/connecting.vue';
 import EmailAuthentication from '@/views/EmailAuthentication.vue';
-import Join from '@/views/Join.vue';
-import Login from '@/views/Login.vue';
+import Signup from '@/views/signup.vue';
+import Signin from '@/views/signin.vue';
 
 Vue.use(VueRouter);
 
@@ -30,16 +30,18 @@ const routes = [
   },
   {
     path: '/signup-to-connecting',
-    name: 'AccountJoin',
-    component: AccountJoin,
+    name: 'signup-to-connecting',
+    component: signupToConnecting,
   },
   {
     path: '/signin-to-connecting',
-    component: Account,
+    name: 'signin-to-connecting',
+    component: signinToConnecting,
   },
   {
     path: '/connecting',
-    component: AccountData,
+    name: 'Connecting',
+    component: Connecting,
   },
   {
     path: '/email-authentication',
@@ -48,13 +50,13 @@ const routes = [
   },
   {
     path: '/signup',
-    name: 'Join',
-    component: Join,
+    name: 'signup',
+    component: Signup,
   },
   {
     path: '/signin',
-    name: 'Login',
-    component: Login,
+    name: 'signin',
+    component: Signin,
   },
 ];
 

@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .Setting-wrapper {
+  .setting-wrapper {
     padding: 0 20px;
   }
 
@@ -67,18 +67,18 @@
 </style>
 
 <template lang="pug">
-  section.Setting-wrapper
+  section.setting-wrapper
     .header
       button.back-button
     .link-wrapper
-      .account-management.title 계정 관리하기
+      h2.account-management.title 계정 관리하기
         router-link(to="#").change-email.link 이메일 주소 변경하기
         router-link(to="#").change-password.link 비밀번호 변경하기
-      .app-info.title 앱 정보
+      h2.app-info.title 앱 정보
         router-link(to="#").terms.link 이용약관
         router-link(to="#").privacy-statement.link 개인정보취급방침
         router-link(to="#").send-inquiry.link 문의 보내기
-      .assemble-protocol.title 어셈블 프로토콜
+      h2.assemble-protocol.title 어셈블 프로토콜
         router-link(to="#").offical-site.link
           img(src="@/assets/site-icon.png")
           .link-text 공식 사이트

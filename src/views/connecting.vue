@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .AccountLink-wrapper {
+  .account-link-wrapper {
     padding: 0 20px;
   }
 
@@ -81,18 +81,17 @@
 </style>
 
 <template lang="pug">
-  section.AccountLink-wrapper
+  section.account-link-wrapper
     .header
       .assemble-logo
 
     .content
-      .title 클럽패스와 연결하기
-
+      h1.title 클럽패스와 연결하기
       .account-info
         .club-pass.text 클럽패스 #[strong {{ id }}]
         .assemble.text 어셈블 #[strong {{ name }}] #[strong {{ email }}]
         .account-link.text 두 계정을 연결하고 있습니다.
-        .info.text 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
+        p.info.text 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
       button.account 연결하기
       router-link(to="/account").another 다른 계정으로 연결하기
 </template>

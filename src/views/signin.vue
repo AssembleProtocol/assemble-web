@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .AccountLink-wrapper {
+  .signin-wrapper {
     padding: 0 20px;
   }
 
@@ -48,8 +48,12 @@
     max-width: 500px;
     width: 100%;
     height: 53px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 55px;
     border: 1px solid #F7F8FA;
     border-radius: 9px;
+    color: #1F2E44;
     background-color: #F7F8FA;
 
     &::placeholder {
@@ -75,7 +79,7 @@
     color: #48596D;
   }
 
-  .join {
+  .login {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,7 +95,7 @@
     background-color: #1D6AFE;
   }
 
-  .member {
+  .join {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,18 +108,17 @@
 </style>
 
 <template lang="pug">
-  section.AccountLink-wrapper
+  section.signin-wrapper
     .header
       .assemble-logo
 
     .form-wrapper
-      .form-title 회원가입
+      h1.form-title 로그인하기
       form(@submit.prevent="submit")
-        input(placeholder="이름", type="text" v-model="form.name").name
-        input(placeholder="이메일", type="email", v-model="form.email").email
-        input(placeholder="비밀번호", type="password", v-model="form.password").password
-        button.join(type="submit") 회원가입
-      router-link(to="/login").member 기존 회원인가요?
+        input.email(placeholder="이메일", type="email", v-model="form.email")
+        input.password(placeholder="비밀번호", type="password", v-model="form.password")
+        button.login(type="submit") 로그인
+      router-link.join(to="/signup") 회원가입
 </template>
 
 <script>
@@ -124,7 +127,6 @@ export default {
   data() {
     return {
       form: {
-        name: null,
         email: null,
         password: null,
       },
@@ -133,14 +135,14 @@ export default {
 
   methods: {
     submit() {
-      const nameValid = !!this.form.name;
       const emailValid = !!this.form.email;
       const passwordValid = !!this.form.password;
 
-      if (!nameValid || !emailValid || !passwordValid) {
-        alert('입력 정보들을 확인해주세요.');
+      if (!emailValid || !passwordValid) {
+        alert('이메일 혹은 비밀번호를 확인해주세요.');
       }
     },
   },
+
 };
 </script>

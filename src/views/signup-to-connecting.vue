@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .AccountLink-wrapper {
+  .signup-to-connecting-wrapper {
     padding: 0 20px;
   }
 
@@ -38,8 +38,6 @@
   form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
   }
 
   .readonly {
@@ -58,8 +56,12 @@
     max-width: 500px;
     width: 100%;
     height: 53px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 55px;
     border: 1px solid #F7F8FA;
     border-radius: 9px;
+    color: #1F2E44;
     background-color: #F7F8FA;
 
     &::placeholder {
@@ -71,7 +73,7 @@
 
     &:focus {
       outline: none !important;
-      border:1px solid #1D6AFE;
+      border:1px solid #1D6AFE;;
     }
   }
 
@@ -85,13 +87,11 @@
     color: #48596D;
   }
 
-  .login {
+  .join {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    max-width: 500px;
-    width: 100%;
     height: 55px;
     font-weight: bold;
     font-size: 18px;
@@ -101,7 +101,7 @@
     background-color: #1D6AFE;
   }
 
-  .join {
+  .member {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,19 +114,20 @@
 </style>
 
 <template lang="pug">
-  section.AccountLink-wrapper
+  section.signup-to-connecting-wrapper
     .header
       .assemble-logo
 
     .form-wrapper
-      .form-title 클럽패스와 연결하기
+      h1.form-title 회원가입 및 클럽패스와 연결하기
       form(@submit.prevent="submit")
-        input(value="NANANA",readonly).readonly
+        input(:value="id",readonly).readonly
+        input(placeholder="이름" type="text", v-model="form.name").name
         input(placeholder="이메일", type="email", v-model="form.email").email
-        input(placeholder="비밀번호", type="password" v-model="form.password").password
-        .info 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
-        button.login(type="submit") 로그인
-      router-link(to="/account-join").join 회원가입
+        input(placeholder="비밀번호", type="password", v-model="form.password").password
+        p.info 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
+        button.join(type="submit") 회원가입
+    router-link(to="/login").member 기존 회원인가요?
 </template>
 
 <script>
@@ -134,22 +135,25 @@ export default {
 
   data() {
     return {
+      id: 'NANANA',
       form: {
+        name: null,
         email: null,
+        password: null,
       },
     };
   },
 
   methods: {
     submit() {
+      const nameValid = !!this.form.name;
       const emailValid = !!this.form.email;
       const passwordValid = !!this.form.password;
 
-      if (!emailValid || !passwordValid) {
-        alert('이메일 혹은 비밀번호를 확인해주세요.');
+      if (!nameValid || !emailValid || !passwordValid) {
+        alert('입력 정보들을 확인해주세요.');
       }
     },
-
   },
 };
 </script>

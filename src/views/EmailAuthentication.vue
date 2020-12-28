@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .AccountLink-wrapper {
+  .email-authentication {
     padding: 0 20px;
   }
 
@@ -78,15 +78,13 @@
 </style>
 
 <template lang="pug">
-  section.AccountLink-wrapper
+  section.email-authentication
     .header
       .assemble-logo
-
     .content
-      .title 이메일 인증 필요
-
+      h1.title 이메일 인증 필요
       .account-info
-        .info 포인트와 ASM을 안전하게 보관하고, 사용하려면 계정 이메일에 대한 인증이 필요합니다. 인증 메일을 확인해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요.
+        p.info 포인트와 ASM을 안전하게 보관하고, 사용하려면 계정 이메일에 대한 인증이 필요합니다. 인증 메일을 확인해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요.
       button.account 인증 확인하기
       router-link(to="#").resend 인증메일 재발송
 </template>

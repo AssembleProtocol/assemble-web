@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .AccountLink-wrapper {
+  .signup-wrapper {
     padding: 0 20px;
   }
 
@@ -38,16 +38,8 @@
   form {
     display: flex;
     flex-direction: column;
-  }
-
-  .readonly {
-    font-weight: bold;
-    color: #707C8D;
-    background-color: #E7E9EF;
-
-    &:focus {
-      border: 1px solid #F7F8FA;
-    }
+    align-items: center;
+    width: 100%;
   }
 
   input {
@@ -56,8 +48,12 @@
     max-width: 500px;
     width: 100%;
     height: 53px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 55px;
     border: 1px solid #F7F8FA;
     border-radius: 9px;
+    color: #1F2E44;
     background-color: #F7F8FA;
 
     &::placeholder {
@@ -69,7 +65,7 @@
 
     &:focus {
       outline: none !important;
-      border:1px solid #1D6AFE;;
+      border:1px solid #1D6AFE;
     }
   }
 
@@ -88,6 +84,8 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    max-width: 500px;
+    width: 100%;
     height: 55px;
     font-weight: bold;
     font-size: 18px;
@@ -110,20 +108,18 @@
 </style>
 
 <template lang="pug">
-  section.AccountLink-wrapper
+  section.signup-wrapper
     .header
       .assemble-logo
 
     .form-wrapper
-      .form-title 회원가입 및 클럽패스와 연결하기
+      h1.form-title 회원가입하기
       form(@submit.prevent="submit")
-        input(:value="id",readonly).readonly
-        input(placeholder="이름" type="text", v-model="form.name").name
-        input(placeholder="이메일", type="email", v-model="form.email").email
-        input(placeholder="비밀번호", type="password", v-model="form.password").password
-        .info 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
+        input.name(placeholder="이름", type="text" v-model="form.name")
+        input.email(placeholder="이메일", type="email", v-model="form.email")
+        input.password(placeholder="비밀번호", type="password", v-model="form.password")
         button.join(type="submit") 회원가입
-    router-link(to="/login").member 기존 회원인가요?
+      router-link(to="/signin").member 기존 회원인가요?
 </template>
 
 <script>
@@ -131,7 +127,6 @@ export default {
 
   data() {
     return {
-      id: 'NANANA',
       form: {
         name: null,
         email: null,
