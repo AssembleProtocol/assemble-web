@@ -67,7 +67,7 @@
       h1.header-title ASM 보내기
     .contents
       asm-input.input-wrapper(v-model="address")
-        button.qr-code-scan-button(slot="suffix")
+        button.qr-code-scan-button(slot="suffix", @click="showQrScanner")
       asm-input.input-wrapper(v-model="asm")
       .all-input-button-wrapper
         button.link-button.all-input-button 전액 입력하기
@@ -89,6 +89,8 @@ export default {
     };
   },
   methods: {
+    showQrScanner() {
+    },
     goToNext() {
       this.$router.push({
         path: '/exchange-center/send-confirmation',

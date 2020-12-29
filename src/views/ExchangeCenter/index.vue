@@ -91,6 +91,7 @@ export default {
   methods: {
     goBack() {
       if (this.$history.canGoBack()) this.$router.back();
+      else if (window.s3app) window.close();
       else this.$router.push('/');
     },
   },

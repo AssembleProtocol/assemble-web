@@ -12,26 +12,32 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
+    name: 'Home',
     component: Home,
   },
   {
     path: '/wallet',
+    name: 'Wallet',
     component: Wallet,
   },
   {
     path: '/exchange-center',
+    name: 'ExchangeCenter',
     component: ExchangeCenter,
     children: [
       {
         path: '/',
+        name: 'ExchangeCenterMain',
         component: ExchangeCenterMain,
       },
       {
         path: 'send',
+        name: 'ExchangeCenterSend',
         component: ExchangeCenterSend,
       },
       {
         path: 'send-confirmation',
+        name: 'ExchangeCenterSendConfirmation',
         component: ExchangeCenterSendConfirmation,
       },
     ],

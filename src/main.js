@@ -15,8 +15,10 @@ Vue.config.productionTip = false;
 
 Vue.use(ActionSheet);
 
-router.afterEach((_, from) => {
+router.afterEach((to, from) => {
+  console.log(to, from);
   if (from.name) canGoBack = true;
+  else canGoBack = false;
 });
 
 Vue.prototype.$history = {
