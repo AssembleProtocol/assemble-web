@@ -24,7 +24,7 @@
 
   .link-wrapper {
     margin-top: 20px;
-    margin-bottom: 600px;
+    margin-bottom: 92px;
   }
 
   .title {
@@ -64,10 +64,6 @@
 
   .assemble-protocol {
     margin-top: 60px;
-  }
-
-  .offical-site {
-
   }
 </style>
 
