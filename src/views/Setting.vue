@@ -6,8 +6,12 @@
   .header {
     display: flex;
     align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 80px;
+    background-color: #ffffff;
   }
 
   .back-button {
@@ -20,6 +24,7 @@
 
   .link-wrapper {
     margin-top: 20px;
+    margin-bottom: 600px;
   }
 
   .title {
@@ -90,7 +95,7 @@
           .link-text 텔레그램 뉴스
         router-link(to="#").kakao-talk.link
           img(src="@/assets/kakaotalk-icon.png")
-          .link-text 카카오톡 커뮤니티카카오톡 커뮤니티
+          .link-text 카카오톡 커뮤니티
 </template>
 
 <script>
