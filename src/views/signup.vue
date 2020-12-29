@@ -95,6 +95,15 @@
     background-color: #1D6AFE;
   }
 
+  .error-message {
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 200%;
+    text-align: center;
+    color: #FF134C;
+  }
+
   .member {
     display: flex;
     justify-content: center;
@@ -119,6 +128,7 @@
         input.email(placeholder="이메일", type="email", v-model="form.email")
         input.password(placeholder="비밀번호", type="password", v-model="form.password")
         button.join(type="submit") 회원가입
+        p.error-message(v-if="error") 입력 정보들을 확인해주세요.
       router-link(to="/signin").member 기존 회원인가요?
 </template>
 
@@ -132,6 +142,8 @@ export default {
         email: null,
         password: null,
       },
+
+      error: false,
     };
   },
 
@@ -141,8 +153,10 @@ export default {
       const emailValid = !!this.form.email;
       const passwordValid = !!this.form.password;
 
-      if (!nameValid || !emailValid || !passwordValid) {
-        alert('입력 정보들을 확인해주세요.');
+      if (nameValid && emailValid && passwordValid) {
+        this.error = false;
+      } else {
+        this.error = true;
       }
     },
   },

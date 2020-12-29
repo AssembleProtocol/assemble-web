@@ -101,6 +101,15 @@
     background-color: #1D6AFE;
   }
 
+  .error-message {
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 200%;
+    text-align: center;
+    color: #FF134C;
+  }
+
   .member {
     display: flex;
     justify-content: center;
@@ -127,7 +136,8 @@
         input(placeholder="비밀번호", type="password", v-model="form.password").password
         p.info 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
         button.join(type="submit") 회원가입
-    router-link(to="/login").member 기존 회원인가요?
+        p.error-message(v-if="error") 입력 정보들을 확인해주세요.
+      router-link(to="/login").member 기존 회원인가요?
 </template>
 
 <script>
@@ -141,6 +151,8 @@ export default {
         email: null,
         password: null,
       },
+
+      error: false,
     };
   },
 
@@ -150,8 +162,10 @@ export default {
       const emailValid = !!this.form.email;
       const passwordValid = !!this.form.password;
 
-      if (!nameValid || !emailValid || !passwordValid) {
-        alert('입력 정보들을 확인해주세요.');
+      if (nameValid && emailValid && passwordValid) {
+        this.error = false;
+      } else {
+        this.error = true;
       }
     },
   },

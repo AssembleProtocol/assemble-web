@@ -80,16 +80,16 @@
         router-link(to="#").privacy-statement.link 개인정보취급방침
         router-link(to="#").send-inquiry.link 문의 보내기
       h2.assemble-protocol.title 어셈블 프로토콜
-        router-link(to="#").offical-site.link
+        a(href="http://assembleprotocol.io/").offical-site.link
           img(src="@/assets/site-icon.png")
           .link-text 공식 사이트
-        router-link(to="#").twitter.link
+        a(href="https://twitter.com/ASSEMBLE_io").twitter.link
           img(src="@/assets/twitter-icon.png")
           .link-text 트위터
-        router-link(to="#").telegram-news.link
+        a(href="https://t.me/assembleprotocol").telegram-news.link
           img(src="@/assets/telegram-icon.png")
           .link-text 텔레그램 뉴스
-        router-link(to="#").kakao-talk.link
+        a(href="https://open.kakao.com/o/goYU7n8b").kakao-talk.link
           img(src="@/assets/kakaotalk-icon.png")
           .link-text 카카오톡 커뮤니티
 </template>

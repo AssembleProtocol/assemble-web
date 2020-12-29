@@ -95,6 +95,14 @@
     background-color: #1D6AFE;
   }
 
+  .error-message {
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 200%;
+    color: #FF134C;
+  }
+
   .join {
     display: flex;
     justify-content: center;
@@ -118,6 +126,7 @@
         input.email(placeholder="이메일", type="email", v-model="form.email")
         input.password(placeholder="비밀번호", type="password", v-model="form.password")
         button.login(type="submit") 로그인
+        p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
       router-link.join(to="/signup") 회원가입
 </template>
 
@@ -130,6 +139,8 @@ export default {
         email: null,
         password: null,
       },
+
+      error: false,
     };
   },
 
@@ -139,7 +150,9 @@ export default {
       const passwordValid = !!this.form.password;
 
       if (!emailValid || !passwordValid) {
-        alert('이메일 혹은 비밀번호를 확인해주세요.');
+        this.error = true;
+      } else {
+        this.error = false;
       }
     },
   },
