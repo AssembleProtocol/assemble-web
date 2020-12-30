@@ -99,6 +99,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 let timer;
 
 export default {
@@ -108,6 +110,9 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      routeName: (state) => state.route.name,
+    }),
     hasWallet() {
       if (this.wallet) return true;
       return false;
@@ -143,7 +148,8 @@ export default {
       this.$router.push('/exchange-center');
     },
     goBack() {
-      if (this.$history.canGoBack()) this.$router.back();
+      if (this.routeName === 'ExchangeCenterMain') this.$router.push('/');
+      else if (this.$history.canGoBack()) this.$router.back();
       else if (window.s3app) window.close();
       else this.$router.push('/');
     },
