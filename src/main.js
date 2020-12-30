@@ -5,6 +5,9 @@ import 'vant/lib/index.css';
 import Vue from 'vue';
 import { ActionSheet, Toast } from 'vant';
 import VueClipboard from 'vue-clipboard2';
+import VueLocalstorage from 'vue-localstorage';
+import { sync } from 'vuex-router-sync';
+import axios from 'axios';
 
 import App from '@/App.vue';
 import router from '@/router';
@@ -15,10 +18,21 @@ Vue.config.productionTip = false;
 Vue.use(ActionSheet);
 Vue.use(Toast);
 Vue.use(VueClipboard);
+Vue.use(VueLocalstorage);
 
+const token = Vue.localStorage.get('token');
+
+if (token) {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+}
+axios.defaults.baseURL = 'http://192.168.50.70:8080';
+
+Vue.prototype.$http = axios;
+
+const r = router(store, Vue.prototype.$http);
 let canGoBack = false;
 
-router.afterEach((to, from) => {
+r.afterEach((to, from) => {
   if (from.name) canGoBack = true;
   else canGoBack = false;
 });
@@ -27,8 +41,10 @@ Vue.prototype.$history = {
   canGoBack: () => canGoBack,
 };
 
+sync(store, r);
+
 new Vue({
-  router,
+  router: r,
   store,
   render: (h) => h(App),
 }).$mount('#app');
