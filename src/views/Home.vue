@@ -71,7 +71,7 @@
       section.section
         h1.section-title 포인트 내역
         .list-item-group
-          list-item(
+          small-list-item(
             v-for="history in histories",
             :key="history._id",
             :appId="history.appId",
@@ -86,6 +86,7 @@
 <script>
 import PointText from '@/components/PointText';
 import ListItem from '@/components/ListItem';
+import SmallListItem from '@/components/SmallListItem';
 
 const MY_APP_URL_MAP = {
   clubpass: 'https://stage.club-pass.com/ko/me',
@@ -103,6 +104,7 @@ export default {
   components: {
     PointText,
     ListItem,
+    SmallListItem,
   },
   computed: {
     totalAsp() {
