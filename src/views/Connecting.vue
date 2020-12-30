@@ -129,7 +129,7 @@ export default {
     async submit() {
       const { data } = await this.$http.post('/oauth2/auth-codes', {
         client_id: this.client_id,
-        redirect_uri: this.redirect_uri,
+        redirect_uri: decodeURIComponent(this.redirect_uri),
         response_type: this.response_type,
       });
       const { code } = data;
