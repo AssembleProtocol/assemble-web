@@ -92,20 +92,28 @@
         .assemble.text 어셈블 #[strong {{ name }}] #[strong {{ email }}]
         .account-link.text 두 계정을 연결하고 있습니다.
         p.info.text 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
-      button.account 연결하기
+      button.account(@click="submit") 연결하기
       router-link(to="/account").another 다른 계정으로 연결하기
 </template>
 
 <script>
 export default {
-
   data() {
     return {
-      id: 'NANAN',
-      name: '조영규',
-      email: 'capt.youngkyu@gmail.com',
+      id: '',
+      name: '',
+      email: '',
     };
   },
-
+  mounted() {
+    this.id = this.$route.query.id;
+    this.name = this.$route.query.name;
+    this.email = this.$route.query.email;
+  },
+  methods: {
+    submit() {
+      // TODO: 해당 유저에 해당 서비스를 연결
+    },
+  },
 };
 </script>

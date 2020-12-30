@@ -158,12 +158,20 @@ export default {
 
   methods: {
     submit() {
-      const nameValid = !!this.form.name;
-      const emailValid = !!this.form.email;
-      const passwordValid = !!this.form.password;
+      const nameValidity = !!this.form.name;
+      const emailValidity = !!this.form.email;
+      const passwordValidity = !!this.form.password;
 
-      if (nameValid && emailValid && passwordValid) {
-        this.error = false;
+      if (nameValidity && emailValidity && passwordValidity) {
+        this.$router.push({
+          path: '/email-authentication',
+          query: {
+            from: 'signup-to-connecting',
+            id: this.id,
+            name: this.form.name,
+            email: this.form.email,
+          },
+        });
       } else {
         this.error = true;
       }
