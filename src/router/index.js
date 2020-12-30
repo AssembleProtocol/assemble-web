@@ -16,29 +16,31 @@ import Signin from '@/views/Signin';
 
 Vue.use(VueRouter);
 
-export default function (store, http) {
-  const checkToken = async function beforeEnter(to, from, next) {
-    if (localStorage.token) {
-      const me = await store.dispatch('fetchMe');
-      if (!me) {
-        localStorage.removeItem('token');
-        http.defaults.headers.common.Authorization = '';
-      }
-    }
-    return next();
-  };
+// export default function (store, http) {
+export default function () {
+  // const checkToken = async function beforeEnter(to, from, next) {
+  //   if (localStorage.token) {
+  //     try {
+  //       await store.dispatch('fetchMe');
+  //     } catch (e) {
+  //       localStorage.removeItem('token');
+  //       http.defaults.headers.common.Authorization = '';
+  //     }
+  //   }
+  //   return next();
+  // };
 
   const routes = [
     {
       path: '/',
       name: 'Home',
-      beforeEnter: checkToken,
+      // beforeEnter: checkToken,
       component: Home,
     },
     {
       path: '/exchange-center',
       name: 'ExchangeCenter',
-      beforeEnter: checkToken,
+      // beforeEnter: checkToken,
       component: ExchangeCenter,
       children: [
         {
