@@ -134,7 +134,7 @@ export default {
       });
       const { code } = data;
       // TODO: redirect_uri에 query 고려해서 붙여야함
-      let url = `${this.redirect_uri}?code=${code}&client_id=${this.client_id}`;
+      let url = `${decodeURIComponent(this.redirect_uri)}?code=${code}&client_id=${this.client_id}`;
       if (this.state) url = `${url}&state=${this.state}`;
       window.location.href = url;
     },

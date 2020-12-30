@@ -130,6 +130,14 @@
   .exchange-button {
     margin-top: 30px;
   }
+  .error-message {
+    margin-top: 5px;
+    text-align: center;
+    color: #FF134C;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 24px;
+  }
   .shortcut-button-group {
     display: flex;
     flex-direction: column;
@@ -193,13 +201,14 @@
             asm-input(:fontSize="24", v-model="to", :readonly="true")
               i.exchange-input-icon(slot="prefix", :class="{ asm: toAsm, asp: !toAsm }")
           button.bg-button.exchange-button(@click="goToExchange") {{ displayExchangeText }}
+          p.error-message(v-if="errorMessage") {{ errorMessage }}
       section.section.shortcut
         nav.section-nav
           h2.section-title 바로가기
         .shortcut-button-group
           button.shortcut-button(@click="goToSendAsm") ASM 보내기
           button.shortcut-button(@click="showReceivingAsm") ASM 받기
-          button.shortcut-button ASM 입금 주소 보기
+          button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
           a.shortcut-button(:href="`https://ropsten.etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
 
     receiving-asm-action-sheet(
@@ -253,6 +262,7 @@ export default {
       receivingAsmVisible: false,
       from: null,
       to: null,
+      errorMessage: null,
     };
   },
   mounted() {
@@ -278,6 +288,10 @@ export default {
       this.calcTo();
     },
     goToExchange() {
+      if (!this.from) {
+        this.errorMessage = '잔액이 부족합니다';
+        return;
+      }
       this.$router.push({
         path: '/exchange-center/exchange',
         query: {
