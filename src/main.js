@@ -3,20 +3,22 @@ import '@/styles/index.less';
 import 'vant/lib/index.css';
 
 import Vue from 'vue';
-import { ActionSheet } from 'vant';
+import { ActionSheet, Toast } from 'vant';
+import VueClipboard from 'vue-clipboard2';
 
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 
-let canGoBack = false;
-
 Vue.config.productionTip = false;
 
 Vue.use(ActionSheet);
+Vue.use(Toast);
+Vue.use(VueClipboard);
+
+let canGoBack = false;
 
 router.afterEach((to, from) => {
-  console.log(to, from);
   if (from.name) canGoBack = true;
   else canGoBack = false;
 });

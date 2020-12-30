@@ -83,7 +83,7 @@
         p.description.
           QR코드를 촬영하거나, 주소를 공유하세요.#[br]
           이 교환소로 ASM을 받아올 수 있습니다.
-        button.share-button 주소 공유하기
+        button.share-button(@click="share") 주소 공유하기
 </template>
 
 <script>
@@ -102,6 +102,12 @@ export default {
     },
     doClose() {
       this.$refs.actionSheet.doClose();
+    },
+    share() {
+      this.$copyText('0x5eF7x5eF7x5eF7x5eF7x5eF7x5eF7960e')
+        .then(() => {
+          this.$toast('주소가 복사되었습니다.');
+        });
     },
   },
 };

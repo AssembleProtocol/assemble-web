@@ -67,7 +67,11 @@
       h1.header-title ASM 보내기
     .contents
       asm-input.input-wrapper(v-model="address")
-        button.qr-code-scan-button(slot="suffix", @click="showQrScanner")
+        button.qr-code-scan-button(
+          v-if="hasQrScanner",
+          slot="suffix",
+          @click="openQrScanner",
+        )
       asm-input.input-wrapper(v-model="asm")
       .all-input-button-wrapper
         button.link-button.all-input-button 전액 입력하기
@@ -78,6 +82,8 @@
 <script>
 import AsmInput from '@/components/AsmInput';
 
+let timer;
+
 export default {
   components: {
     AsmInput,
@@ -86,10 +92,24 @@ export default {
     return {
       address: '',
       asm: '',
+      hasQrScanner: false,
     };
   },
+  mounted() {
+    if (window.s3app) this.hasQrScanner = true;
+  },
   methods: {
-    showQrScanner() {
+    openQrScanner() {
+      if (window.s3app) {
+        window.s3app.scannedAddress = '';
+        window.s3app.openQrScanner();
+        timer = setInterval(() => {
+          if (window.s3app.scannedAddress) {
+            this.address = window.s3app.scannedAddress;
+            clearInterval(timer);
+          }
+        }, 100);
+      }
     },
     goToNext() {
       this.$router.push({
