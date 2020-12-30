@@ -74,7 +74,7 @@
         )
       asm-input.input-wrapper(v-model="asm", placeholder="ASM 입력하기")
       .all-input-button-wrapper
-        button.link-button.all-input-button 전액 입력하기
+        button.link-button.all-input-button(@click="inputAllBalance") 전액 입력하기
       button.next-button(@click="goToNext") 다음
       p.description ASM을 타인에게 전송할 때, 일정량의 네트워크 수수료가 부과됩니다. 이 수수료는 네트워크 상황에 따라 매번 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
 </template>
@@ -87,6 +87,9 @@ let timer;
 export default {
   components: {
     AsmInput,
+  },
+  props: {
+    wallet: { type: Object, default: null },
   },
   data() {
     return {
@@ -112,6 +115,9 @@ export default {
           }
         }, 100);
       }
+    },
+    inputAllBalance() {
+      this.asm = this.wallet.balance;
     },
     goToNext() {
       this.$router.push({
