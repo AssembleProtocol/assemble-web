@@ -154,7 +154,12 @@ export default {
       const passwordValid = !!this.form.password;
 
       if (nameValid && emailValid && passwordValid) {
-        this.error = false;
+        this.$router.push({
+          path: '/email-authentication',
+          query: {
+            from: 'signup',
+          },
+        });
       } else {
         this.error = true;
       }

@@ -137,7 +137,7 @@
         p.info 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
         button.join(type="submit") 회원가입
         p.error-message(v-if="error") 입력 정보들을 확인해주세요.
-      router-link(to="/login").member 기존 회원인가요?
+      router-link(to="/signin").member 기존 회원인가요?
 </template>
 
 <script>

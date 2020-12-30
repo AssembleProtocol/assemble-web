@@ -93,7 +93,7 @@
         .account-link.text 두 계정을 연결하고 있습니다.
         p.info.text 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
       button.account(@click="submit") 연결하기
-      router-link(to="/account").another 다른 계정으로 연결하기
+      router-link(to="/signin-to-connecting").another 다른 계정으로 연결하기
 </template>
 
 <script>

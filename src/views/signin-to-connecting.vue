@@ -139,7 +139,7 @@
         p.info 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
         button.login(type="submit") 로그인
         p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
-      router-link.join(to="/account-join") 회원가입
+      router-link.join(to="/signup") 회원가입
 </template>
 
 <script>
@@ -164,7 +164,9 @@ export default {
       if (!emailValid || !passwordValid) {
         this.error = true;
       } else {
-        this.error = false;
+        this.$router.push({
+          path: '/connecting',
+        });
       }
     },
   },

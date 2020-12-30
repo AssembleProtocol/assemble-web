@@ -152,7 +152,9 @@ export default {
       if (!emailValid || !passwordValid) {
         this.error = true;
       } else {
-        this.error = false;
+        this.$router.push({
+          path: '/',
+        });
       }
     },
   },
