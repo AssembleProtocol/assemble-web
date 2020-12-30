@@ -46,7 +46,7 @@
   section.home-container
     nav.nav
       img.logo(src="@/assets/assemble-logo.png", height="32")
-      router-link.profile-button(to="/profile")
+      router-link.profile-button(to="/setting")
     article.article
       section.section
         .point-box

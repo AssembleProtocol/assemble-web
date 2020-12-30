@@ -7,12 +7,12 @@ import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
 import ExchangeCenterSend from '@/views/ExchangeCenter/Send';
 import ExchangeCenterSendConfirmation from '@/views/ExchangeCenter/SendConfirmation';
 import Setting from '@/views/Setting';
-import signupToConnecting from '@/views/signup-to-connecting';
-import signinToConnecting from '@/views/signin-to-connecting';
+import SignupToConnecting from '@/views/SignupToConnecting';
+import SigninToConnecting from '@/views/SigninToConnecting';
 import Connecting from '@/views/connecting';
 import EmailAuthentication from '@/views/EmailAuthentication';
-import Signup from '@/views/signup';
-import Signin from '@/views/signin';
+import Signup from '@/views/Signup';
+import Signin from '@/views/Signin';
 
 Vue.use(VueRouter);
 
@@ -65,13 +65,13 @@ export default function (store, http) {
     },
     {
       path: '/signup-to-connecting',
-      name: 'signup-to-connecting',
-      component: signupToConnecting,
+      name: 'SignupToConnecting',
+      component: SignupToConnecting,
     },
     {
       path: '/signin-to-connecting',
-      name: 'signin-to-connecting',
-      component: signinToConnecting,
+      name: 'SigninToConnecting',
+      component: SigninToConnecting,
     },
     {
       path: '/connecting',
@@ -85,12 +85,12 @@ export default function (store, http) {
     },
     {
       path: '/signup',
-      name: 'signup',
+      name: 'Signup',
       component: Signup,
     },
     {
       path: '/signin',
-      name: 'signin',
+      name: 'Signin',
       component: Signin,
     },
   ];
