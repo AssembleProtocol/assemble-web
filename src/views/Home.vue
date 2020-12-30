@@ -56,46 +56,74 @@
       section.section
         h1.section-title 연결된 앱
         .list-item-group
-          a.list-item-wrapper(href="", target="_blank", @click="handleLink($event, '')")
-            list-item(title="클럽패스", subtitle="club-pass.com")
-              point-text.partner-item-point(slot="suffix", :value="131", size="small")
           router-link.list-item-wrapper(to="/exchange-center")
             list-item(title="ASM 교환소", subtitle="asm.assembleprotocol.io")
+              point-text.partner-item-point(slot="suffix", :value="131", size="small")
+          a.list-item-wrapper(
+            v-for="myApp in myApps",
+            :key="myApp._id",
+            :href="myApp.url",
+            target="_blank",
+            @click="handleLink($event, '')",
+          )
+            list-item(:title="myApp.name", :subtitle="myApp.subtitle")
               point-text.partner-item-point(slot="suffix", :value="131", size="small")
       section.section
         h1.section-title 포인트 내역
         .list-item-group
           list-item(
+            v-for="history in histories",
+            :key="history._id",
             title="클럽패스",
             titleSuffix="1일전",
             subtitle="게시물 작성 (오늘 존잘2명이랑 넷플릭스 오늘 존잘2명이랑 넷플릭스 오늘 존잘2명이랑 넷플릭스",
             size="small",
           )
             point-text.partner-item-point(slot="suffix", type="plus", :value="131", size="small")
-          list-item(
-            title="베니토",
-            titleSuffix="1일전",
-            subtitle="[후기 작성] 메즐리 배색 가디건 [후기 작성] 메즐리 배색 가디건 [후기 작성] 메즐리 배색 가디건",
-            size="small",
-          )
-            point-text.partner-item-point(slot="suffix", type="plus", :value="200", size="small")
-          list-item(
-            title="클럽패스",
-            titleSuffix="1일전",
-            subtitle="패스 구입 사용",
-            size="small",
-          )
-            point-text.partner-item-point(slot="suffix", type="minus", :value="1260", size="small")
 </template>
 
 <script>
 import PointText from '@/components/PointText';
 import ListItem from '@/components/ListItem';
 
+const MY_APP_URL_MAP = {
+  clubpass: 'https://stage.club-pass.com/',
+};
+
+const MY_APP_SUBTITLE_MAP = {
+  clubpass: 'club-pass.com',
+};
+
+const MY_APP_NAME_MAP = {
+  clubpass: '클럽패스',
+};
+
 export default {
   components: {
     PointText,
     ListItem,
+  },
+  data() {
+    return {
+      histories: null,
+      myApps: null,
+    };
+  },
+  async mounted() {
+    const [
+      // { data: histories },
+      { data: myApps },
+    ] = await Promise.all([
+      // this.$http.get('/users/me/point-histories'),
+      this.$http.get('/my-apps'),
+    ]);
+    // this.histories = histories;
+    this.myApps = myApps.slice(1).map((a) => ({
+      ...a,
+      url: MY_APP_URL_MAP[a.appId],
+      name: MY_APP_NAME_MAP[a.appId],
+      subtitle: MY_APP_SUBTITLE_MAP[a.appId],
+    }));
   },
   methods: {
     handleLink(e, url) {

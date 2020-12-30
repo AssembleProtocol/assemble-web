@@ -9,38 +9,37 @@ import ExchangeCenterSendConfirmation from '@/views/ExchangeCenter/SendConfirmat
 import Setting from '@/views/Setting';
 import SignupToConnecting from '@/views/SignupToConnecting';
 import SigninToConnecting from '@/views/SigninToConnecting';
-import Connecting from '@/views/connecting';
+import Connecting from '@/views/Connecting';
 import EmailAuthentication from '@/views/EmailAuthentication';
 import Signup from '@/views/Signup';
 import Signin from '@/views/Signin';
 
 Vue.use(VueRouter);
 
-// export default function (store, http) {
-export default function () {
-  // const checkToken = async function beforeEnter(to, from, next) {
-  //   if (localStorage.token) {
-  //     try {
-  //       await store.dispatch('fetchMe');
-  //     } catch (e) {
-  //       localStorage.removeItem('token');
-  //       http.defaults.headers.common.Authorization = '';
-  //     }
-  //   }
-  //   return next();
-  // };
+export default function (store, http) {
+  const checkToken = async function beforeEnter(to, from, next) {
+    if (store.state.me) return next();
+    if (localStorage.token) {
+      try {
+        await store.dispatch('fetchMe');
+      } catch (e) {
+        localStorage.removeItem('token');
+        http.defaults.headers.common.Authorization = '';
+      }
+    } else return next('/signin');
+    return next();
+  };
 
   const routes = [
     {
       path: '/',
       name: 'Home',
-      // beforeEnter: checkToken,
+      beforeEnter: checkToken,
       component: Home,
     },
     {
       path: '/exchange-center',
-      name: 'ExchangeCenter',
-      // beforeEnter: checkToken,
+      beforeEnter: checkToken,
       component: ExchangeCenter,
       children: [
         {
@@ -63,10 +62,11 @@ export default function () {
     {
       path: '/setting',
       name: 'Setting',
+      beforeEnter: checkToken,
       component: Setting,
     },
     {
-      path: '/signup-to-connecting',
+      path: '/signup-to-Cg',
       name: 'SignupToConnecting',
       component: SignupToConnecting,
     },

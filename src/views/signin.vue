@@ -152,8 +152,17 @@ export default {
       if (!emailValid || !passwordValid) {
         this.error = true;
       } else {
-        this.$router.push({
-          path: '/',
+        this.$http.post('/login', {
+          email: this.form.email,
+          password: this.form.password,
+        }).then((reply) => {
+          const { data } = reply;
+          const { accessToken } = data;
+          this.$localStorage.set('token', `${accessToken}`);
+          this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+          this.$store.dispatch('fetchMe').then(() => {
+            this.$router.push('/');
+          });
         });
       }
     },

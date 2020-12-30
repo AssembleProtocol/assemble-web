@@ -70,9 +70,9 @@
 <template lang="pug">
   section.setting-wrapper
     .header
-      button.back-button
+      button.back-button(@click="goBack")
     .link-wrapper
-      h2.account-management.title 계정 관리하기
+      //- h2.account-management.title 계정 관리하기
         router-link(to="#").change-email.link 이메일 주소 변경하기
         router-link(to="#").change-password.link 비밀번호 변경하기
       h2.app-info.title 앱 정보
@@ -96,6 +96,10 @@
 
 <script>
 export default {
-
+  methods: {
+    goBack() {
+      this.$router.back();
+    },
+  },
 };
 </script>
