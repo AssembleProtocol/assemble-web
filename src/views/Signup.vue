@@ -148,29 +148,36 @@ export default {
   },
 
   methods: {
-    submit() {
-      const nameValid = !!this.form.name;
-      const emailValid = !!this.form.email;
-      const passwordValid = !!this.form.password;
+    async submit() {
+      const nameValidity = !!this.form.name;
+      const emailValidity = !!this.form.email;
+      const passwordValidity = !!this.form.password;
 
-      if (nameValid && emailValid && passwordValid) {
-        this.$http.post('/users', {
-          name: this.form.name,
-          email: this.form.email,
-          password: this.form.password,
-        }).then((reply) => {
-          const { data } = reply;
-          this.$store.commit('SET_ME', data);
-          this.$router.push({
-            path: '/email-authentication',
-            query: {
-              from: 'signup',
-            },
-          });
-        });
-      } else {
+      if (!nameValidity || !emailValidity || !passwordValidity) {
         this.error = true;
+        return;
       }
+
+      await this.$http.post('/users', {
+        name: this.form.name,
+        email: this.form.email,
+        password: this.form.password,
+      });
+      const accessToken = await this.$store.dispatch('login', {
+        email: this.form.email,
+        password: this.form.password,
+      });
+      this.$localStorage.set('token', `${accessToken}`);
+      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      await this.$store.dispatch('fetchMe');
+
+      this.$router.push({
+        path: '/email-authentication',
+        query: {
+          from: 'signup',
+        },
+      });
     },
   },
 };

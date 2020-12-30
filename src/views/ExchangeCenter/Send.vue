@@ -105,7 +105,9 @@ export default {
         window.s3app.openQrScanner();
         timer = setInterval(() => {
           if (window.s3app.scannedAddress) {
-            this.address = window.s3app.scannedAddress;
+            const splitted = window.s3app.scannedAddress.split('ethereum:');
+            if (splitted.length === 2) [, this.address] = splitted;
+            else this.address = window.s3app.scannedAddress;
             clearInterval(timer);
           }
         }, 100);

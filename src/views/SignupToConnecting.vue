@@ -164,12 +164,21 @@ export default {
         this.error = true;
         return;
       }
-      const { data } = await this.$http.post('/users', {
+      await this.$http.post('/users', {
         name: this.name,
         email: this.email,
         password: this.password,
       });
-      this.$store.commit('SET_ME', data);
+
+      const accessToken = await this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password,
+      });
+      this.$localStorage.set('token', `${accessToken}`);
+      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      await this.$store.dispatch('fetchMe');
+
       this.$router.push({
         path: '/email-authentication',
         query: {

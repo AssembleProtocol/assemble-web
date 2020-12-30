@@ -50,6 +50,7 @@
       :style="inputStyleObj",
       :readonly="readonly",
       :placeholder="placeholder",
+      :type="type",
       @input="input",
       @blur="blur",
     )
@@ -75,6 +76,10 @@ export default {
     placeholder: {
       type: String,
       default: '',
+    },
+    type: {
+      type: String,
+      default: 'text',
     },
   },
   computed: {

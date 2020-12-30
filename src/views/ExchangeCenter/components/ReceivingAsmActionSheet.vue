@@ -79,7 +79,7 @@
         button.close-button(@click="doClose")
       section.contents
         p.address {{ displayAddress }}
-        vue-qrcode.qr-code(:width="200", :value="address")
+        vue-qrcode.qr-code(:width="200", :value="`ethereum:${address}`")
         p.description.
           QR코드를 촬영하거나, 주소를 공유하세요.#[br]
           이 교환소로 ASM을 받아올 수 있습니다.
@@ -113,7 +113,7 @@ export default {
       this.$refs.actionSheet.doClose();
     },
     share() {
-      this.$copyText('0x5eF7x5eF7x5eF7x5eF7x5eF7x5eF7960e')
+      this.$copyText(this.address)
         .then(() => {
           this.$toast('주소가 복사되었습니다.');
         });
