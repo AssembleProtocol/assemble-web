@@ -78,8 +78,8 @@
         strong.title ASM 받기
         button.close-button(@click="doClose")
       section.contents
-        p.address 0x5eF7x5eF7x5eF7x5eF7x5eF7x5eF7960e
-        img.qr-code(width="200", height="200")
+        p.address {{ displayAddress }}
+        vue-qrcode.qr-code(:width="200", :value="address")
         p.description.
           QR코드를 촬영하거나, 주소를 공유하세요.#[br]
           이 교환소로 ASM을 받아올 수 있습니다.
@@ -87,14 +87,23 @@
 </template>
 
 <script>
+import VueQrcode from 'vue-qrcode';
 import ActionSheet from '@/components/ActionSheet';
 
 export default {
   components: {
+    VueQrcode,
     ActionSheet,
   },
   props: {
     visible: { type: Boolean, default: false },
+    address: { type: String, default: '' },
+  },
+  computed: {
+    displayAddress() {
+      if (!this.address) return '';
+      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+    },
   },
   methods: {
     close() {

@@ -145,26 +145,23 @@ export default {
   },
 
   methods: {
-    submit() {
+    async submit() {
       const emailValid = !!this.form.email;
       const passwordValid = !!this.form.password;
 
       if (!emailValid || !passwordValid) {
         this.error = true;
-      } else {
-        this.$http.post('/login', {
-          email: this.form.email,
-          password: this.form.password,
-        }).then((reply) => {
-          const { data } = reply;
-          const { accessToken } = data;
-          this.$localStorage.set('token', `${accessToken}`);
-          this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-          this.$store.dispatch('fetchMe').then(() => {
-            this.$router.push('/');
-          });
-        });
+        return;
       }
+      const accessToken = await this.$store.dispatch('login', {
+        email: this.form.email,
+        password: this.form.password,
+      });
+      this.$localStorage.set('token', `${accessToken}`);
+      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      await this.$store.dispatch('fetchMe');
+      this.$router.push('/');
     },
   },
 

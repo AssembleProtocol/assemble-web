@@ -14,6 +14,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async login(_, { email, password }) {
+      const { data } = await axios.post('/login', { email, password });
+      const { accessToken } = data;
+      return accessToken;
+    },
     async fetchMe({ commit }) {
       const { data: me } = await axios.get('/users/me');
       commit('SET_ME', me);

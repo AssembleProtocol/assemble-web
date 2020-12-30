@@ -48,7 +48,10 @@
       :value="value",
       :class="{ hasPrefix, hasSuffix }",
       :style="inputStyleObj",
+      :readonly="readonly",
+      :placeholder="placeholder",
       @input="input",
+      @blur="blur",
     )
     .icon-wrapper.suffix(v-if="$slots.suffix")
       slot(name="suffix")
@@ -64,6 +67,14 @@ export default {
     fontSize: {
       type: Number,
       default: 18,
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    placeholder: {
+      type: String,
+      default: '',
     },
   },
   computed: {
@@ -84,6 +95,9 @@ export default {
   methods: {
     input(e) {
       this.$emit('input', e.target.value);
+    },
+    blur(e) {
+      this.$emit('blur', e);
     },
   },
 };

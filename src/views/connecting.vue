@@ -88,8 +88,8 @@
     .content
       h1.title 클럽패스와 연결하기
       .account-info
-        .club-pass.text 클럽패스 #[strong {{ id }}]
-        .assemble.text 어셈블 #[strong {{ name }}] #[strong {{ email }}]
+        .club-pass.text 클럽패스 #[strong {{ appUserName }}]
+        .assemble.text 어셈블 #[strong {{ me.name }}] #[strong {{ me.email }}]
         .account-link.text 두 계정을 연결하고 있습니다.
         p.info.text 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
       button.account(@click="submit") 연결하기
@@ -97,22 +97,46 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  computed: {
+    ...mapState({
+      me: (state) => state.me,
+    }),
+  },
   data() {
     return {
-      id: '',
+      appUserName: '',
       name: '',
       email: '',
+      client_id: '',
+      redirect_uri: '',
+      response_type: '',
+      state: '',
     };
   },
   mounted() {
-    this.id = this.$route.query.id;
+    this.appUserName = this.$route.query.appUserName;
     this.name = this.$route.query.name;
     this.email = this.$route.query.email;
+    this.client_id = this.$route.query.client_id;
+    this.redirect_uri = this.$route.query.redirect_uri;
+    this.response_type = this.$route.query.response_type;
+    this.state = this.$route.query.state;
   },
   methods: {
-    submit() {
-      // TODO: 해당 유저에 해당 서비스를 연결
+    async submit() {
+      const { data } = await this.$http.post('/oauth2/auth-codes', {
+        client_id: this.client_id,
+        redirect_uri: this.redirect_uri,
+        response_type: this.response_type,
+      });
+      const { code } = data;
+      // TODO: redirect_uri에 query 고려해서 붙여야함
+      let url = `${this.redirect_uri}?code=${code}&client_id=${this.client_id}`;
+      if (this.state) url = `${url}&state=${this.state}`;
+      window.location.href = url;
     },
   },
 };

@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .exchange-center-send-confirmation-container {
+  .exchange-center-send-result-container {
     color: #F7F8FA;
   }
   .header {
@@ -44,7 +44,13 @@
     border: 0;
     background-color: #C4C4C4;
   }
-  .subimt-button {
+  .description {
+    margin-top: 20px;
+    color: #D6DAE0;
+    font-size: 14px;
+    line-height: 28px;
+  }
+  .submit-button {
     width: 100%;
     height: 55px;
     margin-top: 20px;
@@ -55,18 +61,22 @@
     color: #F7F8FA;
     font-weight: bold;
   }
-  .description {
+  .link-button-wrapper {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
-    color: rgba(214, 218, 224, 0.6);
-    font-size: 14px;
+  }
+  .link-button {
+    color: #2E75FF;
     line-height: 28px;
+    font-weight: bold;
   }
 </style>
 
 <template lang="pug">
-  section.exchange-center-send-confirmation-container
+  section.exchange-center-send-result-container
     header.header
-      h1.header-title 최종 확인하기
+      h1.header-title 접수되었습니다
     .contents
       .form-group
         p.label 받는 주소
@@ -81,8 +91,10 @@
       .form-group
         p.label 합계
         p.value {{ asm }} ASM
-      button.subimt-button(@click="goToResult") 보내기
-      //- p.description ASM을 보낼 때 소요되는 수수료는 네트워크 상황에 따라 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
+      p.description ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
+      button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
+      //- .link-button-wrapper
+        a.link-button(href="#") Etherscan에서 진행 상황 보기
 </template>
 
 <script>
@@ -100,21 +112,16 @@ export default {
     },
   },
   mounted() {
+    this.$emit('showNavClose');
     this.$emit('hideNavPoint');
   },
   destroyed() {
+    this.$emit('hideNavClose');
     this.$emit('showNavPoint');
   },
   methods: {
-    async goToResult() {
-      await this.$http.post('/wallet/send', {
-        to: this.address,
-        amount: this.asm,
-      });
-      this.$router.push({
-        path: '/exchange-center/send-result',
-        query: this.$route.query,
-      });
+    goToExchangeMain() {
+      this.$emit('goExchangeHome');
     },
   },
 };

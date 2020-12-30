@@ -58,10 +58,6 @@
     color: #1D6AFE;
   }
 
-  .app-info {
-    margin-top: 60px;
-  }
-
   .assemble-protocol {
     margin-top: 60px;
   }
@@ -80,16 +76,32 @@
         router-link(to="#").privacy-statement.link 개인정보취급방침
         router-link(to="#").send-inquiry.link 문의 보내기
       h2.assemble-protocol.title 어셈블 프로토콜
-        a(href="http://assembleprotocol.io/").offical-site.link
+        a.offical-site.link(
+          href="http://assembleprotocol.io/",
+          target="_blank",
+          @click="handleLink($event, 'http://assembleprotocol.io/')"
+        )
           img(src="@/assets/site-icon.png")
           .link-text 공식 사이트
-        a(href="https://twitter.com/ASSEMBLE_io").twitter.link
+        a.twitter.link(
+          href="https://twitter.com/ASSEMBLE_io",
+          target="_blank",
+          @click="handleLink($event, 'https://twitter.com/ASSEMBLE_io')"
+        )
           img(src="@/assets/twitter-icon.png")
           .link-text 트위터
-        a(href="https://t.me/assembleprotocol").telegram-news.link
+        a.telegram-news.link(
+          href="https://t.me/assembleprotocol",
+          target="_blank",
+          @click="handleLink($event, 'https://t.me/assembleprotocol')"
+        )
           img(src="@/assets/telegram-icon.png")
           .link-text 텔레그램 뉴스
-        a(href="https://open.kakao.com/o/goYU7n8b").kakao-talk.link
+        a.kakao-talk.link(
+          href="https://open.kakao.com/o/goYU7n8b",
+          target="_blank",
+          @click="handleLink($event, 'https://open.kakao.com/o/goYU7n8b')"
+        )
           img(src="@/assets/kakaotalk-icon.png")
           .link-text 카카오톡 커뮤니티
 </template>
@@ -99,6 +111,11 @@ export default {
   methods: {
     goBack() {
       this.$router.back();
+    },
+    handleLink(e, url) {
+      e.preventDefault();
+      if (window.s3app) window.s3app.openInAppBrowser(url);
+      else window.open(url);
     },
   },
 };

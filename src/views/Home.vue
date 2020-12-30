@@ -52,34 +52,35 @@
         .point-box
           nav.point-box-nav
             strong.point-box-title 보유 포인트
-          point-text.point-box-text(:value="37131")
+          point-text.point-box-text(:value="totalAsp")
       section.section
         h1.section-title 연결된 앱
         .list-item-group
           router-link.list-item-wrapper(to="/exchange-center")
-            list-item(title="ASM 교환소", subtitle="asm.assembleprotocol.io")
-              point-text.partner-item-point(slot="suffix", :value="131", size="small")
+            list-item(title="ASM 교환소", appId="exchange", subtitle="asm.assembleprotocol.io")
+              point-text.partner-item-point(slot="suffix", :value="totalExchangeAsp", size="small")
           a.list-item-wrapper(
             v-for="myApp in myApps",
             :key="myApp._id",
             :href="myApp.url",
             target="_blank",
-            @click="handleLink($event, '')",
+            @click="handleLink($event, myApp.url)",
           )
-            list-item(:title="myApp.name", :subtitle="myApp.subtitle")
-              point-text.partner-item-point(slot="suffix", :value="131", size="small")
+            list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
+              point-text.partner-item-point(slot="suffix", :value="totalClubPassAsp", size="small")
       section.section
         h1.section-title 포인트 내역
         .list-item-group
           list-item(
             v-for="history in histories",
             :key="history._id",
-            title="클럽패스",
-            titleSuffix="1일전",
-            subtitle="게시물 작성 (오늘 존잘2명이랑 넷플릭스 오늘 존잘2명이랑 넷플릭스 오늘 존잘2명이랑 넷플릭스",
+            :appId="history.appId",
+            :title="history.appId === 'clubpass' ? '클럽패스' : 'ASM 교환소'",
+            :titleSuffix="history.createdAt",
+            :subtitle="history.message",
             size="small",
           )
-            point-text.partner-item-point(slot="suffix", type="plus", :value="131", size="small")
+            point-text.partner-item-point(slot="suffix", :type="history.amount > 0 ? 'plus' : 'minus'", :value="Math.abs(history.amount)", size="small")
 </template>
 
 <script>
@@ -87,7 +88,7 @@ import PointText from '@/components/PointText';
 import ListItem from '@/components/ListItem';
 
 const MY_APP_URL_MAP = {
-  clubpass: 'https://stage.club-pass.com/',
+  clubpass: 'https://stage.club-pass.com/ko/me',
 };
 
 const MY_APP_SUBTITLE_MAP = {
@@ -103,21 +104,30 @@ export default {
     PointText,
     ListItem,
   },
+  computed: {
+    totalAsp() {
+      return this.totalExchangeAsp + this.totalClubPassAsp;
+    },
+  },
   data() {
     return {
       histories: null,
       myApps: null,
+      totalExchangeAsp: 0,
+      totalClubPassAsp: 0,
     };
   },
   async mounted() {
     const [
-      // { data: histories },
+      { data: histories },
       { data: myApps },
     ] = await Promise.all([
-      // this.$http.get('/users/me/point-histories'),
+      this.$http.get('/users/me/point-histories'),
       this.$http.get('/my-apps'),
     ]);
-    // this.histories = histories;
+    this.histories = histories;
+    this.histories.filter((h) => h.appId === 'exchange').forEach((h) => { this.totalExchangeAsp += h.amount; });
+    this.histories.filter((h) => h.appId === 'clubpass').forEach((h) => { this.totalClubPassAsp += h.amount; });
     this.myApps = myApps.slice(1).map((a) => ({
       ...a,
       url: MY_APP_URL_MAP[a.appId],

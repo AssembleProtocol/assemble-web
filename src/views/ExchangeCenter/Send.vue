@@ -66,13 +66,13 @@
     header.header
       h1.header-title ASM 보내기
     .contents
-      asm-input.input-wrapper(v-model="address")
+      asm-input.input-wrapper(v-model="address", placeholder="주소 입력하기")
         button.qr-code-scan-button(
           v-if="hasQrScanner",
           slot="suffix",
           @click="openQrScanner",
         )
-      asm-input.input-wrapper(v-model="asm")
+      asm-input.input-wrapper(v-model="asm", placeholder="ASM 입력하기")
       .all-input-button-wrapper
         button.link-button.all-input-button 전액 입력하기
       button.next-button(@click="goToNext") 다음

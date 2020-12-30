@@ -104,11 +104,7 @@ export default {
       if (this.from === 'signup-to-connecting') {
         this.$router.push({
           path: '/connecting',
-          query: {
-            id: this.$route.query.id,
-            name: this.$route.query.name,
-            email: this.$route.query.email,
-          },
+          query: this.$route.query,
         });
       } else if (this.from === 'signup') {
         // TODO: 로그인처리

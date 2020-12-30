@@ -6,6 +6,10 @@ import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
 import ExchangeCenterSend from '@/views/ExchangeCenter/Send';
 import ExchangeCenterSendConfirmation from '@/views/ExchangeCenter/SendConfirmation';
+import ExchangeCenterSendResult from '@/views/ExchangeCenter/SendResult';
+import ExchangeCenterExchange from '@/views/ExchangeCenter/Exchange';
+import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult';
+
 import Setting from '@/views/Setting';
 import SignupToConnecting from '@/views/SignupToConnecting';
 import SigninToConnecting from '@/views/SigninToConnecting';
@@ -57,6 +61,21 @@ export default function (store, http) {
           name: 'ExchangeCenterSendConfirmation',
           component: ExchangeCenterSendConfirmation,
         },
+        {
+          path: 'send-result',
+          name: 'ExchangeCenterSendResult',
+          component: ExchangeCenterSendResult,
+        },
+        {
+          path: 'exchange',
+          name: 'ExchangeCenterExchange',
+          component: ExchangeCenterExchange,
+        },
+        {
+          path: 'exchange-result',
+          name: 'ExchangeCenterExchangeResult',
+          component: ExchangeCenterExchangeResult,
+        },
       ],
     },
     {
@@ -66,7 +85,7 @@ export default function (store, http) {
       component: Setting,
     },
     {
-      path: '/signup-to-Cg',
+      path: '/signup-to-connecting',
       name: 'SignupToConnecting',
       component: SignupToConnecting,
     },

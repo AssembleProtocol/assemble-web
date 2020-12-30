@@ -133,9 +133,9 @@
     .form-wrapper
       h1.form-title 클럽패스와 연결하기
       form(@submit.prevent="submit")
-        input.readonly(value="NANANA",readonly)
-        input.email(placeholder="이메일", type="email", v-model="form.email")
-        input.password(placeholder="비밀번호", type="password", v-model="form.password")
+        input.readonly(:value="appUserName",readonly)
+        input.email(placeholder="이메일", type="email", v-model="email")
+        input.password(placeholder="비밀번호", type="password", v-model="password")
         p.info 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
         button.login(type="submit") 로그인
         p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
@@ -144,30 +144,39 @@
 
 <script>
 export default {
-
   data() {
     return {
-      form: {
-        email: null,
-        password: null,
-      },
-
+      appUserName: null,
+      email: null,
+      password: null,
       error: false,
     };
   },
-
+  mounted() {
+    this.appUserName = this.$route.query.appUserName;
+  },
   methods: {
-    submit() {
-      const emailValid = !!this.form.email;
-      const passwordValid = !!this.form.password;
+    async submit() {
+      const emailValid = !!this.email;
+      const passwordValid = !!this.password;
 
       if (!emailValid || !passwordValid) {
         this.error = true;
-      } else {
-        this.$router.push({
-          path: '/connecting',
-        });
+        return;
       }
+      const accessToken = await this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password,
+      });
+      this.$localStorage.set('token', `${accessToken}`);
+      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      await this.$store.dispatch('fetchMe');
+
+      this.$router.push({
+        path: '/connecting',
+        query: this.$route.query,
+      });
     },
   },
 };

@@ -15,18 +15,23 @@
     background-color: #000;
     z-index: 999;
   }
-  .back-button {
+  .nav-button {
     width: 24px;
     height: 24px;
-    background-image: url(~@/assets/chevron-left.svg);
     background-size: cover;
     background-repeat: no-repeat;
+    &.back {
+      background-image: url(~@/assets/chevron-left.svg);
+    }
+    &.close {
+      background-image: url(~@/assets/close-white.svg);
+    }
   }
   .nav-right {
     display: flex;
     align-items: center;
   }
-  .nav-poinst-box {
+  .nav-point-box {
     display: flex;
     align-items: center;
     border-radius: 7px;
@@ -68,31 +73,124 @@
 <template lang="pug">
   section.exchange-center-container
     nav.nav
-      button.back-button(@click="goBack")
-      .nav-right
-        .nav-poinst-box
+      button.nav-button.close(v-if="navCloseVisible", @click="goExchangeHome")
+      button.nav-button.back(v-else, @click="goBack")
+      .nav-right(v-if="walletAvailable && navPointVisible")
+        .nav-point-box
           i.nav-point-icon.asp
-          p.nav-point-text.asp 141,331
-        .nav-poinst-box
+          p.nav-point-text.asp {{ asp | displayNumber }}
+        .nav-point-box
           i.nav-point-icon.asm
-          p.nav-point-text.asm 4.4900234
+          p.nav-point-text.asm {{ wallet.balance | displayNumber }}
     article.article
-      router-view
+      router-view(
+        :initLoading="initLoading",
+        :hasWallet="hasWallet",
+        :walletAvailable="walletAvailable",
+        :wallet="wallet",
+        :asp="asp",
+        @createWallet="createWallet",
+        @showNavPoint="showNavPoint",
+        @hideNavPoint="hideNavPoint",
+        @showNavClose="showNavClose",
+        @hideNavClose="hideNavClose",
+        @goExchangeHome="goExchangeHome",
+      )
 </template>
 
 <script>
+let timer;
+
 export default {
+  filters: {
+    displayNumber(number) {
+      return Number(number).toLocaleString();
+    },
+  },
+  computed: {
+    hasWallet() {
+      if (this.wallet) return true;
+      return false;
+    },
+    walletAvailable() {
+      if (!this.hasWallet) return false;
+      if (this.wallet.available) return true;
+      return false;
+    },
+  },
+  data() {
+    return {
+      navPointVisible: true,
+      navCloseVisible: false,
+      initLoading: true,
+      loading: false,
+      wallet: null,
+      asp: 0,
+    };
+  },
   mounted() {
     document.body.classList.add('dark');
+    this.fetchWallet();
+    timer = setInterval(this.fetchWallet, 3000);
   },
   destroyed() {
     document.body.classList.remove('dark');
+    clearInterval(timer);
   },
   methods: {
+    goExchangeHome() {
+      this.initWallet();
+      this.$router.push('/exchange-center');
+    },
     goBack() {
       if (this.$history.canGoBack()) this.$router.back();
       else if (window.s3app) window.close();
       else this.$router.push('/');
+    },
+    async createWallet() {
+      if (this.hasWallet) return;
+      await this.$http.post('/wallet');
+      await this.fetchWallet();
+    },
+    async initWallet() {
+      const { data: wallet } = await this.$http.get('/wallet');
+      this.wallet = wallet;
+      this.initAsp();
+    },
+    async fetchWallet() {
+      if (this.loading || this.walletAvailable) return;
+      try {
+        this.loading = true;
+        const { data: wallet } = await this.$http.get('/wallet');
+        this.wallet = wallet;
+        this.fetchAsp();
+        if (timer) clearInterval(timer);
+      } finally {
+        this.loading = false;
+        this.initLoading = false;
+      }
+    },
+    async initAsp() {
+      const { data: histories } = await this.$http.get('/users/me/point-histories');
+      let sum = 0;
+      histories.forEach((h) => { sum += h.amount; });
+      this.asp = sum;
+    },
+    async fetchAsp() {
+      const { data: histories } = await this.$http.get('/users/me/point-histories');
+      histories.forEach((h) => { this.asp += h.amount; });
+    },
+    showNavPoint() {
+      this.navPointVisible = true;
+    },
+    hideNavPoint() {
+      this.navPointVisible = false;
+    },
+    showNavClose() {
+      this.navCloseVisible = true;
+    },
+    hideNavClose() {
+      this.navCloseVisible = false;
     },
   },
 };
