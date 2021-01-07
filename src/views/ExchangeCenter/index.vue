@@ -164,6 +164,7 @@ export default {
     },
     async createWallet() {
       if (this.hasWallet) return;
+      this.wallet = { available: false };
       await this.$http.post('/wallet');
       await this.fetchWallet();
     },
