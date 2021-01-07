@@ -68,6 +68,13 @@
       letter-spacing: 0.1em;
     }
   }
+  .page-enter-active, .page-leave-active {
+    transition: opacity 200ms, transform 200ms ease;
+  }
+  .page-enter, .page-leave-to {
+    opacity: 0;
+    transform: translateY(0.5%);
+  }
 </style>
 
 <template lang="pug">
@@ -83,19 +90,21 @@
           i.nav-point-icon.asm
           p.nav-point-text.asm {{ wallet.balance | displayNumber }}
     article.article
-      router-view(
-        :initLoading="initLoading",
-        :hasWallet="hasWallet",
-        :walletAvailable="walletAvailable",
-        :wallet="wallet",
-        :asp="asp",
-        @createWallet="createWallet",
-        @showNavPoint="showNavPoint",
-        @hideNavPoint="hideNavPoint",
-        @showNavClose="showNavClose",
-        @hideNavClose="hideNavClose",
-        @goExchangeHome="goExchangeHome",
-      )
+      transition(name="page", mode="out-in")
+        router-view(
+          :key="routeName",
+          :initLoading="initLoading",
+          :hasWallet="hasWallet",
+          :walletAvailable="walletAvailable",
+          :wallet="wallet",
+          :asp="asp",
+          @createWallet="createWallet",
+          @showNavPoint="showNavPoint",
+          @hideNavPoint="hideNavPoint",
+          @showNavClose="showNavClose",
+          @hideNavClose="hideNavClose",
+          @goExchangeHome="goExchangeHome",
+        )
 </template>
 
 <script>
