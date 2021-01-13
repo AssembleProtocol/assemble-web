@@ -4,10 +4,8 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home';
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
-import ExchangeCenterSend from '@/views/ExchangeCenter/Send';
-import ExchangeCenterSendConfirmation from '@/views/ExchangeCenter/SendConfirmation';
-import ExchangeCenterSendResult from '@/views/ExchangeCenter/SendResult';
 import ExchangeCenterExchange from '@/views/ExchangeCenter/Exchange';
+import ExchangeCenterExchangeConfirmation from '@/views/ExchangeCenter/ExchangeConfirmation';
 import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult';
 
 import Setting from '@/views/Setting';
@@ -52,28 +50,18 @@ export default function (store, http) {
           component: ExchangeCenterMain,
         },
         {
-          path: 'send',
-          name: 'ExchangeCenterSend',
-          component: ExchangeCenterSend,
-        },
-        {
-          path: 'send-confirmation',
-          name: 'ExchangeCenterSendConfirmation',
-          component: ExchangeCenterSendConfirmation,
-        },
-        {
-          path: 'send-result',
-          name: 'ExchangeCenterSendResult',
-          component: ExchangeCenterSendResult,
-        },
-        {
           path: 'exchange',
           name: 'ExchangeCenterExchange',
           component: ExchangeCenterExchange,
         },
         {
+          path: 'exchange-confirmation',
+          name: 'ExchangeCenterExchangeConfirmation',
+          component: ExchangeCenterExchangeConfirmation,
+        },
+        {
           path: 'exchange-result',
-          name: 'ExchangeCenterExchangeResult',
+          name: 'ExchangeCenterSendResult',
           component: ExchangeCenterExchangeResult,
         },
       ],

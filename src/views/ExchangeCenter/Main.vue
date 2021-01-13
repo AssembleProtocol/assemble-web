@@ -8,9 +8,6 @@
     &.excahnge {
       margin-top: 20px;
     }
-    &.shortcut {
-      margin-top: 40px;
-    }
   }
   .section-title {
     font-size: 24px;
@@ -41,24 +38,6 @@
   }
   .point-box-title {
     color: #D6DAE0;
-  }
-  .point-box-nav-right {
-    display: flex;
-    align-items: center;
-  }
-  .point-box-nav-button {
-    width: 32px;
-    height: 32px;
-    border-radius: 12px;
-    background-color: #314662;
-    background-size: 24px;
-    background-position: center;
-    background-repeat: no-repeat;
-    &:not(:first-child) {
-      margin-left: 20px;
-    }
-    &.send { background-image: url(~@/assets/send.svg); }
-    &.receive { background-image: url(~@/assets/receive.svg); }
   }
   .point-box-text {
     margin-top: 10px;
@@ -138,19 +117,6 @@
     font-weight: bold;
     line-height: 24px;
   }
-  .shortcut-button-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 10px 0 -10px 0;
-  }
-  .shortcut-button {
-    margin: 10px 0;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 36px;
-    color: #6096FF;
-  }
 </style>
 
 <template lang="pug">
@@ -181,54 +147,34 @@
           암호화폐 거래소에서 거래할 수 있어요.
         .point-box
           nav.point-box-nav
-            strong.point-box-title 보유 ASM
-            .point-box-nav-right
-              button.point-box-nav-button.send(@click="goToSendAsm")
-              button.point-box-nav-button.receive(@click="showReceivingAsm")
+            strong.point-box-title 보유 포인트
           point-text.point-box-text(:value="wallet.balance", pointType="asm")
       section.section.excahnge
         nav.section-nav
-          h2.section-title 교환하기
-          //- button.link-button(@click="toggleExchange") 위 아래 전환
+          h2.section-title 포인트 → ASM
         .exchange-form-group
           .exchange-input-box
-            asm-input(:fontSize="24", v-model="from", @input="calcTo")
-              i.exchange-input-icon(slot="prefix", :class="{ asp: toAsm, asm: !toAsm }")
+            asm-input(:fontSize="24", :value="from", @input="calcTo")
+              i.exchange-input-icon.asp(slot="prefix")
             button.link-button.exchange-all-input-button(@click="inputAllFrom") 전액 입력하기
           .exchange-icon-wrapper
             i.exchange-icon
           .exchange-input-box
-            asm-input(:fontSize="24", v-model="to", :readonly="true")
-              i.exchange-input-icon(slot="prefix", :class="{ asm: toAsm, asp: !toAsm }")
+            asm-input(:fontSize="24", :value="to", :readonly="true")
+              i.exchange-input-icon.asm(slot="prefix")
           button.bg-button.exchange-button(@click="goToExchange") {{ displayExchangeText }}
           p.error-message(v-if="errorMessage") {{ errorMessage }}
-      section.section.shortcut
-        nav.section-nav
-          h2.section-title 바로가기
-        .shortcut-button-group
-          button.shortcut-button(@click="goToSendAsm") ASM 보내기
-          button.shortcut-button(@click="showReceivingAsm") ASM 받기
-          button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
-          a.shortcut-button(:href="`https://ropsten.etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
-
-    receiving-asm-action-sheet(
-      :address="myWalletAddress",
-      :visible="receivingAsmVisible",
-      @close="closeReceivingAsm",
-    )
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PointText from '@/components/PointText';
 import AsmInput from '@/components/AsmInput';
-import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 
 export default {
   components: {
     PointText,
     AsmInput,
-    ReceivingAsmActionSheet,
   },
   props: {
     initLoading: { type: Boolean },
@@ -248,18 +194,11 @@ export default {
       me: (state) => state.me,
     }),
     displayExchangeText() {
-      if (this.toAsm) return `${this.from || 0}P를 ${this.to || 0}ASM 로 교환`;
-      return `${this.from || 0}ASM을 ${this.to || 0}P 로 교환`;
-    },
-    myWalletAddress() {
-      if (!this.me) return '';
-      return this.me.walletAddress;
+      return `${this.from || 0} P를 ${this.to || 0} ASM 로 교환`;
     },
   },
   data() {
     return {
-      toAsm: true,
-      receivingAsmVisible: false,
       from: null,
       to: null,
       errorMessage: null,
@@ -274,12 +213,6 @@ export default {
       if (this.hasWallet) return;
       this.$emit('createWallet');
     },
-    toggleExchange() {
-      this.toAsm = !this.toAsm;
-      const tempTo = this.to;
-      this.to = this.from;
-      this.from = tempTo;
-    },
     calcTo() {
       this.to = this.from / 1000;
     },
@@ -288,10 +221,10 @@ export default {
       this.calcTo();
     },
     goToExchange() {
-      if (!this.from) {
-        this.errorMessage = '잔액이 부족합니다';
-        return;
-      }
+      // if (!this.from) {
+      //   this.errorMessage = '잔액이 부족합니다';
+      //   return;
+      // }
       this.$router.push({
         path: '/exchange-center/exchange',
         query: {
@@ -299,15 +232,6 @@ export default {
           to: this.to,
         },
       });
-    },
-    goToSendAsm() {
-      this.$router.push('/exchange-center/send');
-    },
-    showReceivingAsm() {
-      this.receivingAsmVisible = true;
-    },
-    closeReceivingAsm() {
-      this.receivingAsmVisible = false;
     },
   },
 };

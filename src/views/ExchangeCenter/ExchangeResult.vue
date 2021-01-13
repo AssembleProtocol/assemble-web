@@ -32,14 +32,10 @@
     color: rgba(214, 218, 224, .6);
   }
   .value {
-    max-width: 120px;
     font-size: 18px;
     font-weight: bold;
     line-height: 55px;
     color: #F7F8FA;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
   }
   .divier {
     width: 100%;
@@ -84,7 +80,7 @@
     .contents
       .form-group
         p.label 받는 주소
-        p.value 내 교환소 지갑
+        p.value {{ displayAddress }}
       .form-group
         p.label 지불 포인트
         p.value {{ from }} P
@@ -94,8 +90,6 @@
         p.value {{ to }} ASM
       p.description 교환받은 ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
       button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
-      //- .link-button-wrapper
-        a.link-button(href="#") Etherscan에서 진행 상황 보기
 </template>
 
 <script>
@@ -104,9 +98,14 @@ import { mapState } from 'vuex';
 export default {
   computed: {
     ...mapState({
+      address: (state) => state.route.query.address,
       from: (state) => state.route.query.from,
       to: (state) => state.route.query.to,
     }),
+    displayAddress() {
+      if (!this.address) return '';
+      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+    },
   },
   mounted() {
     this.$emit('showNavClose');
@@ -118,7 +117,7 @@ export default {
   },
   methods: {
     goToExchangeMain() {
-      this.$router.push('/exchange-center');
+      this.$emit('goExchangeHome');
     },
   },
 };

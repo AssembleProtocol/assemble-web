@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .exchange-center-send-confirmation-container {
+  .exchange-center-exchange-result-container {
     color: #F7F8FA;
   }
   .header {
@@ -32,10 +32,14 @@
     color: rgba(214, 218, 224, .6);
   }
   .value {
+    max-width: 120px;
     font-size: 18px;
     font-weight: bold;
     line-height: 55px;
     color: #F7F8FA;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .divier {
     width: 100%;
@@ -44,7 +48,7 @@
     border: 0;
     background-color: #C4C4C4;
   }
-  .subimt-button {
+  .submit-button {
     width: 100%;
     height: 55px;
     margin-top: 20px;
@@ -55,34 +59,34 @@
     color: #F7F8FA;
     font-weight: bold;
   }
-  .description {
+  .link-button-wrapper {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
-    color: rgba(214, 218, 224, 0.6);
-    font-size: 14px;
+  }
+  .link-button {
+    color: #2E75FF;
     line-height: 28px;
+    font-weight: bold;
   }
 </style>
 
 <template lang="pug">
-  section.exchange-center-send-confirmation-container
+  section.exchange-center-exchange-result-container
     header.header
-      h1.header-title 최종 확인하기
+      h1.header-title 포인트 → ASM 확인하기
     .contents
       .form-group
         p.label 받는 주소
         p.value {{ displayAddress }}
       .form-group
-        p.label 수량
-        p.value {{ asm }} ASM
-      //- .form-group
-        p.label 수수료
-        p.value 0.00363 ASM
+        p.label 지불 포인트
+        p.value {{ from }} P
       hr.divier
       .form-group
-        p.label 합계
-        p.value {{ asm }} ASM
-      button.subimt-button(@click="goToResult") 보내기
-      //- p.description ASM을 보낼 때 소요되는 수수료는 네트워크 상황에 따라 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
+        p.label 교환 ASM
+        p.value {{ to }} ASM
+      button.submit-button(@click="goToExchangeResult") 교환하기
 </template>
 
 <script>
@@ -92,7 +96,8 @@ export default {
   computed: {
     ...mapState({
       address: (state) => state.route.query.address,
-      asm: (state) => state.route.query.asm,
+      from: (state) => state.route.query.from,
+      to: (state) => state.route.query.to,
     }),
     displayAddress() {
       if (!this.address) return '';
@@ -100,20 +105,18 @@ export default {
     },
   },
   mounted() {
+    this.$emit('showNavClose');
     this.$emit('hideNavPoint');
   },
   destroyed() {
+    this.$emit('hideNavClose');
     this.$emit('showNavPoint');
   },
   methods: {
-    async goToResult() {
-      await this.$http.post('/wallet/send', {
-        to: this.address,
-        amount: this.asm,
-      });
+    goToExchangeResult() {
       this.$router.push({
-        path: '/exchange-center/send-result',
-        query: this.$route.query,
+        path: '/exchange-center/exchange-result',
+        query: { address: this.address, from: this.from, to: this.to },
       });
     },
   },
