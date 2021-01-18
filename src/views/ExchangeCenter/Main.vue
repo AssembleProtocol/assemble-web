@@ -22,9 +22,6 @@
     line-height: 28px;
     color: rgba(214,218,224,0.9);
   }
-  .create-wallet-button {
-    margin-top: 20px;
-  }
   .point-box {
     margin-top: 25px;
     border-radius: 46px;
@@ -41,6 +38,79 @@
   }
   .point-box-text {
     margin-top: 10px;
+  }
+  .wallet-loading-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .wallet-loading {
+    background-color: #314662;
+    border: 4px solid #2E75FF;
+    width: 30px;
+    height: 30px;
+    top: 30px;
+    left: 30px;
+    animation: loading 2s infinite ease-in-out;
+  }
+  @keyframes loading {
+    0% {
+      border-radius: 0;
+      transform: rotate(0deg);
+    }
+
+    50% {
+      border-radius: 50%;
+      border-width: 6px;
+    }
+
+    100% {
+      border-radius: 0;
+      transform: rotate(720deg);
+    }
+  }
+  .wallet-loading-text {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 28px;
+    color: #F7F8FA;
+  }
+  .point-box-nav-right {
+    display: flex;
+    align-items: center;
+  }
+  .point-box-nav-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    background-color: #314662;
+    background-size: 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+    &:not(:first-child) {
+      margin-left: 20px;
+    }
+    &.send { background-image: url(~@/assets/send.svg); }
+    &.receive { background-image: url(~@/assets/receive.svg); }
+  }
+  .point-box-nav-text-button {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 12px;
+    padding: 0 10px;
+    background-color: #314662;
+    color: #6096FF;
+    font-weight: bold;
+  }
+  .wallet-description {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 28px;
+    color: #F7F8FA;
   }
   .section-nav {
     display: flex;
@@ -117,38 +187,49 @@
     font-weight: bold;
     line-height: 24px;
   }
+  .shortcut-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0 -10px 0;
+  }
+  .shortcut-button {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 36px;
+    color: #6096FF;
+  }
 </style>
 
 <template lang="pug">
   section.exchange-center-main-container
-    .empty-contents(v-if="!initLoading && !walletAvailable")
+    .contents(v-if="!initLoading")
       section.section
         h1.section-title.large ASM 교환소
         p.section-description.
           어셈블 포인트와 ASM은 서로 교환할 수 있어요.#[br]
           ASM으로 교환하면, 사람들과 안전하게 주고받거나,#[br]
           암호화폐 거래소에서 거래할 수 있어요.
-        p.section-description.
-          현재 교환소에서 사용할 수 있는 지갑이 없어요.#[br]
-          지갑은 ASM을 주고 받거나, 보관할 수 있도록 해 줍니다.#[br]
-          지갑 만들기는 보통 몇 분 안에 끝나지만,#[br]
-          한 두시간이 걸릴 수도 있어요.
-        button.bg-button.create-wallet-button(
-          :class="{ inactive: hasWallet && !walletAvailable }",
-          @click="createWallet",
-        ).
-          {{ !hasWallet ? '지갑 만들기' : '지갑을 만들고 있습니다..' }}
-    .contents(v-if="!initLoading && hasWallet && walletAvailable")
-      section.section
-        h1.section-title.large ASM 교환소
-        p.section-description.
-          어셈블 포인트와 ASM은 서로 교환할 수 있어요.#[br]
-          ASM으로 교환하면, 사람들과 안전하게 주고받거나,#[br]
-          암호화폐 거래소에서 거래할 수 있어요.
-        .point-box
+        .point-box(v-if="hasWallet && walletAvailable")
           nav.point-box-nav
-            strong.point-box-title 보유 포인트
+            strong.point-box-title 보유 ASM
+            .point-box-nav-right
+              button.point-box-nav-button.send(@click="goToSendAsm")
+              button.point-box-nav-button.receive(@click="showReceivingAsm")
           point-text.point-box-text(:value="wallet.balance", pointType="asm")
+        .point-box(v-else-if="hasWallet && !walletAvailable")
+          nav.point-box-nav
+            strong.point-box-title 내 교환소 지갑
+          .wallet-loading-wrapper
+            .wallet-loading
+            p.wallet-loading-text 만드는 중
+        .point-box(v-else)
+          nav.point-box-nav
+            strong.point-box-title 내 교환소 지갑
+            .point-box-nav-right
+              button.point-box-nav-text-button(@click="goToCreateWallet") 만들기
+          p.wallet-description 교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.
       section.section.excahnge
         nav.section-nav
           h2.section-title 포인트 → ASM
@@ -164,17 +245,35 @@
               i.exchange-input-icon.asm(slot="prefix")
           button.bg-button.exchange-button(@click="goToExchange") {{ displayExchangeText }}
           p.error-message(v-if="errorMessage") {{ errorMessage }}
+      section.section.shortcut(v-if="hasWallet && walletAvailable")
+        nav.section-nav
+          h2.section-title 바로가기
+        .shortcut-button-group
+          button.shortcut-button(@click="goToSendAsm") ASM 보내기
+          button.shortcut-button(@click="showReceivingAsm") ASM 받기
+          button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
+          a.shortcut-button(:href="`https://ropsten.etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
+
+    receiving-asm-action-sheet(
+      :address="myWalletAddress",
+      :visible="receivingAsmVisible",
+      @close="closeReceivingAsm",
+    )
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import PointText from '@/components/PointText';
 import AsmInput from '@/components/AsmInput';
+import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
+
+const WALLET_COST = 30000;
 
 export default {
   components: {
     PointText,
     AsmInput,
+    ReceivingAsmActionSheet,
   },
   props: {
     initLoading: { type: Boolean },
@@ -196,9 +295,14 @@ export default {
     displayExchangeText() {
       return `${this.from || 0} P를 ${this.to || 0} ASM 로 교환`;
     },
+    myWalletAddress() {
+      if (!this.me) return '';
+      return this.me.walletAddress;
+    },
   },
   data() {
     return {
+      receivingAsmVisible: false,
       from: null,
       to: null,
       errorMessage: null,
@@ -209,9 +313,13 @@ export default {
     this.to = this.from / 1000;
   },
   methods: {
-    createWallet() {
+    goToCreateWallet() {
       if (this.hasWallet) return;
-      this.$emit('createWallet');
+      if (this.asp < WALLET_COST) {
+        this.$toast('지갑을 생성하는데 30,000P가 필요합니다.');
+        return;
+      }
+      this.$router.push('/exchange-center/new-wallet');
     },
     calcTo() {
       this.to = this.from / 1000;
@@ -221,10 +329,10 @@ export default {
       this.calcTo();
     },
     goToExchange() {
-      // if (!this.from) {
-      //   this.errorMessage = '잔액이 부족합니다';
-      //   return;
-      // }
+      if (!this.from) {
+        this.errorMessage = '잔액이 부족합니다';
+        return;
+      }
       this.$router.push({
         path: '/exchange-center/exchange',
         query: {
@@ -232,6 +340,15 @@ export default {
           to: this.to,
         },
       });
+    },
+    goToSendAsm() {
+      this.$router.push('/exchange-center/send');
+    },
+    showReceivingAsm() {
+      this.receivingAsmVisible = true;
+    },
+    closeReceivingAsm() {
+      this.receivingAsmVisible = false;
     },
   },
 };

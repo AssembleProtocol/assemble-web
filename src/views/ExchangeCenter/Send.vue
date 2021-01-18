@@ -14,6 +14,12 @@
     font-size: 24px;
     line-height: 38px;
   }
+  .link-button {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 28px;
+    color: #6096FF;
+  }
   .contents {
     margin-top: 20px;
     padding: 0 20px;
@@ -31,16 +37,10 @@
     background-position: center;
     background-repeat: no-repeat;
   }
-  .link-button-wrapper {
+  .all-input-button-wrapper {
     display: flex;
     justify-content: flex-end;
     margin-top: 5px;
-  }
-  .link-button {
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 28px;
-    color: #6096FF;
   }
   .next-button {
     width: 100%;
@@ -64,23 +64,22 @@
 <template lang="pug">
   section.exchange-center-send-container
     header.header
-      h1.header-title 포인트 → ASM
+      h1.header-title ASM 보내기
     .contents
-      asm-input.input-wrapper(:value="displayExchangeText", readonly)
-      asm-input.input-wrapper(v-model="address", placeholder="받는 주소")
+      asm-input.input-wrapper(v-model="address", placeholder="주소 입력하기")
         button.qr-code-scan-button(
           v-if="hasQrScanner",
           slot="suffix",
           @click="openQrScanner",
         )
-      .link-button-wrapper
-        button.link-button(@click="inputMyAddress") 내 교환소 지갑 주소 입력하기
+      asm-input.input-wrapper(v-model="asm", placeholder="ASM 입력하기")
+      .all-input-button-wrapper
+        button.link-button.all-input-button(@click="inputAllBalance") 전액 입력하기
       button.next-button(@click="goToNext") 다음
-      p.description 받는 주소에는 ASM을 받을 본인 또는 상대방의 암호화폐 거래소에서 발급 받은 주소 또는 이더리움 지갑의 주소를 입력하세요.
+      p.description ASM을 타인에게 전송할 때, 일정량의 네트워크 수수료가 부과됩니다. 이 수수료는 네트워크 상황에 따라 매번 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import AsmInput from '@/components/AsmInput';
 
 let timer;
@@ -92,23 +91,10 @@ export default {
   props: {
     wallet: { type: Object, default: null },
   },
-  computed: {
-    ...mapState({
-      to: (state) => state.route.query.to,
-      from: (state) => state.route.query.from,
-      me: (state) => state.me,
-    }),
-    displayExchangeText() {
-      return `${this.from || 0} P → ${this.to || 0} ASM`;
-    },
-    myWalletAddress() {
-      if (!this.me) return '';
-      return this.me.walletAddress;
-    },
-  },
   data() {
     return {
       address: '',
+      asm: '',
       hasQrScanner: false,
     };
   },
@@ -130,13 +116,13 @@ export default {
         }, 100);
       }
     },
-    inputMyAddress() {
-      this.address = this.myWalletAddress;
+    inputAllBalance() {
+      this.asm = this.wallet.balance;
     },
     goToNext() {
       this.$router.push({
-        path: '/exchange-center/exchange-confirmation',
-        query: { address: this.address, to: this.to, from: this.from },
+        path: '/exchange-center/send-confirmation',
+        query: { address: this.address, asm: this.asm },
       });
     },
   },

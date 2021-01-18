@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .exchange-center-exchange-result-container {
+  .exchange-center-new-wallet-result-container {
     color: #F7F8FA;
   }
   .header {
@@ -32,7 +32,6 @@
     color: rgba(214, 218, 224, .6);
   }
   .value {
-    max-width: 120px;
     font-size: 18px;
     font-weight: bold;
     line-height: 55px;
@@ -45,6 +44,12 @@
     border: 0;
     background-color: #C4C4C4;
   }
+  .description {
+    margin-top: 20px;
+    color: #D6DAE0;
+    font-size: 14px;
+    line-height: 28px;
+  }
   .submit-button {
     width: 100%;
     height: 55px;
@@ -56,49 +61,38 @@
     color: #F7F8FA;
     font-weight: bold;
   }
-  .link-button-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  .link-button {
-    color: #2E75FF;
-    line-height: 28px;
-    font-weight: bold;
-  }
 </style>
 
 <template lang="pug">
-  section.exchange-center-exchange-result-container
+  section.exchange-center-new-wallet-result-container
     header.header
-      h1.header-title 포인트 → ASM 확인하기
+      h1.header-title 접수되었습니다
     .contents
       .form-group
-        p.label 받는 주소
-        p.value {{ displayAddress }}
+        p.label 보유 포인트
+        p.value {{ asp | displayNumber }} P
       .form-group
-        p.label 지불 포인트
-        p.value {{ from }} P
+        p.label 지갑
+        p.value - {{ cost | displayNumber }} P
       hr.divier
       .form-group
-        p.label 교환 ASM
-        p.value {{ to }} ASM
-      button.submit-button(@click="goToExchangeResult") 교환하기
+        p.label 합계
+        p.value {{ asp | displayNumber }} P
+      p.description 지갑을 생성하고 있습니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
+      button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
 </template>
 
 <script>
-import { mapState } from 'vuex';
+const WALLET_COST = 30000;
 
 export default {
-  computed: {
-    ...mapState({
-      address: (state) => state.route.query.address,
-      from: (state) => state.route.query.from,
-      to: (state) => state.route.query.to,
-    }),
-    displayAddress() {
-      if (!this.address) return '';
-      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+  name: 'NewWalletResult',
+  props: {
+    asp: { type: [Number, String], default: null },
+  },
+  filters: {
+    displayNumber(number) {
+      return Number(number).toLocaleString();
     },
   },
   mounted() {
@@ -109,12 +103,14 @@ export default {
     this.$emit('hideNavClose');
     this.$emit('showNavPoint');
   },
+  data() {
+    return {
+      cost: WALLET_COST,
+    };
+  },
   methods: {
-    goToExchangeResult() {
-      this.$router.push({
-        path: '/exchange-center/exchange-result',
-        query: { address: this.address, from: this.from, to: this.to },
-      });
+    goToExchangeMain() {
+      this.$emit('goExchangeHome');
     },
   },
 };

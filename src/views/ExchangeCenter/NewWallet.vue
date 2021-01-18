@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .exchange-center-exchange-result-container {
+  .exchange-center-new-wallet-container {
     color: #F7F8FA;
   }
   .header {
@@ -66,55 +66,67 @@
     line-height: 28px;
     font-weight: bold;
   }
+  .description {
+    margin-top: 20px;
+    color: rgba(214, 218, 224, .6);
+    font-size: 14px;
+    line-height: 28px;
+  }
 </style>
 
 <template lang="pug">
-  section.exchange-center-exchange-result-container
+  section.exchange-center-new-wallet-container
     header.header
-      h1.header-title 포인트 → ASM 확인하기
+      h1.header-title 내 교환소 지갑 만들기
     .contents
       .form-group
-        p.label 받는 주소
-        p.value {{ displayAddress }}
+        p.label 보유 포인트
+        p.value {{ asp | displayNumber }} P
       .form-group
-        p.label 지불 포인트
-        p.value {{ from }} P
+        p.label 지갑
+        p.value - {{ cost | displayNumber }} P
       hr.divier
       .form-group
-        p.label 교환 ASM
-        p.value {{ to }} ASM
-      button.submit-button(@click="goToExchangeResult") 교환하기
+        p.label 합계
+        p.value {{ total | displayNumber }} P
+      button.submit-button(@click="createWallet") 지갑 만들기
+      p.description 교환소에서 간편하게 이용 가능한 지갑을 만듭니다. 지갑을 만들기 시작하면 환불이 불가합니다. 이는 암호화폐 기술적 특성에 기인합니다.
 </template>
 
 <script>
-import { mapState } from 'vuex';
+const WALLET_COST = 30000;
 
 export default {
+  name: 'NewWallet',
+  props: {
+    asp: { type: [Number, String], default: null },
+  },
+  filters: {
+    displayNumber(number) {
+      return Number(number).toLocaleString();
+    },
+  },
   computed: {
-    ...mapState({
-      address: (state) => state.route.query.address,
-      from: (state) => state.route.query.from,
-      to: (state) => state.route.query.to,
-    }),
-    displayAddress() {
-      if (!this.address) return '';
-      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+    total() {
+      if (this.asp < WALLET_COST) return 0;
+      return this.asp - WALLET_COST;
     },
   },
   mounted() {
-    this.$emit('showNavClose');
     this.$emit('hideNavPoint');
   },
   destroyed() {
-    this.$emit('hideNavClose');
     this.$emit('showNavPoint');
   },
+  data() {
+    return {
+      cost: WALLET_COST,
+    };
+  },
   methods: {
-    goToExchangeResult() {
-      this.$router.push({
-        path: '/exchange-center/exchange-result',
-        query: { address: this.address, from: this.from, to: this.to },
-      });
+    createWallet() {
+      this.$emit('createWallet');
+      this.$router.push('/exchange-center/new-wallet-result');
     },
   },
 };

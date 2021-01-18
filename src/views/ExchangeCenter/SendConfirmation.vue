@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .exchange-center-exchange-result-container {
+  .exchange-center-send-confirmation-container {
     color: #F7F8FA;
   }
   .header {
@@ -32,7 +32,6 @@
     color: rgba(214, 218, 224, .6);
   }
   .value {
-    max-width: 120px;
     font-size: 18px;
     font-weight: bold;
     line-height: 55px;
@@ -45,7 +44,7 @@
     border: 0;
     background-color: #C4C4C4;
   }
-  .submit-button {
+  .subimt-button {
     width: 100%;
     height: 55px;
     margin-top: 20px;
@@ -56,34 +55,34 @@
     color: #F7F8FA;
     font-weight: bold;
   }
-  .link-button-wrapper {
-    display: flex;
-    justify-content: center;
+  .description {
     margin-top: 20px;
-  }
-  .link-button {
-    color: #2E75FF;
+    color: rgba(214, 218, 224, 0.6);
+    font-size: 14px;
     line-height: 28px;
-    font-weight: bold;
   }
 </style>
 
 <template lang="pug">
-  section.exchange-center-exchange-result-container
+  section.exchange-center-send-confirmation-container
     header.header
-      h1.header-title 포인트 → ASM 확인하기
+      h1.header-title 최종 확인하기
     .contents
       .form-group
         p.label 받는 주소
         p.value {{ displayAddress }}
       .form-group
-        p.label 지불 포인트
-        p.value {{ from }} P
+        p.label 수량
+        p.value {{ asm }} ASM
+      //- .form-group
+        p.label 수수료
+        p.value 0.00363 ASM
       hr.divier
       .form-group
-        p.label 교환 ASM
-        p.value {{ to }} ASM
-      button.submit-button(@click="goToExchangeResult") 교환하기
+        p.label 합계
+        p.value {{ asm }} ASM
+      button.subimt-button(@click="goToResult") 보내기
+      //- p.description ASM을 보낼 때 소요되는 수수료는 네트워크 상황에 따라 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
 </template>
 
 <script>
@@ -93,8 +92,7 @@ export default {
   computed: {
     ...mapState({
       address: (state) => state.route.query.address,
-      from: (state) => state.route.query.from,
-      to: (state) => state.route.query.to,
+      asm: (state) => state.route.query.asm,
     }),
     displayAddress() {
       if (!this.address) return '';
@@ -102,18 +100,20 @@ export default {
     },
   },
   mounted() {
-    this.$emit('showNavClose');
     this.$emit('hideNavPoint');
   },
   destroyed() {
-    this.$emit('hideNavClose');
     this.$emit('showNavPoint');
   },
   methods: {
-    goToExchangeResult() {
+    async goToResult() {
+      await this.$http.post('/wallet/send', {
+        to: this.address,
+        amount: this.asm,
+      });
       this.$router.push({
-        path: '/exchange-center/exchange-result',
-        query: { address: this.address, from: this.from, to: this.to },
+        path: '/exchange-center/send-result',
+        query: this.$route.query,
       });
     },
   },

@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .exchange-center-exchange-result-container {
+  .exchange-center-send-result-container {
     color: #F7F8FA;
   }
   .header {
@@ -32,7 +32,6 @@
     color: rgba(214, 218, 224, .6);
   }
   .value {
-    max-width: 120px;
     font-size: 18px;
     font-weight: bold;
     line-height: 55px;
@@ -44,6 +43,12 @@
     margin: 20px 0;
     border: 0;
     background-color: #C4C4C4;
+  }
+  .description {
+    margin-top: 20px;
+    color: #D6DAE0;
+    font-size: 14px;
+    line-height: 28px;
   }
   .submit-button {
     width: 100%;
@@ -69,21 +74,27 @@
 </style>
 
 <template lang="pug">
-  section.exchange-center-exchange-result-container
+  section.exchange-center-send-result-container
     header.header
-      h1.header-title 포인트 → ASM 확인하기
+      h1.header-title 접수되었습니다
     .contents
       .form-group
         p.label 받는 주소
         p.value {{ displayAddress }}
       .form-group
-        p.label 지불 포인트
-        p.value {{ from }} P
+        p.label 수량
+        p.value {{ asm }} ASM
+      //- .form-group
+        p.label 수수료
+        p.value 0.00363 ASM
       hr.divier
       .form-group
-        p.label 교환 ASM
-        p.value {{ to }} ASM
-      button.submit-button(@click="goToExchangeResult") 교환하기
+        p.label 합계
+        p.value {{ asm }} ASM
+      p.description ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
+      button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
+      //- .link-button-wrapper
+        a.link-button(href="#") Etherscan에서 진행 상황 보기
 </template>
 
 <script>
@@ -93,8 +104,7 @@ export default {
   computed: {
     ...mapState({
       address: (state) => state.route.query.address,
-      from: (state) => state.route.query.from,
-      to: (state) => state.route.query.to,
+      asm: (state) => state.route.query.asm,
     }),
     displayAddress() {
       if (!this.address) return '';
@@ -110,11 +120,8 @@ export default {
     this.$emit('showNavPoint');
   },
   methods: {
-    goToExchangeResult() {
-      this.$router.push({
-        path: '/exchange-center/exchange-result',
-        query: { address: this.address, from: this.from, to: this.to },
-      });
+    goToExchangeMain() {
+      this.$emit('goExchangeHome');
     },
   },
 };

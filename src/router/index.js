@@ -4,9 +4,17 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home';
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
+
+import ExchangeCenterSend from '@/views/ExchangeCenter/Send';
+import ExchangeCenterSendConfirmation from '@/views/ExchangeCenter/SendConfirmation';
+import ExchangeCenterSendResult from '@/views/ExchangeCenter/SendResult';
+
 import ExchangeCenterExchange from '@/views/ExchangeCenter/Exchange';
 import ExchangeCenterExchangeConfirmation from '@/views/ExchangeCenter/ExchangeConfirmation';
 import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult';
+
+import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
+import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
 
 import Setting from '@/views/Setting';
 import SignupToConnecting from '@/views/SignupToConnecting';
@@ -50,6 +58,21 @@ export default function (store, http) {
           component: ExchangeCenterMain,
         },
         {
+          path: 'send',
+          name: 'ExchangeCenterSend',
+          component: ExchangeCenterSend,
+        },
+        {
+          path: 'send-confirmation',
+          name: 'ExchangeCenterSendConfirmation',
+          component: ExchangeCenterSendConfirmation,
+        },
+        {
+          path: 'send-result',
+          name: 'ExchangeCenterSendResult',
+          component: ExchangeCenterSendResult,
+        },
+        {
           path: 'exchange',
           name: 'ExchangeCenterExchange',
           component: ExchangeCenterExchange,
@@ -63,6 +86,16 @@ export default function (store, http) {
           path: 'exchange-result',
           name: 'ExchangeCenterSendResult',
           component: ExchangeCenterExchangeResult,
+        },
+        {
+          path: 'new-wallet',
+          name: 'ExchangeCenterNewWallet',
+          component: ExchangeCenterNewWallet,
+        },
+        {
+          path: 'new-wallet-result',
+          name: 'ExchangeCenterNewWalletResult',
+          component: ExchangeCenterNewWalletResult,
         },
       ],
     },
