@@ -74,13 +74,13 @@
       .form-group
         p.label 수량
         p.value {{ asm }} ASM
-      //- .form-group
+      .form-group
         p.label 수수료
-        p.value 0.00363 ASM
+        p.value 300 ASM
       hr.divier
       .form-group
         p.label 합계
-        p.value {{ asm }} ASM
+        p.value {{ Number(asm) + 300 }} ASM
       button.subimt-button(@click="goToResult") 보내기
       //- p.description ASM을 보낼 때 소요되는 수수료는 네트워크 상황에 따라 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
 </template>
@@ -109,7 +109,7 @@ export default {
     async goToResult() {
       await this.$http.post('/wallet/send', {
         to: this.address,
-        amount: this.asm,
+        amount: Number(this.asm),
       });
       this.$router.push({
         path: '/exchange-center/send-result',

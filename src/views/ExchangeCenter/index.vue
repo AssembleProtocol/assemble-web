@@ -110,6 +110,7 @@
 <script>
 import { mapState } from 'vuex';
 
+const FETCH_TIME = 1000 * 60;
 let timer;
 
 export default {
@@ -142,10 +143,11 @@ export default {
       asp: 0,
     };
   },
-  mounted() {
+  async mounted() {
     document.body.classList.add('dark');
-    this.fetchWallet();
-    timer = setInterval(this.fetchWallet, 3000);
+    this.initAsp();
+    await this.fetchWallet();
+    if (this.wallet && (this.wallet.available === false)) timer = setInterval(this.fetchWallet, FETCH_TIME);
   },
   destroyed() {
     document.body.classList.remove('dark');
@@ -165,8 +167,14 @@ export default {
     async createWallet() {
       if (this.hasWallet) return;
       this.wallet = { available: false };
-      await this.$http.post('/wallet');
-      await this.fetchWallet();
+      try {
+        await this.$http.post('/wallet');
+        await this.fetchWallet();
+        timer = setInterval(this.fetchWallet, FETCH_TIME);
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      }
     },
     async initWallet() {
       const { data: wallet } = await this.$http.get('/wallet');
@@ -179,7 +187,7 @@ export default {
         this.loading = true;
         const { data: wallet } = await this.$http.get('/wallet');
         this.wallet = wallet;
-        this.fetchAsp();
+        this.initAsp();
         if (timer) clearInterval(timer);
       } finally {
         this.loading = false;
@@ -187,14 +195,9 @@ export default {
       }
     },
     async initAsp() {
-      const { data: histories } = await this.$http.get('/users/me/point-histories');
-      let sum = 0;
-      histories.forEach((h) => { sum += h.amount; });
-      this.asp = sum;
-    },
-    async fetchAsp() {
-      const { data: histories } = await this.$http.get('/users/me/point-histories');
-      histories.forEach((h) => { this.asp += h.amount; });
+      const { data } = await this.$http.get('/users/me/points');
+      const { points } = data;
+      this.asp = points;
     },
     showNavPoint() {
       this.navPointVisible = true;

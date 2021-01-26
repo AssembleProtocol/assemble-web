@@ -32,7 +32,6 @@
     color: rgba(214, 218, 224, .6);
   }
   .value {
-    max-width: 120px;
     font-size: 18px;
     font-weight: bold;
     line-height: 55px;
@@ -79,6 +78,9 @@
       .form-group
         p.label 지불 포인트
         p.value {{ from }} P
+      .form-group
+        p.label 교환 수수료
+        p.value 100 P
       hr.divier
       .form-group
         p.label 교환 ASM
@@ -110,11 +112,17 @@ export default {
     this.$emit('showNavPoint');
   },
   methods: {
-    goToExchangeResult() {
-      this.$router.push({
-        path: '/exchange-center/exchange-result',
-        query: { address: this.address, from: this.from, to: this.to },
-      });
+    async goToExchangeResult() {
+      try {
+        await this.$http.post('/wallet/exchange/point-to-asm', { to: this.address, point: Number(this.from) });
+        this.$router.push({
+          path: '/exchange-center/exchange-result',
+          query: { address: this.address, from: this.from, to: this.to },
+        });
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      }
     },
   },
 };

@@ -268,6 +268,8 @@ import AsmInput from '@/components/AsmInput';
 import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 
 const WALLET_COST = 30000;
+const POINT_RATIO = 15;
+const FEE = 100;
 
 export default {
   components: {
@@ -285,7 +287,7 @@ export default {
   watch: {
     asp(v) {
       this.from = Number(v);
-      this.to = this.from / 1000;
+      this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
     },
   },
   computed: {
@@ -309,8 +311,10 @@ export default {
     };
   },
   mounted() {
-    this.from = Number(this.asp);
-    this.to = this.from / 1000;
+    const from = Number(this.asp - FEE);
+    if (from > 0) this.from = from;
+    else this.from = 0;
+    this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
   },
   methods: {
     goToCreateWallet() {
@@ -321,11 +325,14 @@ export default {
       }
       this.$router.push('/exchange-center/new-wallet');
     },
-    calcTo() {
-      this.to = this.from / 1000;
+    calcTo(value) {
+      if (value) this.from = Number(value);
+      this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
     },
     inputAllFrom() {
-      this.from = Number(this.asp);
+      const from = Number(this.asp - FEE);
+      if (from > 0) this.from = from;
+      else this.from = 0;
       this.calcTo();
     },
     goToExchange() {

@@ -84,13 +84,13 @@
       .form-group
         p.label 수량
         p.value {{ asm }} ASM
-      //- .form-group
+      .form-group
         p.label 수수료
-        p.value 0.00363 ASM
+        p.value 300 ASM
       hr.divier
       .form-group
         p.label 합계
-        p.value {{ asm }} ASM
+        p.value {{ Number(asm) + 300 }} ASM
       p.description ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
       button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
       //- .link-button-wrapper

@@ -58,7 +58,6 @@
         .list-item-group
           router-link.list-item-wrapper(to="/exchange-center")
             list-item(title="ASM 교환소", appId="exchange", subtitle="asm.assembleprotocol.io")
-              point-text.partner-item-point(slot="suffix", :value="totalExchangeAsp", size="small")
           a.list-item-wrapper(
             v-for="myApp in myApps",
             :key="myApp._id",
@@ -67,7 +66,6 @@
             @click="handleLink($event, myApp.url)",
           )
             list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
-              point-text.partner-item-point(slot="suffix", :value="totalClubPassAsp", size="small")
       section.section
         h1.section-title 포인트 내역
         .list-item-group
@@ -106,30 +104,26 @@ export default {
     ListItem,
     SmallListItem,
   },
-  computed: {
-    totalAsp() {
-      return this.totalExchangeAsp + this.totalClubPassAsp;
-    },
-  },
   data() {
     return {
       histories: null,
       myApps: null,
-      totalExchangeAsp: 0,
-      totalClubPassAsp: 0,
+      totalAsp: 0,
     };
   },
   async mounted() {
     const [
+      { data: pointsData },
       { data: histories },
       { data: myApps },
     ] = await Promise.all([
+      this.$http.get('/users/me/points'),
       this.$http.get('/users/me/point-histories'),
       this.$http.get('/my-apps'),
     ]);
+    const { points } = pointsData;
+    this.totalAsp = points;
     this.histories = histories;
-    this.histories.filter((h) => h.appId === 'exchange').forEach((h) => { this.totalExchangeAsp += h.amount; });
-    this.histories.filter((h) => h.appId === 'clubpass').forEach((h) => { this.totalClubPassAsp += h.amount; });
     this.myApps = myApps.slice(1).map((a) => ({
       ...a,
       url: MY_APP_URL_MAP[a.appId],

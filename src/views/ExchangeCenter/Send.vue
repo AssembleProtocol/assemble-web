@@ -82,6 +82,7 @@
 <script>
 import AsmInput from '@/components/AsmInput';
 
+const FEE = 300;
 let timer;
 
 export default {
@@ -117,7 +118,8 @@ export default {
       }
     },
     inputAllBalance() {
-      this.asm = this.wallet.balance;
+      const asm = Number(this.wallet.balance - FEE);
+      this.asm = parseFloat(asm.toFixed(4));
     },
     goToNext() {
       this.$router.push({
