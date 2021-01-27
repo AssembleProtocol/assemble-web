@@ -292,6 +292,10 @@ export default {
       this.from = Number(v);
       this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
     },
+    notEnoughAsp(v) {
+      if (v) this.errorMessage = '교환에는 최소 1100P가 필요합니다.';
+      else this.errorMessage = null;
+    },
   },
   computed: {
     ...mapState({
@@ -299,6 +303,7 @@ export default {
     }),
     notEnoughAsp() {
       if (this.asp < 1100) return true;
+      if (this.from < 1100) return true;
       return false;
     },
     displayExchangeText() {
@@ -323,8 +328,6 @@ export default {
     if (from > 0) this.from = from;
     else this.from = 0;
     this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
-
-    if (this.notEnoughAsp) this.errorMessage = '교환에는 최소 1100P가 필요합니다.';
   },
   methods: {
     goToCreateWallet() {
