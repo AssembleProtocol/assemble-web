@@ -25,7 +25,7 @@ const token = Vue.localStorage.get('token');
 if (token) {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
-axios.defaults.baseURL = 'https://api.assemble.sta1.com';
+axios.defaults.baseURL = `${process.env.VUE_APP_API_BASE}`;
 
 Vue.prototype.$http = axios;
 

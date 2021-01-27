@@ -84,7 +84,7 @@ export default function (store, http) {
         },
         {
           path: 'exchange-result',
-          name: 'ExchangeCenterSendResult',
+          name: 'ExchangeCenterExchangeResult',
           component: ExchangeCenterExchangeResult,
         },
         {
