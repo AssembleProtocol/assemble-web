@@ -72,9 +72,21 @@
         router-link(to="#").change-email.link 이메일 주소 변경하기
         router-link(to="#").change-password.link 비밀번호 변경하기
       h2.app-info.title 앱 정보
-        router-link(to="#").terms.link 이용약관
-        router-link(to="#").privacy-statement.link 개인정보취급방침
-        router-link(to="#").send-inquiry.link 문의 보내기
+        a(
+          href="https://docs.google.com/document/d/1ErojjhHKf5Hti9awyEwqj29recHJFE1X_coeHhfZXEw/edit?usp=sharing",
+          target="_blank",
+          @click="handleLink($event, 'https://docs.google.com/document/d/1ErojjhHKf5Hti9awyEwqj29recHJFE1X_coeHhfZXEw/edit?usp=sharing')"
+        ).terms.link 이용약관
+        a(
+          href="https://docs.google.com/document/d/134_NoNW3qLNNn4JSzPAd70E7UteU68VFFyIlFikGs8A/edit?usp=sharing",
+          target="_blank",
+          @click="handleLink($event, 'https://docs.google.com/document/d/134_NoNW3qLNNn4JSzPAd70E7UteU68VFFyIlFikGs8A/edit?usp=sharing')"
+        ).privacy-statement.link 개인정보취급방침
+        a(
+          href="https://docs.google.com/forms/d/1goeZlSzYg7EHEK-hj1lu1YdtKt1XOQJ0oA_9NdXjQsU/edit?usp=sharing",
+          target="_blank",
+          @click="handleLink($event, 'https://docs.google.com/forms/d/1goeZlSzYg7EHEK-hj1lu1YdtKt1XOQJ0oA_9NdXjQsU/edit?usp=sharing')"
+        ).send-inquiry.link 문의 보내기
       h2.assemble-protocol.title 어셈블 프로토콜
         a.offical-site.link(
           href="http://assembleprotocol.io/",

@@ -96,7 +96,8 @@ export default {
     }),
     displayAddress() {
       if (!this.address) return '';
-      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+      if (this.address.length > 6) return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+      return this.address;
     },
   },
   mounted() {
