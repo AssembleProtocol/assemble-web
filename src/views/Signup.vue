@@ -172,12 +172,14 @@ export default {
 
       await this.$store.dispatch('fetchMe');
 
-      this.$router.push({
-        path: '/email-authentication',
-        query: {
-          from: 'signup',
-        },
-      });
+      // TODO: 이메일 인증 페이지 일단 제거
+      // this.$router.push({
+      //   path: '/email-authentication',
+      //   query: {
+      //     from: 'signup',
+      //   },
+      // });
+      this.$router.push('/');
     },
   },
 };

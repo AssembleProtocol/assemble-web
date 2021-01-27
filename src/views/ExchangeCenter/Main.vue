@@ -178,6 +178,9 @@
   }
   .exchange-button {
     margin-top: 30px;
+    &.disabled {
+      opacity: 0.6;
+    }
   }
   .error-message {
     margin-top: 5px;
@@ -243,7 +246,7 @@
           .exchange-input-box
             asm-input(:fontSize="24", :value="to", :readonly="true")
               i.exchange-input-icon.asm(slot="prefix")
-          button.bg-button.exchange-button(@click="goToExchange") {{ displayExchangeText }}
+          button.bg-button.exchange-button(:class="{ disabled: notEnoughAsp }", @click="goToExchange") {{ displayExchangeText }}
           p.error-message(v-if="errorMessage") {{ errorMessage }}
       section.section.shortcut(v-if="hasWallet && walletAvailable")
         nav.section-nav
@@ -294,7 +297,12 @@ export default {
     ...mapState({
       me: (state) => state.me,
     }),
+    notEnoughAsp() {
+      if (this.asp < 1100) return true;
+      return false;
+    },
     displayExchangeText() {
+      if (this.notEnoughAsp) return '잔여 포인트 부족으로 교환 불가';
       return `${this.from || 0} P를 ${this.to || 0} ASM 로 교환`;
     },
     myWalletAddress() {
@@ -315,6 +323,8 @@ export default {
     if (from > 0) this.from = from;
     else this.from = 0;
     this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
+
+    if (this.notEnoughAsp) this.errorMessage = '교환에는 최소 1100P가 필요합니다.';
   },
   methods: {
     goToCreateWallet() {
@@ -336,6 +346,7 @@ export default {
       this.calcTo();
     },
     goToExchange() {
+      if (this.notEnoughAsp) return;
       if (!this.from) {
         this.errorMessage = '잔액이 부족합니다';
         return;

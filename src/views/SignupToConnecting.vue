@@ -179,12 +179,17 @@ export default {
 
       await this.$store.dispatch('fetchMe');
 
+      // TODO: 이메일 인증 페이지 일단 제거
+      // this.$router.push({
+      //   path: '/email-authentication',
+      //   query: {
+      //     ...this.$route.query,
+      //     from: 'signup-to-connecting',
+      //   },
+      // });
       this.$router.push({
-        path: '/email-authentication',
-        query: {
-          ...this.$route.query,
-          from: 'signup-to-connecting',
-        },
+        path: '/connecting',
+        query: this.$route.query,
       });
     },
     goToSignIn() {
