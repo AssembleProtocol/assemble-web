@@ -35,7 +35,10 @@ let canGoBack = false;
 r.afterEach((to, from) => {
   if (from.name) canGoBack = true;
   else canGoBack = false;
-  if (window.s3app) window.s3app.onRouteNameChange(to);
+  if (window.s3app) {
+    const { path, name } = to;
+    window.s3app.onRouteNameChange({ path, name });
+  }
 });
 
 Vue.prototype.$history = {
