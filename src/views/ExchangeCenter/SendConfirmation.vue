@@ -108,14 +108,19 @@ export default {
   },
   methods: {
     async goToResult() {
-      await this.$http.post('/wallet/send', {
-        to: this.address,
-        amount: Number(this.asm),
-      });
-      this.$router.push({
-        path: '/exchange-center/send-result',
-        query: this.$route.query,
-      });
+      try {
+        await this.$http.post('/wallet/send', {
+          to: this.address,
+          amount: Number(this.asm),
+        });
+        this.$router.push({
+          path: '/exchange-center/send-result',
+          query: this.$route.query,
+        });
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      }
     },
   },
 };
