@@ -100,6 +100,11 @@ export default {
       return this.address;
     },
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   mounted() {
     this.$emit('hideNavPoint');
   },
@@ -108,7 +113,9 @@ export default {
   },
   methods: {
     async goToResult() {
+      if (this.loading) return;
       try {
+        this.loading = true;
         await this.$http.post('/wallet/send', {
           to: this.address,
           amount: Number(this.asm),
@@ -120,6 +127,8 @@ export default {
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
+      } finally {
+        this.loading = false;
       }
     },
   },

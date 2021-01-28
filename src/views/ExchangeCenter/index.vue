@@ -141,6 +141,7 @@ export default {
       loading: false,
       wallet: null,
       asp: 0,
+      walletCreatingLoading: false,
     };
   },
   async mounted() {
@@ -166,14 +167,18 @@ export default {
     },
     async createWallet() {
       if (this.hasWallet) return;
+      if (this.walletCreatingLoading) return;
       this.wallet = { available: false };
       try {
+        this.walletCreatingLoading = true;
         await this.$http.post('/wallet');
         await this.fetchWallet();
         timer = setInterval(this.fetchWallet, FETCH_TIME);
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
+      } finally {
+        this.walletCreatingLoading = false;
       }
     },
     async initWallet() {

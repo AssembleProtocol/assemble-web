@@ -103,6 +103,11 @@ export default {
       return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
     },
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   mounted() {
     this.$emit('showNavClose');
     this.$emit('hideNavPoint');
@@ -113,7 +118,9 @@ export default {
   },
   methods: {
     async goToExchangeResult() {
+      if (this.loading) return;
       try {
+        this.loading = true;
         await this.$http.post('/wallet/exchange/point-to-asm', { to: this.address, point: Number(this.from) });
         this.$router.push({
           path: '/exchange-center/exchange-result',
@@ -122,6 +129,8 @@ export default {
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
+      } finally {
+        this.loading = false;
       }
     },
   },
