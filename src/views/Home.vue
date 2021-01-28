@@ -57,7 +57,7 @@
         h1.section-title 연결된 앱
         .list-item-group
           router-link.list-item-wrapper(to="/exchange-center")
-            list-item(title="ASM 교환소", appId="exchange", subtitle="asm.assembleprotocol.io")
+            list-item(title="ASM 교환소", appId="exchange", subtitle="app.assembleprotocol.com")
           a.list-item-wrapper(
             v-for="myApp in myApps",
             :key="myApp._id",
