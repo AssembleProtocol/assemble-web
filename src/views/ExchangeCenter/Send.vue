@@ -118,10 +118,18 @@ export default {
       }
     },
     inputAllBalance() {
-      const asm = Number(this.wallet.balance - FEE);
+      let asm = Number(this.wallet.balance - FEE);
+      if (asm < FEE) {
+        this.$toast('ASM을 보내는데 300ASM이 필요합니다.');
+        asm = 0;
+      }
       this.asm = parseFloat(asm.toFixed(4));
     },
     goToNext() {
+      if (this.asm < FEE) {
+        this.$toast('ASM을 보내는데 300ASM이 필요합니다.');
+        return;
+      }
       this.$router.push({
         path: '/exchange-center/send-confirmation',
         query: { address: this.address, asm: this.asm },

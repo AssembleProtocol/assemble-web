@@ -255,7 +255,7 @@
           button.shortcut-button(@click="goToSendAsm") ASM 보내기
           button.shortcut-button(@click="showReceivingAsm") ASM 받기
           button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
-          a.shortcut-button(:href="`https://ropsten.etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
+          a.shortcut-button(:href="`https://etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
 
     receiving-asm-action-sheet(
       :address="myWalletAddress",
