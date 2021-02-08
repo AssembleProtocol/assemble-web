@@ -88,13 +88,13 @@
           @click="handleLink($event, 'https://docs.google.com/forms/d/1goeZlSzYg7EHEK-hj1lu1YdtKt1XOQJ0oA_9NdXjQsU/edit?usp=sharing')"
         ).send-inquiry.link 문의 보내기
       h2.assemble-protocol.title 어셈블 프로토콜
-        a.offical-site.link(
-          href="http://assembleprotocol.io/",
-          target="_blank",
-          @click="handleLink($event, 'http://assembleprotocol.io/')"
-        )
-          img(src="@/assets/site-icon.png")
-          .link-text 공식 사이트
+        //- a.offical-site.link(
+        //-   href="http://assembleprotocol.io/",
+        //-   target="_blank",
+        //-   @click="handleLink($event, 'http://assembleprotocol.io/')"
+        //- )
+        //-   img(src="@/assets/site-icon.png")
+        //-   .link-text 공식 사이트
         a.twitter.link(
           href="https://twitter.com/ASSEMBLE_io",
           target="_blank",
