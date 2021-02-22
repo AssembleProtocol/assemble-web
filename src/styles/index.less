@@ -12,9 +12,7 @@ html, body {
 }
 
 body {
-  &.dark {
-    background-color: #000;
-  }
+  background-color: #fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -59,8 +57,17 @@ a {
   color: #1F2E44;
 }
 
-body {
-  .van-overlay {
-    background-color: rgba(29, 31, 34, 0.8);
+
+@media only screen and (max-width: 767px) {
+  body {
+    &.dark {
+      background-color: #000;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  body {
+    background: linear-gradient(119.89deg, #ECF1F9 0%, rgba(241, 243, 244, 0) 92.37%), #F8F8F8;
   }
 }

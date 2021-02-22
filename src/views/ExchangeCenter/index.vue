@@ -146,12 +146,14 @@ export default {
   },
   async mounted() {
     document.body.classList.add('dark');
+    document.getElementById('app').classList.add('dark');
     this.initAsp();
     await this.fetchWallet();
     if (this.wallet && (this.wallet.available === false)) timer = setInterval(this.fetchWallet, FETCH_TIME);
   },
   destroyed() {
     document.body.classList.remove('dark');
+    document.getElementById('app').classList.remove('dark');
     clearInterval(timer);
   },
   methods: {
