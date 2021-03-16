@@ -18,6 +18,8 @@
     "vant": "^2.12.1",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",
+    "vue-i18n": "^8.24.1",
+    "vue-loader": "^15.9.6",
     "vue-localstorage": "^0.6.2",
     "vue-qrcode": "^0.3.5",
     "vue-router": "^3.2.0",
@@ -26,6 +28,7 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^1.1.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

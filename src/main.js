@@ -8,6 +8,7 @@ import VueClipboard from 'vue-clipboard2';
 import VueLocalstorage from 'vue-localstorage';
 import { sync } from 'vuex-router-sync';
 import axios from 'axios';
+import VueI18n from 'vue-i18n';
 
 import App from '@/App.vue';
 import router from '@/router';
@@ -19,6 +20,7 @@ Vue.use(ActionSheet);
 Vue.use(Toast);
 Vue.use(VueClipboard);
 Vue.use(VueLocalstorage);
+Vue.use(VueI18n);
 
 const token = Vue.localStorage.get('token');
 
@@ -45,9 +47,15 @@ Vue.prototype.$history = {
   canGoBack: () => canGoBack,
 };
 
+const i18n = new VueI18n({
+  locale: 'en',
+  defaultLocale: 'ko',
+});
+
 sync(store, r);
 
 new Vue({
+  i18n,
   router: r,
   store,
   render: (h) => h(App),
