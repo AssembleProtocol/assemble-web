@@ -16,6 +16,8 @@ import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult'
 import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
 import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
 
+import ExchangeCenterTransactions from '@/views/ExchangeCenter/Transactions';
+
 import Setting from '@/views/Setting';
 import SignupToConnecting from '@/views/SignupToConnecting';
 import SigninToConnecting from '@/views/SigninToConnecting';
@@ -96,6 +98,11 @@ export default function (store, http) {
           path: 'new-wallet-result',
           name: 'ExchangeCenterNewWalletResult',
           component: ExchangeCenterNewWalletResult,
+        },
+        {
+          path: 'transactions',
+          name: 'ExchangeCenterTransactions',
+          component: ExchangeCenterTransactions,
         },
       ],
     },

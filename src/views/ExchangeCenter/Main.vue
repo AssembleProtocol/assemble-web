@@ -190,6 +190,11 @@
     font-weight: bold;
     line-height: 24px;
   }
+  .transaction-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0 -20px;
+  }
   .shortcut-button-group {
     display: flex;
     flex-direction: column;
@@ -233,6 +238,16 @@
             .point-box-nav-right
               button.point-box-nav-text-button(@click="goToCreateWallet") 만들기
           p.wallet-description 교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.
+      section.section(v-if="hasWallet && walletAvailable")
+        nav.section-nav
+          h2.section-title 트랜잭션
+          router-link.link-button(to="/exchange-center/transactions") 모두 보기
+        .transaction-list
+          transaction-item
+          transaction-item
+          transaction-item
+          transaction-item
+          transaction-item
       section.section.excahnge
         nav.section-nav
           h2.section-title 포인트 → ASM
@@ -269,6 +284,7 @@ import { mapState } from 'vuex';
 import PointText from '@/components/PointText';
 import AsmInput from '@/components/AsmInput';
 import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
+import TransactionItem from './components/TransactionItem';
 
 const WALLET_COST = 30000;
 const POINT_RATIO = 15;
@@ -279,6 +295,7 @@ export default {
     PointText,
     AsmInput,
     ReceivingAsmActionSheet,
+    TransactionItem,
   },
   props: {
     initLoading: { type: Boolean },
@@ -286,6 +303,7 @@ export default {
     walletAvailable: { type: Boolean },
     wallet: { type: Object, default: null },
     asp: { type: [Number, String], default: null },
+    exchangePointHistories: { type: Array, default: () => [] },
   },
   watch: {
     asp(v) {

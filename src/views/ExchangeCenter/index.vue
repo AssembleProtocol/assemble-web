@@ -98,6 +98,7 @@
           :walletAvailable="walletAvailable",
           :wallet="wallet",
           :asp="asp",
+          :exchangePointHistories="exchangePointHistories",
           @createWallet="createWallet",
           @showNavPoint="showNavPoint",
           @hideNavPoint="hideNavPoint",
@@ -142,6 +143,8 @@ export default {
       wallet: null,
       asp: 0,
       walletCreatingLoading: false,
+      exchangeAppUserId: null,
+      exchangePointHistories: null,
     };
   },
   async mounted() {
@@ -150,6 +153,7 @@ export default {
     this.initAsp();
     await this.fetchWallet();
     if (this.wallet && (this.wallet.available === false)) timer = setInterval(this.fetchWallet, FETCH_TIME);
+    if (this.wallet && this.wallet.available) await this.fetchHistories();
   },
   destroyed() {
     document.body.classList.remove('dark');
@@ -157,6 +161,16 @@ export default {
     clearInterval(timer);
   },
   methods: {
+    async fetchHistories() {
+      const { data: myApps } = await this.$http.get('/my-apps');
+      const exchangeApp = myApps[0];
+      if (!exchangeApp) return;
+      this.exchangeAppUserId = exchangeApp.appUserId;
+      // TODO: api 수정하는대로 수정
+      const { data: exchangePointHistories } = await this.$http.get('/users/me/point-histories');
+      // const { data: exchangePointHistories } = await this.$http.get(`/app-users/${this.exchangeAppUserId}/point-histories`);
+      this.exchangePointHistories = exchangePointHistories;
+    },
     goExchangeHome() {
       this.initWallet();
       this.$router.push('/exchange-center');
