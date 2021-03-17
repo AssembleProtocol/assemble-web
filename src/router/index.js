@@ -2,6 +2,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '@/views/Home';
+
+import Setting from '@/views/Setting';
+import SignupToConnecting from '@/views/SignupToConnecting';
+import SigninToConnecting from '@/views/SigninToConnecting';
+import Connecting from '@/views/Connecting';
+import EmailAuthentication from '@/views/EmailAuthentication';
+import Signup from '@/views/Signup';
+import Signin from '@/views/Signin';
+
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
 
@@ -16,13 +25,7 @@ import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult'
 import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
 import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
 
-import Setting from '@/views/Setting';
-import SignupToConnecting from '@/views/SignupToConnecting';
-import SigninToConnecting from '@/views/SigninToConnecting';
-import Connecting from '@/views/Connecting';
-import EmailAuthentication from '@/views/EmailAuthentication';
-import Signup from '@/views/Signup';
-import Signin from '@/views/Signin';
+import StoreMain from '@/views/Store';
 
 Vue.use(VueRouter);
 
@@ -46,6 +49,42 @@ export default function (store, http) {
       name: 'Home',
       beforeEnter: checkToken,
       component: Home,
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      beforeEnter: checkToken,
+      component: Setting,
+    },
+    {
+      path: '/signup-to-connecting',
+      name: 'SignupToConnecting',
+      component: SignupToConnecting,
+    },
+    {
+      path: '/signin-to-connecting',
+      name: 'SigninToConnecting',
+      component: SigninToConnecting,
+    },
+    {
+      path: '/connecting',
+      name: 'Connecting',
+      component: Connecting,
+    },
+    {
+      path: '/email-authentication',
+      name: 'EmailAuthentication',
+      component: EmailAuthentication,
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup,
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: Signin,
     },
     {
       path: '/exchange-center',
@@ -100,40 +139,10 @@ export default function (store, http) {
       ],
     },
     {
-      path: '/setting',
-      name: 'Setting',
+      path: '/store',
       beforeEnter: checkToken,
-      component: Setting,
-    },
-    {
-      path: '/signup-to-connecting',
-      name: 'SignupToConnecting',
-      component: SignupToConnecting,
-    },
-    {
-      path: '/signin-to-connecting',
-      name: 'SigninToConnecting',
-      component: SigninToConnecting,
-    },
-    {
-      path: '/connecting',
-      name: 'Connecting',
-      component: Connecting,
-    },
-    {
-      path: '/email-authentication',
-      name: 'EmailAuthentication',
-      component: EmailAuthentication,
-    },
-    {
-      path: '/signup',
-      name: 'Signup',
-      component: Signup,
-    },
-    {
-      path: '/signin',
-      name: 'Signin',
-      component: Signin,
+      component: StoreMain,
+      children: [],
     },
   ];
 
