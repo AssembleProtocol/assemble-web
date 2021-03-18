@@ -105,7 +105,7 @@
 <template lang="pug">
   section.store-container
     nav.nav
-      button.nav-button.back
+      button.nav-button.back(@click="$router.back()")
       h1.title
         img(src="~@/assets/store-logo.svg", height="16")
         p.title-text 쇼핑하기

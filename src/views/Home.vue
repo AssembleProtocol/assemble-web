@@ -58,6 +58,8 @@
         .list-item-group
           router-link.list-item-wrapper(to="/exchange-center")
             list-item(title="ASM 교환소", appId="exchange", subtitle="app.assembleprotocol.com")
+          router-link.list-item-wrapper(to="/store")
+            list-item(title="Assemble 마켓", appId="market", subtitle="market.assembleprotocol.io")
           a.list-item-wrapper(
             v-for="myApp in myApps",
             :key="myApp._id",
