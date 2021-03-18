@@ -49,20 +49,51 @@
 
 <template lang="pug">
   .transaction-item-container
-    //- img.icon(src="~@/assets/transaction-post.svg", width="32", height="32")
-    img.icon(src="~@/assets/transaction-receive.svg", width="32", height="32")
+    img.icon(v-if="transaction.transferType === 'WITHDRAWAL'", src="~@/assets/transaction-send.svg", width="32", height="32")
+    img.icon(v-else, src="~@/assets/transaction-receive.svg", width="32", height="32")
     .center
       .header
-        strong.title 보냄
-        .date 1일전
-      p.address 받는 주소 0x2354...F2D0
-    .point - 0.0000042 ASM
+        strong.title {{ title }}
+        .date {{ transaction.createdAt | dateFilter }}
+      p.address {{ description }}
+    .point {{ amount }} ASM
 </template>
 
 <script>
+import moment from 'moment';
+
+moment.locale('ko');
+
 export default {
   props: {
     transaction: { type: Object, default: null },
+  },
+  filters: {
+    dateFilter(date) {
+      return moment(date - 0).fromNow();
+    },
+  },
+  computed: {
+    title() {
+      if (this.transaction.transferType === 'WITHDRAWAL') return '보냄';
+      return '받음';
+    },
+    description() {
+      if (this.transaction.transferType === 'WITHDRAWAL') {
+        const address = this.transaction.from;
+        const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
+        return `보낸 주소 ${addressText}`;
+      }
+      const address = this.transaction.to;
+      const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
+      return `받는 주소 ${addressText}`;
+    },
+    amount() {
+      if (this.transaction.transferType === 'WITHDRAWAL') {
+        return `- ${Number(this.transaction.amount).toLocaleString()}`;
+      }
+      return `+ ${Number(this.transaction.amount).toLocaleString()}`;
+    },
   },
 };
 </script>

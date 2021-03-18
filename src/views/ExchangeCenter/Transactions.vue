@@ -30,11 +30,11 @@
       h1.header-title 트랜잭션
     .contents
       .transaction-list
-        transaction-item
-        transaction-item
-        transaction-item
-        transaction-item
-        transaction-item
+        transaction-item(
+          v-for="walletHistory in walletHistories",
+          :key="walletHistory._id",
+          :transaction="walletHistory",
+        )
 </template>
 
 <script>
@@ -44,11 +44,23 @@ export default {
   components: {
     TransactionItem,
   },
-  mounted() {
+  data() {
+    return {
+      walletHistories: null,
+    };
+  },
+  async mounted() {
     this.$emit('hideNavPoint');
+    await this.fetchHistories();
   },
   destroyed() {
     this.$emit('showNavPoint');
+  },
+  methods: {
+    async fetchHistories() {
+      const { data: walletHistories } = await this.$http.get('/wallet/histories');
+      this.walletHistories = walletHistories;
+    },
   },
 };
 </script>

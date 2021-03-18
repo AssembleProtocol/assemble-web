@@ -98,7 +98,7 @@
           :walletAvailable="walletAvailable",
           :wallet="wallet",
           :asp="asp",
-          :exchangePointHistories="exchangePointHistories",
+          :walletHistories="walletHistories",
           @createWallet="createWallet",
           @showNavPoint="showNavPoint",
           @hideNavPoint="hideNavPoint",
@@ -143,8 +143,7 @@ export default {
       wallet: null,
       asp: 0,
       walletCreatingLoading: false,
-      exchangeAppUserId: null,
-      exchangePointHistories: null,
+      walletHistories: null,
     };
   },
   async mounted() {
@@ -162,14 +161,8 @@ export default {
   },
   methods: {
     async fetchHistories() {
-      const { data: myApps } = await this.$http.get('/my-apps');
-      const exchangeApp = myApps[0];
-      if (!exchangeApp) return;
-      this.exchangeAppUserId = exchangeApp.appUserId;
-      // TODO: api 수정하는대로 수정
-      const { data: exchangePointHistories } = await this.$http.get('/users/me/point-histories');
-      // const { data: exchangePointHistories } = await this.$http.get(`/app-users/${this.exchangeAppUserId}/point-histories`);
-      this.exchangePointHistories = exchangePointHistories;
+      const { data: walletHistories } = await this.$http.get('/wallet/histories', { params: { size: 4 } });
+      this.walletHistories = walletHistories;
     },
     goExchangeHome() {
       this.initWallet();

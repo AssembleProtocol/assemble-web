@@ -243,11 +243,11 @@
           h2.section-title 트랜잭션
           router-link.link-button(to="/exchange-center/transactions") 모두 보기
         .transaction-list
-          transaction-item
-          transaction-item
-          transaction-item
-          transaction-item
-          transaction-item
+          transaction-item(
+            v-for="walletHistory in walletHistories",
+            :key="walletHistory._id",
+            :transaction="walletHistory",
+          )
       section.section.excahnge
         nav.section-nav
           h2.section-title 포인트 → ASM
@@ -303,7 +303,7 @@ export default {
     walletAvailable: { type: Boolean },
     wallet: { type: Object, default: null },
     asp: { type: [Number, String], default: null },
-    exchangePointHistories: { type: Array, default: () => [] },
+    walletHistories: { type: Array, default: () => [] },
   },
   watch: {
     asp(v) {
