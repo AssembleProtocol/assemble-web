@@ -80,13 +80,13 @@ export default {
     },
     description() {
       if (this.transaction.transferType === 'WITHDRAWAL') {
-        const address = this.transaction.from;
+        const address = this.transaction.to;
         const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
-        return `보낸 주소 ${addressText}`;
+        return `받는 주소 ${addressText}`;
       }
-      const address = this.transaction.to;
+      const address = this.transaction.from;
       const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
-      return `받는 주소 ${addressText}`;
+      return `보낸 주소 ${addressText}`;
     },
     amount() {
       if (this.transaction.transferType === 'WITHDRAWAL') {
