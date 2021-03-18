@@ -161,7 +161,7 @@ export default {
   },
   methods: {
     async fetchHistories() {
-      const { data: walletHistories } = await this.$http.get('/wallet/histories', { params: { size: 4 } });
+      const { data: walletHistories } = await this.$http.get('/wallet/histories', { params: { size: 5 } });
       this.walletHistories = walletHistories;
     },
     goExchangeHome() {
