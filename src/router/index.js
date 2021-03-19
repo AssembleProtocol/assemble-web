@@ -26,6 +26,8 @@ import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
 import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
 
 import StoreMain from '@/views/Store';
+import StoreProductDetail from '@/views/Store/Product';
+import StoreOrder from '@/views/Store/Order';
 
 Vue.use(VueRouter);
 
@@ -142,7 +144,18 @@ export default function (store, http) {
       path: '/store',
       beforeEnter: checkToken,
       component: StoreMain,
-      children: [],
+    },
+    {
+      path: '/store/products/:productId',
+      name: 'StoreProductDetail',
+      component: StoreProductDetail,
+      props: (route) => ({ productId: route.params.productId }),
+    },
+    {
+      path: '/store/orders/:productId',
+      name: 'StoreOrder',
+      component: StoreOrder,
+      props: (route) => ({ productId: route.params.productId }),
     },
   ];
 
