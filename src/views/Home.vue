@@ -40,6 +40,13 @@
   .list-item-group {
     margin-top: 20px;
   }
+  .list-empty-contents {
+    margin-top: 10px;
+  }
+  .list-empty-paragraph {
+    margin-bottom: 10px;
+    color: rgba(72, 89, 109, .6);
+  }
 </style>
 
 <template lang="pug">
@@ -68,7 +75,7 @@
             list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
       section.section
         h1.section-title 포인트 내역
-        .list-item-group
+        .list-item-group(v-if="histories && (histories.length > 0)")
           small-list-item(
             v-for="history in histories",
             :key="history._id",
@@ -79,12 +86,18 @@
             size="small",
           )
             point-text.partner-item-point(slot="suffix", :type="history.amount > 0 ? 'plus' : 'minus'", :value="Math.abs(history.amount)", size="small")
+        .list-empty-contents(v-else)
+          p.list-empty-paragraph 현재 포인트 내역이 없습니다.
+          small-loading-list-item
+          small-loading-list-item
+          small-loading-list-item
 </template>
 
 <script>
 import PointText from '@/components/PointText';
 import ListItem from '@/components/ListItem';
 import SmallListItem from '@/components/SmallListItem';
+import SmallLoadingListItem from '@/components/SmallLoadingListItem';
 
 const MY_APP_URL_MAP = {
   clubpass: 'https://stage.club-pass.com/ko/me',
@@ -103,6 +116,7 @@ export default {
     PointText,
     ListItem,
     SmallListItem,
+    SmallLoadingListItem,
   },
   data() {
     return {
