@@ -27,16 +27,11 @@
   .contents {
     padding: 0 20px;
   }
-  .invoice-box {
-    margin-top: 20px;
-  }
   .form-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    &:not(:first-child) {
-      margin-top: 20px;
-    }
+    margin-top: 20px;
   }
   .label {
     font-weight: bold;
@@ -46,13 +41,6 @@
   .value {
     font-weight: bold;
     line-height: 32px;
-  }
-  .divider {
-    width: 100%;
-    height: 1px;
-    margin: 20px 0;
-    border: 0;
-    background-color: #C4C4C4;
   }
   .notice-description {
     margin-top: 20px;
@@ -66,24 +54,12 @@
   section.store-order-complete-container
     nav.nav
       button.close-button(@click="goToHome")
-      h1.title 구입이 완료되었습니다!
+      h1.title 재발송 요청이 완료되었습니다.
     .contents
       product-list-item
-      .invoice-box
-        .form-group
-          p.label 받는 번호
-          p.value 01095339662
-        hr.divider
-        .form-group
-          p.label 보유 포인트
-          p.value 4,100 P
-        .form-group
-          p.label 상품 가격
-          p.value - 4,100 P
-        hr.divider
-        .form-group
-          p.label 합계
-          p.value 0 P
+      .form-group
+        p.label 받는 번호
+        p.value 01095339662
       p.notice-description 받는 번호로 곧 티켓이 도착합니다!
 </template>
 

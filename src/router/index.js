@@ -28,6 +28,10 @@ import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResul
 import StoreMain from '@/views/Store';
 import StoreProductDetail from '@/views/Store/Product';
 import StoreOrder from '@/views/Store/Order';
+import StoreOrderComplete from '@/views/Store/OrderComplete';
+import StoreTicket from '@/views/Store/Ticket';
+import StoreResendTicket from '@/views/Store/ResendTicket';
+import StoreResendTicketComplete from '@/views/Store/ResendTicketComplete';
 
 Vue.use(VueRouter);
 
@@ -156,6 +160,28 @@ export default function (store, http) {
       name: 'StoreOrder',
       component: StoreOrder,
       props: (route) => ({ productId: route.params.productId }),
+    },
+    {
+      path: '/store/order-complete/:orderId',
+      name: 'StoreOrderComplete',
+      component: StoreOrderComplete,
+      props: (route) => ({ orderId: route.params.orderId }),
+    },
+    {
+      path: '/store/tickets',
+      name: 'StoreTicket',
+      component: StoreTicket,
+    },
+    {
+      path: '/store/resend-ticket',
+      name: 'StoreResendTicket',
+      component: StoreResendTicket,
+    },
+    {
+      path: '/store/resend-ticket-complete/:ticketId',
+      name: 'StoreResendTicketComplete',
+      component: StoreResendTicketComplete,
+      props: (route) => ({ ticketId: route.params.ticketId }),
     },
   ];
 

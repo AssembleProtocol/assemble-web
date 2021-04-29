@@ -109,7 +109,7 @@
       h1.title
         img(src="~@/assets/store-logo.svg", height="16")
         p.title-text 쇼핑하기
-      button.nav-button.cart
+      button.nav-button.cart(@click="goToTickets")
     ul.tab-list
       li.tab-item.active 패션
       li.tab-item 뷰티
@@ -160,6 +160,11 @@ import ProductCard from './components/ProductCard';
 export default {
   components: {
     ProductCard,
+  },
+  methods: {
+    goToTickets() {
+      this.$router.push('/store/tickets');
+    },
   },
 };
 </script>

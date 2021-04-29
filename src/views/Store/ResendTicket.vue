@@ -25,37 +25,13 @@
     line-height: 26px;
   }
   .contents {
+    display: flex;
+    flex-direction: column;
+    margin: -10px 0;
     padding: 0 20px;
   }
   .phone-number-input {
     margin-top: 20px;
-  }
-  .invoice-box {
-    margin-top: 20px;
-  }
-  .form-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &:not(:first-child) {
-      margin-top: 20px;
-    }
-  }
-  .label {
-    font-weight: bold;
-    line-height: 32px;
-    color: rgba(31, 46, 68, .6);
-  }
-  .value {
-    font-weight: bold;
-    line-height: 32px;
-  }
-  .divider {
-    width: 100%;
-    height: 1px;
-    margin: 20px 0;
-    border: 0;
-    background-color: #C4C4C4;
   }
   .submit-button {
     width: 100%;
@@ -74,54 +50,33 @@
       color: #D6D9E0;
     }
   }
-  .notice-description {
-    margin-top: 20px;
-    font-size: 14px;
-    line-height: 28px;
-    color: rgba(31, 46, 68, .6);
-  }
 </style>
 
 <template lang="pug">
-  section.store-order-container
+  section.store-ticket-resend-container
     nav.nav
       button.back-button(@click="$router.back()")
-      h1.title 포인트로 구입하기
+      h1.title 재발송하기
     .contents
-      product-list-item
       bg-input.phone-number-input(
         type="tel",
         placeholder="티켓을 받을 휴대전화번호 입력",
         v-model="phoneNumber",
-        @input="validPhoneNumber",
+        @input.native="validPhoneNumber",
       )
-      .invoice-box
-        .form-group
-          p.label 보유 포인트
-          p.value 4,100 P
-        .form-group
-          p.label 상품 가격
-          p.value - 4,100 P
-        hr.divider
-        .form-group
-          p.label 합계
-          p.value 0 P
       button.submit-button(
         :class="{ inactive: !phoneNumberValidity }",
         @click="submitOrder",
       ) {{ validityText }}
-      p.notice-description 30일간 유효합니다.
 </template>
 
 <script>
 import Phone from 'phone';
 import BgInput from '@/components/BgInput';
-import ProductListItem from './components/ProductListItem';
 
 export default {
   components: {
     BgInput,
-    ProductListItem,
   },
   computed: {
     validityText() {
@@ -142,8 +97,8 @@ export default {
     },
     submitOrder() {
       if (!this.phoneNumberValidity) return;
-      // TODO: order api 호출
-      this.$router.replace('/store/order-complete/456');
+      // TODO: resend api 호출
+      this.$router.replace('/store/resend-ticket-complete/456');
     },
   },
 };
