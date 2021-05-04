@@ -2,6 +2,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '@/views/Home';
+
+import Setting from '@/views/Setting';
+import SignupToConnecting from '@/views/SignupToConnecting';
+import SigninToConnecting from '@/views/SigninToConnecting';
+import Connecting from '@/views/Connecting';
+import EmailAuthentication from '@/views/EmailAuthentication';
+import Signup from '@/views/Signup';
+import Signin from '@/views/Signin';
+
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
 
@@ -18,13 +27,10 @@ import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResul
 
 import ExchangeCenterTransactions from '@/views/ExchangeCenter/Transactions';
 
-import Setting from '@/views/Setting';
-import SignupToConnecting from '@/views/SignupToConnecting';
-import SigninToConnecting from '@/views/SigninToConnecting';
-import Connecting from '@/views/Connecting';
-import EmailAuthentication from '@/views/EmailAuthentication';
-import Signup from '@/views/Signup';
-import Signin from '@/views/Signin';
+import StoreMain from '@/views/Store';
+import StoreProductDetail from '@/views/Store/Product';
+import StoreOrder from '@/views/Store/Order';
+import StoreOrderComplete from '@/views/Store/OrderComplete';
 
 Vue.use(VueRouter);
 
@@ -48,6 +54,42 @@ export default function (store, http) {
       name: 'Home',
       beforeEnter: checkToken,
       component: Home,
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      beforeEnter: checkToken,
+      component: Setting,
+    },
+    {
+      path: '/signup-to-connecting',
+      name: 'SignupToConnecting',
+      component: SignupToConnecting,
+    },
+    {
+      path: '/signin-to-connecting',
+      name: 'SigninToConnecting',
+      component: SigninToConnecting,
+    },
+    {
+      path: '/connecting',
+      name: 'Connecting',
+      component: Connecting,
+    },
+    {
+      path: '/email-authentication',
+      name: 'EmailAuthentication',
+      component: EmailAuthentication,
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup,
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: Signin,
     },
     {
       path: '/exchange-center',
@@ -107,40 +149,30 @@ export default function (store, http) {
       ],
     },
     {
-      path: '/setting',
-      name: 'Setting',
+      path: '/store',
       beforeEnter: checkToken,
-      component: Setting,
+      component: StoreMain,
     },
     {
-      path: '/signup-to-connecting',
-      name: 'SignupToConnecting',
-      component: SignupToConnecting,
+      path: '/store/products/:productId',
+      name: 'StoreProductDetail',
+      component: StoreProductDetail,
+      props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/signin-to-connecting',
-      name: 'SigninToConnecting',
-      component: SigninToConnecting,
+      path: '/store/orders/:productId',
+      name: 'StoreOrder',
+      component: StoreOrder,
+      props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/connecting',
-      name: 'Connecting',
-      component: Connecting,
-    },
-    {
-      path: '/email-authentication',
-      name: 'EmailAuthentication',
-      component: EmailAuthentication,
-    },
-    {
-      path: '/signup',
-      name: 'Signup',
-      component: Signup,
-    },
-    {
-      path: '/signin',
-      name: 'Signin',
-      component: Signin,
+      path: '/store/order-complete/:orderId',
+      name: 'StoreOrderComplete',
+      component: StoreOrderComplete,
+      props: (route) => ({
+        orderId: route.params.orderId,
+        phoneNumber: route.query.phoneNumber,
+      }),
     },
   ];
 
