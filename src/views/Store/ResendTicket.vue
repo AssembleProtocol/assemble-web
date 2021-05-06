@@ -102,7 +102,10 @@ export default {
     submitOrder() {
       if (!this.phoneNumberValidity) return;
       // TODO: resend api 호출
-      this.$router.replace('/store/resend-ticket-complete/456');
+      this.$router.replace({
+        path: '/store/resend-ticket-complete/456',
+        query: { phoneNumber: this.phoneNumber },
+      });
     },
   },
 };

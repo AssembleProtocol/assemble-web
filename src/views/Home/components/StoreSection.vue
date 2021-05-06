@@ -4,6 +4,7 @@
   }
   .nav {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 0 20px;
     background-color: #fff;
@@ -87,12 +88,12 @@
         간단히 구매할 수 있어요!
       button.notice-close-button(@click="closeNotice")
     ul.tab-list
-      li.tab-item.active 패션
-      li.tab-item 뷰티
-      li.tab-item 리빙
-      li.tab-item 푸드
-      li.tab-item 컬쳐
-      li.tab-item 쇼크
+      li.tab-item(
+        v-for="category in categories",
+        :key="category",
+        :class="{ active: activeCategory === category }",
+        @click="selectCategory(category)",
+      ) {{ category }}
     .contents
       router-link.product-card-wrapper(
         v-for="marketItem in marketItems",
@@ -108,6 +109,8 @@
 <script>
 import ProductCard from './ProductCard';
 
+const DUMMY_CATEGORIES = ['패션', '뷰티', '리빙', '푸드', '컬쳐', '쇼크'];
+
 const DUMMY_MARKET_ITEMS = [
   { _id: '1', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
   { _id: '2', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
@@ -120,12 +123,17 @@ export default {
   },
   data() {
     return {
+      categories: null,
+      activeCategory: '',
       noticeClosed: false,
       marketItems: null,
     };
   },
   mounted() {
     this.noticeClosed = this.$localStorage.get('storeNoticeClosed');
+    // TODO: categories 가져오는 api
+    this.categories = DUMMY_CATEGORIES;
+    [this.activeCategory] = this.categories;
     // TODO: market items 가져오는 api
     this.marketItems = DUMMY_MARKET_ITEMS;
   },
@@ -133,6 +141,9 @@ export default {
     closeNotice() {
       this.noticeClosed = true;
       this.$localStorage.set('storeNoticeClosed', true);
+    },
+    selectCategory(category) {
+      this.activeCategory = category;
     },
   },
 };
