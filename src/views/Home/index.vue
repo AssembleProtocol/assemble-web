@@ -115,7 +115,7 @@ import SmallLoadingListItem from '@/components/SmallLoadingListItem';
 import StoreSection from './components/StoreSection';
 
 const MY_APP_URL_MAP = {
-  clubpass: 'https://stage.club-pass.com/ko/me',
+  clubpass: 'https://club-pass.com/ko/me',
 };
 
 const MY_APP_SUBTITLE_MAP = {
