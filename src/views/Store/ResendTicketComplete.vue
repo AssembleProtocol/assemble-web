@@ -55,49 +55,60 @@
     nav.nav
       button.close-button(@click="goToHome")
       h1.title 재발송 요청이 완료되었습니다.
-    .contents(v-if="ticket")
+    .contents(v-if="purchasedItem")
       product-list-item(
-        :image="ticket.itemImage",
-        :brandName="ticket.itemBrandName",
-        :name="ticket.itemName",
+        :image="purchasedItem.itemImage",
+        :brandName="purchasedItem.itemBrandName",
+        :name="purchasedItem.itemName",
       )
       .form-group
         p.label 받는 번호
-        p.value {{ phoneNumber }}
+        p.value {{ purchasedItem.phoneNumber }}
       p.notice-description 받는 번호로 곧 티켓이 도착합니다!
 </template>
 
 <script>
+import gql from 'graphql-tag';
 import { mapState } from 'vuex';
 import ProductListItem from './components/ProductListItem';
 
-const DUMMY_TICKET = {
-  _id: '1',
-  itemId: '1',
-  itemBrandName: '스타벅스',
-  itemImage: 'https://file2.nocutnews.co.kr/newsroom/image/2018/03/15/20180315163346993745_0_763_677.jpg',
-  itemName: '아이스 아메리카노 Tall',
-  paid: 4100,
-  expire: '2021-05-08T07:51:08.413Z',
-};
-
 export default {
+  props: {
+    purchasedId: {
+      type: String,
+      default: null,
+    },
+  },
   components: {
     ProductListItem,
+  },
+  apollo: {
+    purchasedItem: {
+      query: gql`query ($_id: ID!) {
+        purchasedItem(_id: $_id) {
+          _id
+          userId
+          paid
+          expire
+          itemId
+          itemName
+          itemImage
+          itemBrandName
+          createdAt
+          phoneNumber
+        }
+      }`,
+      variables() {
+        return {
+          _id: this.purchasedId,
+        };
+      },
+    },
   },
   computed: {
     ...mapState({
       phoneNumber: (state) => state.route.query.phoneNumber,
     }),
-  },
-  data() {
-    return {
-      ticket: null,
-    };
-  },
-  mounted() {
-    // TODO: ticket 정보 가져오기 api
-    this.ticket = DUMMY_TICKET;
   },
   methods: {
     goToHome() {

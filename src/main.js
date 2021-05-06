@@ -13,6 +13,7 @@ import VueI18n from 'vue-i18n';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
+import { createProvider } from './vue-apollo';
 
 Vue.config.productionTip = false;
 
@@ -58,5 +59,6 @@ new Vue({
   i18n,
   router: r,
   store,
+  apolloProvider: createProvider(),
   render: (h) => h(App),
 }).$mount('#app');

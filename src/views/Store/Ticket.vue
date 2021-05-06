@@ -62,77 +62,87 @@
       button.back-button(@click="$router.back()")
       h1.title 구입한 티켓들
     .contents
-      .ticket-item(v-for="ticket in tickets", :key="ticket._id")
+      .ticket-item(v-for="purchasedItem in purchasedItems", :key="purchasedItem._id")
         .ticket-item-content
           product-list-item(
-            :image="ticket.itemImage",
-            :brandName="ticket.itemBrandName",
-            :name="ticket.itemName",
+            :image="purchasedItem.itemImage",
+            :brandName="purchasedItem.itemBrandName",
+            :name="purchasedItem.itemName",
           )
-        button.ticket-button.expired(v-if="expiredTicketsMap[ticket._id]") 만료됨
-        button.ticket-button(v-else, @click="goToResending(ticket._id)") 재발송
+        button.ticket-button.expired(v-if="expiredTicketsMap[purchasedItem._id]") 만료됨
+        button.ticket-button(v-else, @click="goToResending(purchasedItem._id)") 재발송
 </template>
 
 <script>
+import gql from 'graphql-tag';
 import moment from 'moment';
 import ProductListItem from './components/ProductListItem';
-
-const DUMMY_TICKETS = [
-  {
-    _id: '1',
-    itemId: '1',
-    itemBrandName: '스타벅스',
-    itemImage: 'https://file2.nocutnews.co.kr/newsroom/image/2018/03/15/20180315163346993745_0_763_677.jpg',
-    itemName: '아이스 아메리카노 Tall',
-    paid: 4100,
-    expire: '2021-05-08T07:51:08.413Z',
-  },
-  {
-    _id: '2',
-    itemId: '2',
-    itemBrandName: '스타벅스',
-    itemImage: 'https://file2.nocutnews.co.kr/newsroom/image/2018/03/15/20180315163346993745_0_763_677.jpg',
-    itemName: '아이스 아메리카노 Tall',
-    paid: 4100,
-    expire: '2021-05-02T07:51:08.413Z',
-  },
-  {
-    _id: '3',
-    itemId: '3',
-    itemBrandName: '스타벅스',
-    itemImage: 'https://file2.nocutnews.co.kr/newsroom/image/2018/03/15/20180315163346993745_0_763_677.jpg',
-    itemName: '아이스 아메리카노 Tall',
-    paid: 4100,
-    expire: '2021-05-08T07:51:08.413Z',
-  },
-];
 
 export default {
   components: {
     ProductListItem,
   },
+  apollo: {
+    purchasedItems: {
+      query: gql`{
+        purchasedItems {
+          _id
+          userId
+          paid
+          expire
+          itemId
+          itemName
+          itemImage
+          itemBrandName
+          createdAt
+          phoneNumber
+        }
+      }`,
+      variables() {
+        return {
+          _id: this.purchasedId,
+        };
+      },
+    },
+  },
   computed: {
     expiredTicketsMap() {
       const map = {};
-      this.tickets.forEach((ticket) => {
+      this.purchasedItems.forEach((purchasedItem) => {
         const now = moment();
-        map[ticket._id] = now.diff(moment(ticket.expire)) > 0;
+        map[purchasedItem._id] = now.diff(moment(purchasedItem.expire)) > 0;
       });
       return map;
     },
   },
-  data() {
-    return {
-      tickets: null,
-    };
-  },
-  mounted() {
-    // TODO: tickets 정보 가져오기 api
-    this.tickets = DUMMY_TICKETS;
-  },
   methods: {
-    goToResending(ticketId) {
-      this.$router.push({ path: '/store/resend-ticket', query: { ticketId } });
+    async goToResending(purchasedItemId) {
+      try {
+        await this.$apollo.mutate({
+          mutation: gql`mutation ($purchasedItemId: ID!) {
+            resendPurchaseMMS(purchasedItemId: $purchasedItemId) {
+              _id
+              userId
+              paid
+              expire
+              itemId
+              itemName
+              itemImage
+              itemBrandName
+              createdAt
+              phoneNumber
+            }
+          }`,
+          variables: {
+            purchasedItemId,
+          },
+        });
+        this.$router.push({
+          path: `/store/resend-ticket-complete/${purchasedItemId}`,
+        });
+      } catch (e) {
+        console.error(e);
+      }
     },
   },
 };

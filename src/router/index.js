@@ -30,7 +30,6 @@ import StoreProductDetail from '@/views/Store/Product';
 import StoreOrder from '@/views/Store/Order';
 import StoreOrderComplete from '@/views/Store/OrderComplete';
 import StoreTicket from '@/views/Store/Ticket';
-import StoreResendTicket from '@/views/Store/ResendTicket';
 import StoreResendTicketComplete from '@/views/Store/ResendTicketComplete';
 
 Vue.use(VueRouter);
@@ -163,10 +162,10 @@ export default function (store, http) {
       props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/store/order-complete/:orderId',
+      path: '/store/order-complete/:purchasedId',
       name: 'StoreOrderComplete',
       component: StoreOrderComplete,
-      props: (route) => ({ orderId: route.params.orderId }),
+      props: (route) => ({ purchasedId: route.params.purchasedId }),
     },
     {
       path: '/store/tickets',
@@ -174,15 +173,10 @@ export default function (store, http) {
       component: StoreTicket,
     },
     {
-      path: '/store/resend-ticket',
-      name: 'StoreResendTicket',
-      component: StoreResendTicket,
-    },
-    {
-      path: '/store/resend-ticket-complete/:ticketId',
+      path: '/store/resend-ticket-complete/:purchasedId',
       name: 'StoreResendTicketComplete',
       component: StoreResendTicketComplete,
-      props: (route) => ({ ticketId: route.params.ticketId }),
+      props: (route) => ({ purchasedId: route.params.purchasedId }),
     },
   ];
 

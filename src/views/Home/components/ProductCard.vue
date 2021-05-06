@@ -10,6 +10,9 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
   .brand-name {
     margin-top: 10px;
@@ -25,6 +28,7 @@
     font-size: 16px;
     font-weight: bold;
     line-height: 29px;
+    letter-spacing: 0.05em;
   }
 </style>
 

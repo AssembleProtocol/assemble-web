@@ -100,6 +100,7 @@
         :to="`/store/products/${marketItem._id}`",
       )
         product-card(
+          :image="marketItem.image",
           :brandName="marketItem.brandName",
           :name="marketItem.name",
           :price="marketItem.price",
@@ -107,15 +108,8 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
 import ProductCard from './ProductCard';
-
-const DUMMY_CATEGORIES = ['패션', '뷰티', '리빙', '푸드', '컬쳐', '쇼크'];
-
-const DUMMY_MARKET_ITEMS = [
-  { _id: '1', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
-  { _id: '2', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
-  { _id: '3', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
-];
 
 export default {
   components: {
@@ -123,19 +117,33 @@ export default {
   },
   data() {
     return {
-      categories: null,
       activeCategory: '',
       noticeClosed: false,
-      marketItems: null,
     };
+  },
+  apollo: {
+    categories: gql`{ categories }`,
+    marketItems: {
+      query: gql`query ($offset: Int!, $category: String!) {
+        marketItems(offset: $offset, limit: 200, category: $category) {
+          _id
+          name
+          brandName
+          image
+          price
+        }
+      }`,
+      variables() {
+        return {
+          offset: 0,
+          limit: 200,
+          category: this.activeCategory,
+        };
+      },
+    },
   },
   mounted() {
     this.noticeClosed = this.$localStorage.get('storeNoticeClosed');
-    // TODO: categories 가져오는 api
-    this.categories = DUMMY_CATEGORIES;
-    [this.activeCategory] = this.categories;
-    // TODO: market items 가져오는 api
-    this.marketItems = DUMMY_MARKET_ITEMS;
   },
   methods: {
     closeNotice() {
