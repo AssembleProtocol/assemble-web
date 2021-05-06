@@ -2,6 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '@/views/Home';
+import PointHistories from '@/views/PointHistories';
+
+import Setting from '@/views/Setting';
+import SignupToConnecting from '@/views/SignupToConnecting';
+import SigninToConnecting from '@/views/SigninToConnecting';
+import Connecting from '@/views/Connecting';
+import EmailAuthentication from '@/views/EmailAuthentication';
+import Signup from '@/views/Signup';
+import Signin from '@/views/Signin';
+
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
 
@@ -17,14 +27,11 @@ import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
 import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
 
 import ExchangeCenterTransactions from '@/views/ExchangeCenter/Transactions';
-
-import Setting from '@/views/Setting';
-import SignupToConnecting from '@/views/SignupToConnecting';
-import SigninToConnecting from '@/views/SigninToConnecting';
-import Connecting from '@/views/Connecting';
-import EmailAuthentication from '@/views/EmailAuthentication';
-import Signup from '@/views/Signup';
-import Signin from '@/views/Signin';
+import StoreProductDetail from '@/views/Store/Product';
+import StoreOrder from '@/views/Store/Order';
+import StoreOrderComplete from '@/views/Store/OrderComplete';
+import StoreTicket from '@/views/Store/Ticket';
+import StoreResendTicketComplete from '@/views/Store/ResendTicketComplete';
 
 Vue.use(VueRouter);
 
@@ -48,6 +55,48 @@ export default function (store, http) {
       name: 'Home',
       beforeEnter: checkToken,
       component: Home,
+    },
+    {
+      path: '/point-histories',
+      name: 'PointHistories',
+      beforeEnter: checkToken,
+      component: PointHistories,
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      beforeEnter: checkToken,
+      component: Setting,
+    },
+    {
+      path: '/signup-to-connecting',
+      name: 'SignupToConnecting',
+      component: SignupToConnecting,
+    },
+    {
+      path: '/signin-to-connecting',
+      name: 'SigninToConnecting',
+      component: SigninToConnecting,
+    },
+    {
+      path: '/connecting',
+      name: 'Connecting',
+      component: Connecting,
+    },
+    {
+      path: '/email-authentication',
+      name: 'EmailAuthentication',
+      component: EmailAuthentication,
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup,
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: Signin,
     },
     {
       path: '/exchange-center',
@@ -107,40 +156,33 @@ export default function (store, http) {
       ],
     },
     {
-      path: '/setting',
-      name: 'Setting',
-      beforeEnter: checkToken,
-      component: Setting,
+      path: '/store/products/:productId',
+      name: 'StoreProductDetail',
+      component: StoreProductDetail,
+      props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/signup-to-connecting',
-      name: 'SignupToConnecting',
-      component: SignupToConnecting,
+      path: '/store/orders/:productId',
+      name: 'StoreOrder',
+      component: StoreOrder,
+      props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/signin-to-connecting',
-      name: 'SigninToConnecting',
-      component: SigninToConnecting,
+      path: '/store/order-complete/:purchasedId',
+      name: 'StoreOrderComplete',
+      component: StoreOrderComplete,
+      props: (route) => ({ purchasedId: route.params.purchasedId }),
     },
     {
-      path: '/connecting',
-      name: 'Connecting',
-      component: Connecting,
+      path: '/store/tickets',
+      name: 'StoreTicket',
+      component: StoreTicket,
     },
     {
-      path: '/email-authentication',
-      name: 'EmailAuthentication',
-      component: EmailAuthentication,
-    },
-    {
-      path: '/signup',
-      name: 'Signup',
-      component: Signup,
-    },
-    {
-      path: '/signin',
-      name: 'Signin',
-      component: Signin,
+      path: '/store/resend-ticket-complete/:purchasedId',
+      name: 'StoreResendTicketComplete',
+      component: StoreResendTicketComplete,
+      props: (route) => ({ purchasedId: route.params.purchasedId }),
     },
   ];
 
@@ -148,5 +190,20 @@ export default function (store, http) {
     mode: 'history',
     base: process.env.BASE_URL,
     routes,
+    // TODO: 200ms page transition
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(savedPosition);
+          }, 200);
+        });
+      }
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ x: 0, y: 0 });
+        }, 200);
+      });
+    },
   });
 }

@@ -37,7 +37,7 @@
     line-height: 55px;
     color: #F7F8FA;
   }
-  .divier {
+  .divider {
     width: 100%;
     height: 1px;
     margin: 20px 0;
@@ -84,7 +84,7 @@
       .form-group
         p.label 지불 포인트
         p.value {{ from }} P
-      hr.divier
+      hr.divider
       .form-group
         p.label 교환 ASM
         p.value {{ to }} ASM

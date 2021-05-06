@@ -47,6 +47,17 @@
     margin-bottom: 10px;
     color: rgba(72, 89, 109, .6);
   }
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .link-button {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 28px;
+    color: #6096FF;
+  }
 </style>
 
 <template lang="pug">
@@ -74,7 +85,9 @@
           )
             list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
       section.section
-        h1.section-title 포인트 내역
+        .section-header
+          h1.section-title 최근 포인트 내역
+          router-link.link-button(to="/point-histories") 모두 보기
         .list-item-group(v-if="histories && (histories.length > 0)")
           small-list-item(
             v-for="history in histories",
@@ -91,6 +104,7 @@
           small-loading-list-item
           small-loading-list-item
           small-loading-list-item
+      store-section
 </template>
 
 <script>
@@ -98,6 +112,7 @@ import PointText from '@/components/PointText';
 import ListItem from '@/components/ListItem';
 import SmallListItem from '@/components/SmallListItem';
 import SmallLoadingListItem from '@/components/SmallLoadingListItem';
+import StoreSection from './components/StoreSection';
 
 const MY_APP_URL_MAP = {
   clubpass: 'https://stage.club-pass.com/ko/me',
@@ -117,6 +132,7 @@ export default {
     ListItem,
     SmallListItem,
     SmallLoadingListItem,
+    StoreSection,
   },
   data() {
     return {
@@ -137,7 +153,7 @@ export default {
     ]);
     const { points } = pointsData;
     this.totalAsp = points;
-    this.histories = histories;
+    this.histories = histories.slice(0, 5);
     this.myApps = myApps.slice(1).map((a) => ({
       ...a,
       url: MY_APP_URL_MAP[a.appId],
