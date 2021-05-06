@@ -2,7 +2,6 @@
   .img-ratio-wrapper {
     position: relative;
     padding-top: 100%;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02));
   }
   .img {
     position: absolute;
@@ -13,6 +12,16 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    z-index: 1;
+  }
+  .img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02));
+    z-index: 2;
   }
   .brand-name {
     margin-top: 10px;
@@ -36,6 +45,7 @@
   .product-card-container
     .img-ratio-wrapper
       .img(:style="{ backgroundImage: image ? `url(${image})`: '' }")
+      .img-overlay
     p.brand-name {{ brandName }}
     p.product-name {{ name }}
     p.product-price {{ price | displayNumber }} P

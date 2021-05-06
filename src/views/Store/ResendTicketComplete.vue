@@ -64,7 +64,7 @@
       .form-group
         p.label 받는 번호
         p.value {{ purchasedItem.phoneNumber }}
-      p.notice-description 받는 번호로 곧 티켓이 도착합니다!
+      p.notice-description 받는 번호로 몇 분 내로 티켓이 도착합니다!
 </template>
 
 <script>

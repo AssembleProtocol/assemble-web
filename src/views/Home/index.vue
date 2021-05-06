@@ -93,7 +93,7 @@
             v-for="history in histories",
             :key="history._id",
             :appId="history.appId",
-            :title="history.appId === 'clubpass' ? '클럽패스' : 'ASM 교환소'",
+            :title="historyAppNamesMap[history._id]",
             :titleSuffix="history.createdAt",
             :subtitle="history.message",
             size="small",
@@ -126,6 +126,12 @@ const MY_APP_NAME_MAP = {
   clubpass: '클럽패스',
 };
 
+const APP_TITLE_MAP = {
+  clubpass: '클럽패스',
+  exchange: 'ASM 교환소',
+  market: 'Assemble 마켓',
+};
+
 export default {
   components: {
     PointText,
@@ -133,6 +139,17 @@ export default {
     SmallListItem,
     SmallLoadingListItem,
     StoreSection,
+  },
+  computed: {
+    historyAppNamesMap() {
+      if (!this.histories) return {};
+      const map = {};
+      this.histories.forEach((history) => {
+        map[history._id] = APP_TITLE_MAP[history.appId];
+      });
+
+      return map;
+    },
   },
   data() {
     return {

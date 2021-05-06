@@ -22,7 +22,6 @@
     position: relative;
     width: 100%;
     padding-top: 100%;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02));
   }
   .product-image {
     position: absolute;
@@ -33,6 +32,16 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    z-index: 1;
+  }
+  .product-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02));
+    z-index: 2;
   }
   .product-brand-name {
     margin-top: 10px;
@@ -100,6 +109,7 @@
     header.header(v-if="marketItem")
       .ratio-product-image-wrapper
         .product-image(:style="{ backgroundImage: marketItem.image ? `url(${marketItem.image})` : '' }")
+        .product-image-overlay
       p.product-brand-name {{ marketItem.brandName }}
       p.product-name {{ marketItem.name }}
       p.product-price {{ marketItem.price | displayNumber }} P

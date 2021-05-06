@@ -20,6 +20,9 @@
     &.clubpass {
       background-image: url(~@/assets/clubpass.png);
     }
+    &.market {
+      background-image: url(~@/assets/market.png);
+    }
   }
   .contents {
     display: flex;
