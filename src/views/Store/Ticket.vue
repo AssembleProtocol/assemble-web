@@ -142,6 +142,7 @@ export default {
         });
       } catch (e) {
         console.error(e);
+        this.$toast('사용되었거나 만료되어 재발송할 수 없는 상태입니다.');
       }
     },
   },
