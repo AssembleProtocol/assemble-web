@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Phone from 'phone';
 import BgInput from '@/components/BgInput';
 
@@ -79,8 +80,11 @@ export default {
     BgInput,
   },
   computed: {
+    ...mapState({
+      ticketId: (state) => state.route.query.ticketId,
+    }),
     validityText() {
-      if (this.phoneNumberValidity) return '구입하기';
+      if (this.phoneNumberValidity) return '요청하기';
       return '유효한 휴대전화번호를 입력하세요';
     },
   },

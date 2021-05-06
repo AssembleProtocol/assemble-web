@@ -94,40 +94,25 @@
       li.tab-item 컬쳐
       li.tab-item 쇼크
     .contents
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
-      router-link.product-card-wrapper(to="/store/products/123")
-        product-card
+      router-link.product-card-wrapper(
+        v-for="marketItem in marketItems",
+        :to="`/store/products/${marketItem._id}`",
+      )
+        product-card(
+          :brandName="marketItem.brandName",
+          :name="marketItem.name",
+          :price="marketItem.price",
+        )
 </template>
 
 <script>
 import ProductCard from './ProductCard';
+
+const DUMMY_MARKET_ITEMS = [
+  { _id: '1', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
+  { _id: '2', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
+  { _id: '3', brandName: 'CU', name: 'CU 모바일 상품권 1천원권', price: 1000 },
+];
 
 export default {
   components: {
@@ -136,10 +121,13 @@ export default {
   data() {
     return {
       noticeClosed: false,
+      marketItems: null,
     };
   },
   mounted() {
     this.noticeClosed = this.$localStorage.get('storeNoticeClosed');
+    // TODO: market items 가져오는 api
+    this.marketItems = DUMMY_MARKET_ITEMS;
   },
   methods: {
     closeNotice() {

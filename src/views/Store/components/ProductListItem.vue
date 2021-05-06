@@ -11,6 +11,8 @@
   .img {
     width: 60px;
     height: 60px;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   .contents {
     flex: 1;
@@ -27,13 +29,18 @@
 <template lang="pug">
   .product-list-item-container
     .img-wrapper
-      .img
+      .img(:style="{ backgroundImage: image ? `url(${image})`: '' }")
     .contents
-      p.brand-name 스타벅스
-      p.name 아이스 아메리카노 Tall
+      p.brand-name {{ brandName }}
+      p.name {{ name }}
 </template>
 
 <script>
 export default {
+  props: {
+    image: { type: String },
+    brandName: { type: String },
+    name: { type: String },
+  },
 };
 </script>

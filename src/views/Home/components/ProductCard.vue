@@ -31,13 +31,24 @@
 <template lang="pug">
   .product-card-container
     .img-ratio-wrapper
-      .img
-    p.brand-name CU
-    p.product-name CU 모바일 상품권 1천원권
-    p.product-price 1,000 P
+      .img(:style="{ backgroundImage: image ? `url(${image})`: '' }")
+    p.brand-name {{ brandName }}
+    p.product-name {{ name }}
+    p.product-price {{ price | displayNumber }} P
 </template>
 
 <script>
 export default {
+  props: {
+    image: { type: String },
+    brandName: { type: String },
+    name: { type: String },
+    price: { type: Number },
+  },
+  filters: {
+    displayNumber(number) {
+      return Number(number).toLocaleString();
+    },
+  },
 };
 </script>
