@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '@/views/Home';
+import PointHistories from '@/views/PointHistories';
 
 import Setting from '@/views/Setting';
 import SignupToConnecting from '@/views/SignupToConnecting';
@@ -25,7 +26,6 @@ import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult'
 import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
 import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
 
-import StoreMain from '@/views/Store';
 import StoreProductDetail from '@/views/Store/Product';
 import StoreOrder from '@/views/Store/Order';
 import StoreOrderComplete from '@/views/Store/OrderComplete';
@@ -55,6 +55,12 @@ export default function (store, http) {
       name: 'Home',
       beforeEnter: checkToken,
       component: Home,
+    },
+    {
+      path: '/point-histories',
+      name: 'PointHistories',
+      beforeEnter: checkToken,
+      component: PointHistories,
     },
     {
       path: '/setting',
@@ -145,11 +151,6 @@ export default function (store, http) {
       ],
     },
     {
-      path: '/store',
-      beforeEnter: checkToken,
-      component: StoreMain,
-    },
-    {
       path: '/store/products/:productId',
       name: 'StoreProductDetail',
       component: StoreProductDetail,
@@ -189,5 +190,20 @@ export default function (store, http) {
     mode: 'history',
     base: process.env.BASE_URL,
     routes,
+    // TODO: 200ms page transition
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(savedPosition);
+          }, 200);
+        });
+      }
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ x: 0, y: 0 });
+        }, 200);
+      });
+    },
   });
 }
