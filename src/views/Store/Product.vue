@@ -122,7 +122,10 @@
         :src="marketItem.descriptionImage",
         width="100%",
       )
-    button.buy-button(@click="order") 구입하기
+    button.buy-button(
+      :class="{ inactive: notEnoughAsp }"
+      @click="order",
+    ) {{ notEnoughAspText }}
 </template>
 
 <script>
@@ -138,6 +141,16 @@ export default {
   filters: {
     displayNumber(number) {
       return Number(number).toLocaleString();
+    },
+  },
+  computed: {
+    notEnoughAsp() {
+      if (Number(this.totalAsp) < Number(this.marketItem.price)) return true;
+      return false;
+    },
+    notEnoughAspText() {
+      if (this.notEnoughAsp) return '포인트가 부족해요';
+      return '구입하기';
     },
   },
   apollo: {
@@ -160,8 +173,19 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      totalAsp: 0,
+    };
+  },
+  async mounted() {
+    const { data: pointsData } = await this.$http.get('/users/me/points');
+    const { points } = pointsData;
+    this.totalAsp = points;
+  },
   methods: {
     order() {
+      if (this.notEnoughAsp) return;
       this.$router.push(`/store/orders/${this.productId}`);
     },
   },

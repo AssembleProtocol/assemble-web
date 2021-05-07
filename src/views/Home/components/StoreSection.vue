@@ -13,7 +13,7 @@
     font-size: 14px;
     font-weight: bold;
     line-height: 28px;
-    color: #6096FF;
+    color: #4886FD;
   }
   .notice {
     display: flex;
