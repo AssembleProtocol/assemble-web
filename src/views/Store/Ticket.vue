@@ -30,6 +30,12 @@
     margin: -10px 0;
     padding: 0 20px;
   }
+  .empty-text {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 28px;
+    color: rgba(72, 89, 109, .6);
+  }
   .ticket-item {
     display: flex;
     align-items: center;
@@ -61,7 +67,9 @@
     nav.nav
       button.back-button(@click="$router.back()")
       h1.title 구입한 티켓들
-    .contents
+    .contents(v-if="isEmpty")
+      p.empty-text 구입한 티켓이 없습니다.
+    .contents(v-else)
       .ticket-item(v-for="purchasedItem in purchasedItems", :key="purchasedItem._id")
         .ticket-item-content
           product-list-item(
@@ -106,6 +114,10 @@ export default {
     },
   },
   computed: {
+    isEmpty() {
+      if (!this.purchasedItems || (this.purchasedItems.length === 0)) return true;
+      return false;
+    },
     expiredTicketsMap() {
       const map = {};
       this.purchasedItems.forEach((purchasedItem) => {

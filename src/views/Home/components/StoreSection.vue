@@ -81,7 +81,7 @@
   section.store-container
     nav.nav
       img(src="~@/assets/store-logo.svg", height="36")
-      router-link.link-button(to="/store/tickets") 구매 내역
+      router-link.link-button(to="/store/tickets") 구입 내역
     .notice(v-if="!noticeClosed")
       .notice-description.
         모든 상품을 가지고 있는 어셈블 포인트로#[br]

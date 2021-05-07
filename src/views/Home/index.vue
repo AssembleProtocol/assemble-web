@@ -40,13 +40,6 @@
   .list-item-group {
     margin-top: 20px;
   }
-  .list-empty-contents {
-    margin-top: 10px;
-  }
-  .list-empty-paragraph {
-    margin-bottom: 10px;
-    color: rgba(72, 89, 109, .6);
-  }
   .section-header {
     display: flex;
     align-items: center;
@@ -84,11 +77,11 @@
             @click="handleLink($event, myApp.url)",
           )
             list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
-      section.section
+      section.section(v-if="histories && (histories.length > 0)")
         .section-header
           h1.section-title 최근 포인트 내역
           router-link.link-button(to="/point-histories") 모두 보기
-        .list-item-group(v-if="histories && (histories.length > 0)")
+        .list-item-group
           small-list-item(
             v-for="history in histories",
             :key="history._id",
@@ -99,11 +92,6 @@
             size="small",
           )
             point-text.partner-item-point(slot="suffix", :type="history.amount > 0 ? 'plus' : 'minus'", :value="Math.abs(history.amount)", size="small")
-        .list-empty-contents(v-else)
-          p.list-empty-paragraph 현재 포인트 내역이 없습니다.
-          small-loading-list-item
-          small-loading-list-item
-          small-loading-list-item
       store-section
 </template>
 
@@ -111,7 +99,6 @@
 import PointText from '@/components/PointText';
 import ListItem from '@/components/ListItem';
 import SmallListItem from '@/components/SmallListItem';
-import SmallLoadingListItem from '@/components/SmallLoadingListItem';
 import StoreSection from './components/StoreSection';
 
 const MY_APP_URL_MAP = {
@@ -137,7 +124,6 @@ export default {
     PointText,
     ListItem,
     SmallListItem,
-    SmallLoadingListItem,
     StoreSection,
   },
   computed: {
