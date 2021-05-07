@@ -41,13 +41,17 @@
     background-size: cover;
   }
   .tab-list {
+    position: sticky;
+    top: 80px;
     display: flex;
     flex-wrap: nowrap;
-    height: 40px;
+    height: 50px;
     margin-top: 20px;
+    padding-bottom: 10px;
     overflow-x: auto;
     overflow-y: hidden;
     background-color: #fff;
+    z-index: 999;
     & > * {
       flex-shrink: 0;
     }
@@ -69,7 +73,7 @@
   .contents {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 5px;
+    margin: -10px 5px 0 5px;
   }
   .product-card-wrapper {
     width: calc((100% - 20px) / 2);
