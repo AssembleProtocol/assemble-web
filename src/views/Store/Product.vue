@@ -86,6 +86,7 @@
   .buy-button {
     position: sticky;
     bottom: 20px;
+    display: block;
     width: calc(100% - 40px);
     height: 55px;
     margin-left: 20px;
