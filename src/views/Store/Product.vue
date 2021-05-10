@@ -106,7 +106,10 @@
 
 <template lang="pug">
   section.store-product-detail-container
-    button.back-button(@click="$router.back()")
+    button.back-button(
+      :style="{ marginTop: `${statusBarHeight}px` }",
+      @click="$router.back()",
+    )
     header.header(v-if="marketItem")
       .ratio-product-image-wrapper
         .product-image(:style="{ backgroundImage: marketItem.image ? `url(${marketItem.image})` : '' }")
@@ -177,9 +180,12 @@ export default {
   data() {
     return {
       totalAsp: 0,
+      statusBarHeight: 0,
     };
   },
   async mounted() {
+    if (window.s3app && window.s3app.statusBarHeight) this.statusBarHeight = window.s3app.statusBarHeight;
+
     const { data: pointsData } = await this.$http.get('/users/me/points');
     const { points } = pointsData;
     this.totalAsp = points;
