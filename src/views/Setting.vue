@@ -6,6 +6,7 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     position: sticky;
     top: 0;
     left: 0;
@@ -20,6 +21,11 @@
     background-image: url('~@/assets/back-button.png');
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .logout-button {
+    font-size: 14px;
+    font-weight: bold;
   }
 
   .link-wrapper {
@@ -67,6 +73,7 @@
   section.setting-wrapper
     .header
       button.back-button(@click="goBack")
+      button.logout-button(@click="logout") 로그아웃
     .link-wrapper
       //- h2.account-management.title 계정 관리하기
         router-link(to="#").change-email.link 이메일 주소 변경하기
@@ -123,6 +130,11 @@ export default {
   methods: {
     goBack() {
       this.$router.back();
+    },
+    logout() {
+      this.$localStorage.remove('token');
+      this.$store.commit('SET_ME', null);
+      this.$router.push('/signin');
     },
     handleLink(e, url) {
       e.preventDefault();
