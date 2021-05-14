@@ -287,7 +287,7 @@ import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 import TransactionItem from './components/TransactionItem';
 
 const WALLET_COST = 30000;
-const POINT_RATIO = 15;
+const POINT_RATIO = 140;
 const FEE = 100;
 
 export default {
