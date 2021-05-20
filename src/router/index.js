@@ -11,6 +11,7 @@ import Connecting from '@/views/Connecting';
 import EmailAuthentication from '@/views/EmailAuthentication';
 import Signup from '@/views/Signup';
 import Signin from '@/views/Signin';
+import ChangePassword from '@/views/ChangePassword';
 
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
@@ -77,6 +78,11 @@ export default function (store, http) {
       path: '/signin-to-connecting',
       name: 'SigninToConnecting',
       component: SigninToConnecting,
+    },
+    {
+      path: '/change-password',
+      name: 'ChangePassword',
+      component: ChangePassword,
     },
     {
       path: '/connecting',
