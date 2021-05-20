@@ -38,7 +38,10 @@
 <template lang="pug">
   .product-list-item-container
     .img-wrapper
-      .img(:style="{ backgroundImage: image ? `url(${image})`: '' }")
+      .img(
+        v-if="showingImage",
+        :style="{ backgroundImage: showingImage ? `url(${showingImage})`: '' }",
+      )
       .img-overlay
     .contents
       p.brand-name {{ brandName }}
@@ -49,8 +52,16 @@
 export default {
   props: {
     image: { type: String },
+    brandIcon: { type: String },
     brandName: { type: String },
     name: { type: String },
+  },
+  computed: {
+    showingImage() {
+      if (this.image) return this.image;
+      if (this.brandIcon) return this.brandIcon;
+      return null;
+    },
   },
 };
 </script>

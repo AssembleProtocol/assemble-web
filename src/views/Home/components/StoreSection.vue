@@ -105,6 +105,7 @@
       )
         product-card(
           :image="marketItem.image",
+          :brandIcon="marketItem.brandIcon",
           :brandName="marketItem.brandName",
           :name="marketItem.name",
           :price="marketItem.price",
@@ -133,6 +134,7 @@ export default {
           _id
           name
           brandName
+          brandIcon
           image
           price
         }

@@ -74,6 +74,7 @@
         .ticket-item-content
           product-list-item(
             :image="purchasedItem.itemImage",
+            :brandIcon="purchasedItem.itemBrandIcon",
             :brandName="purchasedItem.itemBrandName",
             :name="purchasedItem.itemName",
           )
@@ -141,6 +142,7 @@ export default {
               itemName
               itemImage
               itemBrandName
+              itemBrandIcon
               createdAt
               phoneNumber
             }

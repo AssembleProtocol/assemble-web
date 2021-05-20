@@ -44,7 +44,10 @@
 <template lang="pug">
   .product-card-container
     .img-ratio-wrapper
-      .img(:style="{ backgroundImage: image ? `url(${image})`: '' }")
+      .img(
+        v-if="showingImage",
+        :style="{ backgroundImage: showingImage ? `url(${showingImage})`: '' }",
+      )
       .img-overlay
     p.brand-name {{ brandName }}
     p.product-name {{ name }}
@@ -55,6 +58,7 @@
 export default {
   props: {
     image: { type: String },
+    brandIcon: { type: String },
     brandName: { type: String },
     name: { type: String },
     price: { type: Number },
@@ -62,6 +66,13 @@ export default {
   filters: {
     displayNumber(number) {
       return Number(number).toLocaleString();
+    },
+  },
+  computed: {
+    showingImage() {
+      if (this.image) return this.image;
+      if (this.brandIcon) return this.brandIcon;
+      return null;
     },
   },
 };
