@@ -131,19 +131,23 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex';
 
+export default {
+  computed: {
+    ...mapState({
+      me: (state) => state.me,
+    }),
+  },
   data() {
     return {
       form: {
         email: null,
         password: null,
       },
-
       error: false,
     };
   },
-
   methods: {
     async submit() {
       const emailValid = !!this.form.email;
@@ -161,6 +165,13 @@ export default {
       this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
       await this.$store.dispatch('fetchMe');
+      if (!this.me.emailVerified) {
+        this.$router.push({
+          path: '/email-verification',
+          query: { email: this.me.email },
+        });
+        return;
+      }
       this.$router.push('/');
     },
   },

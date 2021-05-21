@@ -8,10 +8,11 @@ import Setting from '@/views/Setting';
 import SignupToConnecting from '@/views/SignupToConnecting';
 import SigninToConnecting from '@/views/SigninToConnecting';
 import Connecting from '@/views/Connecting';
-import EmailAuthentication from '@/views/EmailAuthentication';
+import EmailVerification from '@/views/EmailVerification';
 import Signup from '@/views/Signup';
 import Signin from '@/views/Signin';
 import ChangePassword from '@/views/ChangePassword';
+import ChangeEmail from '@/views/ChangeEmail';
 
 import ExchangeCenter from '@/views/ExchangeCenter';
 import ExchangeCenterMain from '@/views/ExchangeCenter/Main';
@@ -42,6 +43,14 @@ export default function (store, http) {
     if (localStorage.token) {
       try {
         await store.dispatch('fetchMe');
+        if (!store.state.me.emailVerified) {
+          return next({
+            path: '/email-verification',
+            query: {
+              email: store.state.me.email,
+            },
+          });
+        }
       } catch (e) {
         localStorage.removeItem('token');
         http.defaults.headers.common.Authorization = '';
@@ -82,7 +91,14 @@ export default function (store, http) {
     {
       path: '/change-password',
       name: 'ChangePassword',
+      beforeEnter: checkToken,
       component: ChangePassword,
+    },
+    {
+      path: '/change-email',
+      name: 'ChangeEmail',
+      beforeEnter: checkToken,
+      component: ChangeEmail,
     },
     {
       path: '/connecting',
@@ -90,9 +106,9 @@ export default function (store, http) {
       component: Connecting,
     },
     {
-      path: '/email-authentication',
-      name: 'EmailAuthentication',
-      component: EmailAuthentication,
+      path: '/email-verification',
+      name: 'EmailVerification',
+      component: EmailVerification,
     },
     {
       path: '/signup',

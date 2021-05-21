@@ -70,7 +70,8 @@
     .contents
       section.section
         h2.section-title 계정 관리하기
-        router-link(to="/change-password").change-password.link 비밀번호 변경하기
+        router-link(to="/change-email").link 이메일 주소 변경하기
+        router-link(to="/change-password").link 비밀번호 변경하기
       section.section
         h2.section-title 앱 정보
         a.link(

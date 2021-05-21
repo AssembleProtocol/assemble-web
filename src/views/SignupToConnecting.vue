@@ -141,7 +141,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  computed: {
+    ...mapState({
+      me: (state) => state.me,
+    }),
+  },
   data() {
     return {
       appUserName: '',
@@ -178,15 +185,13 @@ export default {
       this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
       await this.$store.dispatch('fetchMe');
-
-      // TODO: 이메일 인증 페이지 일단 제거
-      // this.$router.push({
-      //   path: '/email-authentication',
-      //   query: {
-      //     ...this.$route.query,
-      //     from: 'signup-to-connecting',
-      //   },
-      // });
+      if (!this.me.emailVerified) {
+        this.$router.push({
+          path: '/email-verification',
+          query: { email: this.me.email, from: 'signup-to-connecting' },
+        });
+        return;
+      }
       this.$router.push({
         path: '/connecting',
         query: this.$route.query,
