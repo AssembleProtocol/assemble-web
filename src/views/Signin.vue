@@ -2,7 +2,6 @@
   .signin-wrapper {
     padding: 0 20px;
   }
-
   .header {
     width: 100%;
     height: 80px;
@@ -10,7 +9,6 @@
     justify-content: center;
     align-items: center;
   }
-
   .assemble-logo {
     width: 201px;
     height: 32px;
@@ -18,13 +16,11 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
-
   .form-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
   .form-title {
     max-width: 500px;
     width: 100%;
@@ -34,14 +30,12 @@
     line-height: 160%;
     color: #1F2E44;
   }
-
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
-
   input {
     margin-top: 20px;
     padding-left: 10px;
@@ -62,13 +56,11 @@
       line-height: 55px;
       color: #C5CAD0;
     }
-
     &:focus {
       outline: none !important;
       border:1px solid #1D6AFE;
     }
   }
-
   .info {
     margin-top: 20px;
     max-width: 500px;
@@ -78,7 +70,6 @@
     opacity: 0.6;
     color: #48596D;
   }
-
   .login {
     display: flex;
     justify-content: center;
@@ -94,7 +85,6 @@
     color: #F7F8FA;
     background-color: #1D6AFE;
   }
-
   .error-message {
     margin-top: 5px;
     font-weight: bold;
@@ -102,11 +92,7 @@
     line-height: 200%;
     color: #FF134C;
   }
-
-  .join {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .link-button {
     margin-top: 20px;
     font-weight: bold;
     font-size: 14px;
@@ -127,7 +113,8 @@
         input.password(placeholder="비밀번호", type="password", v-model="form.password")
         button.login(type="submit") 로그인
         p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
-      router-link.join(to="/signup") 회원가입
+      router-link.link-button(to="/request-reset-password") 비밀번호를 잊으셨나요?
+      router-link.link-button(to="/signup") 회원이 아니신가요?
 </template>
 
 <script>
