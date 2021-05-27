@@ -151,7 +151,7 @@ export default {
       { data: myApps },
     ] = await Promise.all([
       this.$http.get('/users/me/points'),
-      this.$http.get('/users/me/point-histories'),
+      this.$http.get('/users/me/point-histories', { params: { offset: 0, limit: 5 } }),
       this.$http.get('/my-apps'),
     ]);
     const { points } = pointsData;

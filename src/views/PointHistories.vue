@@ -33,14 +33,17 @@
 </style>
 
 <template lang="pug">
-  section.point-histories-container
+  section.point-histories-container(
+    v-infinite-scroll="fetchNextHistories",
+    :infinite-scroll-immediate-check="false",
+  )
     nav.nav
       button.back-button(@click="$router.back()")
       h1.title 포인트 내역
     .contents
       .list-item-group
         small-list-item(
-          v-for="history in histories",
+          v-for="(history, index) in histories",
           :key="history._id",
           :appId="history.appId",
           :title="historyAppNamesMap[history._id]",
@@ -61,6 +64,8 @@ const APP_TITLE_MAP = {
   market: 'Assemble 마켓',
 };
 
+const LIMIT = 20;
+
 export default {
   components: {
     SmallListItem,
@@ -80,11 +85,50 @@ export default {
   data() {
     return {
       histories: null,
+      initLoading: false,
+      fetchLoading: false,
+      offset: 0,
+      hasMore: false,
     };
   },
-  async mounted() {
-    const { data: histories } = await this.$http.get('/users/me/point-histories');
-    this.histories = histories;
+  mounted() {
+    this.initHistories();
+  },
+  methods: {
+    async initHistories() {
+      console.log('initHistories');
+      if (this.initLoading) return;
+      this.initLoading = true;
+      try {
+        const { data: histories } = await this.$http.get('/users/me/point-histories', { params: { offset: 0, limit: LIMIT } });
+        this.histories = histories;
+
+        if (this.histories.length === LIMIT) this.hasMore = true;
+        else this.hasMore = false;
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      } finally {
+        this.initLoading = false;
+      }
+    },
+    async fetchNextHistories() {
+      if (this.fetchLoading || !this.hasMore) return;
+      this.fetchLoading = true;
+      try {
+        this.offset += LIMIT;
+        const { data: histories } = await this.$http.get('/users/me/point-histories', { params: { offset: this.offset, limit: LIMIT } });
+        histories.forEach((history) => this.histories.push(history));
+
+        if (histories.length === LIMIT) this.hasMore = true;
+        else this.hasMore = false;
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      } finally {
+        this.fetchLoading = false;
+      }
+    },
   },
 };
 </script>
