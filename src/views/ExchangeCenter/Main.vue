@@ -123,6 +123,10 @@
     line-height: 28px;
     color: #6096FF;
   }
+  .point-ratio-text {
+    font-size: 14px;
+    color: #FFC42C;
+  }
   .exchange-form-group {
     margin-top: 20px;
   }
@@ -251,6 +255,7 @@
       section.section.excahnge
         nav.section-nav
           h2.section-title 포인트 → ASM
+          p.point-ratio-text {{ POINT_RATIO }}P / ASM
         .exchange-form-group
           .exchange-input-box
             asm-input(:fontSize="24", :value="from", @input="calcTo")
@@ -287,7 +292,7 @@ import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 import TransactionItem from './components/TransactionItem';
 
 const WALLET_COST = 30000;
-const POINT_RATIO = 140;
+const POINT_RATIO = 60;
 const FEE = 100;
 
 export default {
@@ -339,6 +344,7 @@ export default {
       from: null,
       to: null,
       errorMessage: null,
+      POINT_RATIO,
     };
   },
   mounted() {
