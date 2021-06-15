@@ -47,6 +47,8 @@ r.afterEach((to, from) => {
   }
 });
 
+window.assembleRouter = r;
+
 Vue.prototype.$history = {
   canGoBack: () => canGoBack,
 };

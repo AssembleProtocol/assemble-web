@@ -79,10 +79,10 @@
 
 <template lang="pug">
   section.exchange-center-container
-    nav.nav
+    nav.nav(v-if="!initLoading")
       button.nav-button.close(v-if="navCloseVisible", @click="goExchangeHome")
       button.nav-button.back(v-else, @click="goBack")
-      .nav-right(v-if="walletAvailable && navPointVisible")
+      .nav-right(v-if="navPointVisible")
         .nav-point-box
           i.nav-point-icon.asp
           p.nav-point-text.asp {{ asp | displayNumber }}
@@ -94,12 +94,9 @@
         router-view(
           :key="routeName",
           :initLoading="initLoading",
-          :hasWallet="hasWallet",
-          :walletAvailable="walletAvailable",
           :wallet="wallet",
           :asp="asp",
           :walletHistories="walletHistories",
-          @createWallet="createWallet",
           @showNavPoint="showNavPoint",
           @hideNavPoint="hideNavPoint",
           @showNavClose="showNavClose",
@@ -111,9 +108,6 @@
 <script>
 import { mapState } from 'vuex';
 
-const FETCH_TIME = 1000 * 60;
-let timer;
-
 export default {
   filters: {
     displayNumber(number) {
@@ -124,15 +118,6 @@ export default {
     ...mapState({
       routeName: (state) => state.route.name,
     }),
-    hasWallet() {
-      if (this.wallet) return true;
-      return false;
-    },
-    walletAvailable() {
-      if (!this.hasWallet) return false;
-      if (this.wallet.available) return true;
-      return false;
-    },
   },
   data() {
     return {
@@ -142,7 +127,6 @@ export default {
       loading: false,
       wallet: null,
       asp: 0,
-      walletCreatingLoading: false,
       walletHistories: null,
     };
   },
@@ -151,13 +135,11 @@ export default {
     document.getElementById('app').classList.add('dark');
     this.initAsp();
     await this.fetchWallet();
-    if (this.wallet && (this.wallet.available === false)) timer = setInterval(this.fetchWallet, FETCH_TIME);
-    if (this.wallet && this.wallet.available) await this.fetchHistories();
+    await this.fetchHistories();
   },
   destroyed() {
     document.body.classList.remove('dark');
     document.getElementById('app').classList.remove('dark');
-    clearInterval(timer);
   },
   methods: {
     async fetchHistories() {
@@ -174,35 +156,18 @@ export default {
       else if (window.s3app) window.close();
       else this.$router.push('/');
     },
-    async createWallet() {
-      if (this.hasWallet) return;
-      if (this.walletCreatingLoading) return;
-      this.wallet = { available: false };
-      try {
-        this.walletCreatingLoading = true;
-        await this.$http.post('/wallet');
-        await this.fetchWallet();
-        timer = setInterval(this.fetchWallet, FETCH_TIME);
-      } catch (e) {
-        if (!e.response || !e.response.data) return;
-        this.$toast(e.response.data.message);
-      } finally {
-        this.walletCreatingLoading = false;
-      }
-    },
     async initWallet() {
       const { data: wallet } = await this.$http.get('/wallet');
       this.wallet = wallet;
       this.initAsp();
     },
     async fetchWallet() {
-      if (this.loading || this.walletAvailable) return;
+      if (this.loading) return;
       try {
         this.loading = true;
         const { data: wallet } = await this.$http.get('/wallet');
         this.wallet = wallet;
         this.initAsp();
-        if (timer) clearInterval(timer);
       } finally {
         this.loading = false;
         this.initLoading = false;

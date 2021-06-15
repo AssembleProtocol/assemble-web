@@ -39,45 +39,6 @@
   .point-box-text {
     margin-top: 10px;
   }
-  .wallet-loading-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  .wallet-loading {
-    background-color: #314662;
-    border: 4px solid #2E75FF;
-    width: 30px;
-    height: 30px;
-    top: 30px;
-    left: 30px;
-    animation: loading 2s infinite ease-in-out;
-  }
-  @keyframes loading {
-    0% {
-      border-radius: 0;
-      transform: rotate(0deg);
-    }
-
-    50% {
-      border-radius: 50%;
-      border-width: 6px;
-    }
-
-    100% {
-      border-radius: 0;
-      transform: rotate(720deg);
-    }
-  }
-  .wallet-loading-text {
-    margin-top: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 28px;
-    color: #F7F8FA;
-  }
   .point-box-nav-right {
     display: flex;
     align-items: center;
@@ -95,22 +56,6 @@
     }
     &.send { background-image: url(~@/assets/send.svg); }
     &.receive { background-image: url(~@/assets/receive.svg); }
-  }
-  .point-box-nav-text-button {
-    height: 32px;
-    line-height: 32px;
-    border-radius: 12px;
-    padding: 0 10px;
-    background-color: #314662;
-    color: #6096FF;
-    font-weight: bold;
-  }
-  .wallet-description {
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 28px;
-    color: #F7F8FA;
   }
   .section-nav {
     display: flex;
@@ -223,26 +168,14 @@
           어셈블 포인트와 ASM은 서로 교환할 수 있어요.#[br]
           ASM으로 교환하면, 사람들과 안전하게 주고받거나,#[br]
           암호화폐 거래소에서 거래할 수 있어요.
-        .point-box(v-if="hasWallet && walletAvailable")
+        .point-box
           nav.point-box-nav
             strong.point-box-title 보유 ASM
             .point-box-nav-right
               button.point-box-nav-button.send(@click="goToSendAsm")
               button.point-box-nav-button.receive(@click="showReceivingAsm")
           point-text.point-box-text(:value="wallet.balance", pointType="asm")
-        .point-box(v-else-if="hasWallet && !walletAvailable")
-          nav.point-box-nav
-            strong.point-box-title 내 교환소 지갑
-          .wallet-loading-wrapper
-            .wallet-loading
-            p.wallet-loading-text 만드는 중
-        .point-box(v-else)
-          nav.point-box-nav
-            strong.point-box-title 내 교환소 지갑
-            .point-box-nav-right
-              button.point-box-nav-text-button(@click="goToCreateWallet") 만들기
-          p.wallet-description 교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.
-      section.section(v-if="hasWallet && walletAvailable")
+      section.section
         nav.section-nav
           h2.section-title 트랜잭션
           router-link.link-button(to="/exchange-center/transactions") 모두 보기
@@ -268,7 +201,7 @@
               i.exchange-input-icon.asm(slot="prefix")
           button.bg-button.exchange-button(:class="{ disabled: notEnoughAsp }", @click="goToExchange") {{ displayExchangeText }}
           p.error-message(v-if="errorMessage") {{ errorMessage }}
-      section.section.shortcut(v-if="hasWallet && walletAvailable")
+      section.section.shortcut
         nav.section-nav
           h2.section-title 바로가기
         .shortcut-button-group
@@ -291,7 +224,6 @@ import AsmInput from '@/components/AsmInput';
 import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 import TransactionItem from './components/TransactionItem';
 
-const WALLET_COST = 30000;
 const POINT_RATIO = 60;
 const FEE = 100;
 
@@ -304,8 +236,6 @@ export default {
   },
   props: {
     initLoading: { type: Boolean },
-    hasWallet: { type: Boolean },
-    walletAvailable: { type: Boolean },
     wallet: { type: Object, default: null },
     asp: { type: [Number, String], default: null },
     walletHistories: { type: Array, default: () => [] },
@@ -354,14 +284,6 @@ export default {
     this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
   },
   methods: {
-    goToCreateWallet() {
-      if (this.hasWallet) return;
-      if (this.asp < WALLET_COST) {
-        this.$toast('지갑을 생성하는데 30,000P가 필요합니다.');
-        return;
-      }
-      this.$router.push('/exchange-center/new-wallet');
-    },
     calcTo(value) {
       if (value) this.from = Number(value);
       this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
