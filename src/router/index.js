@@ -56,6 +56,7 @@ export default function (store, http) {
       } catch (e) {
         localStorage.removeItem('token');
         http.defaults.headers.common.Authorization = '';
+        return next('/signin');
       }
     } else return next('/signin');
     return next();
