@@ -255,7 +255,7 @@
       section.section.excahnge
         nav.section-nav
           h2.section-title 포인트 → ASM
-          p.point-ratio-text {{ POINT_RATIO }}P / ASM
+          p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
         .exchange-form-group
           .exchange-input-box
             asm-input(:fontSize="24", :value="from", @input="calcTo")
@@ -292,7 +292,6 @@ import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 import TransactionItem from './components/TransactionItem';
 
 const WALLET_COST = 30000;
-const POINT_RATIO = 50;
 const FEE = 100;
 
 export default {
@@ -313,7 +312,7 @@ export default {
   watch: {
     asp(v) {
       this.from = Number(v);
-      this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
+      this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
     },
     notEnoughAsp(v) {
       if (v) this.errorMessage = '교환에는 최소 1100P가 필요합니다.';
@@ -344,14 +343,17 @@ export default {
       from: null,
       to: null,
       errorMessage: null,
-      POINT_RATIO,
+      POINT_RATIO: null,
     };
   },
-  mounted() {
+  async mounted() {
+    const { data } = await this.$http.get('/config/asm-price');
+    const { price } = data;
+    this.POINT_RATIO = price;
     const from = Number(this.asp - FEE);
     if (from > 0) this.from = from;
     else this.from = 0;
-    this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
+    this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
   },
   methods: {
     goToCreateWallet() {
@@ -364,7 +366,7 @@ export default {
     },
     calcTo(value) {
       if (value) this.from = Number(value);
-      this.to = parseFloat((this.from / POINT_RATIO).toFixed(4));
+      this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
     },
     inputAllFrom() {
       const from = Number(this.asp - FEE);
