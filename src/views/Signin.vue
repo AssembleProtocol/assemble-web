@@ -144,22 +144,30 @@ export default {
         this.error = true;
         return;
       }
-      const accessToken = await this.$store.dispatch('login', {
-        email: this.form.email,
-        password: this.form.password,
-      });
-      this.$localStorage.set('token', `${accessToken}`);
-      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-      await this.$store.dispatch('fetchMe');
-      if (!this.me.emailVerified) {
-        this.$router.push({
-          path: '/email-verification',
-          query: { email: this.me.email },
+      try {
+        const accessToken = await this.$store.dispatch('login', {
+          email: this.form.email,
+          password: this.form.password,
         });
-        return;
+        this.$localStorage.set('token', `${accessToken}`);
+        this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+        await this.$store.dispatch('fetchMe');
+        if (!this.me.emailVerified) {
+          this.$router.push({
+            path: '/email-verification',
+            query: { email: this.me.email },
+          });
+          return;
+        }
+        this.$router.push('/');
+      } catch (e) {
+        if (!e.response || !e.response.data) {
+          this.$toast('이메일 또는 비밀번호를 확인해주세요.');
+          return;
+        }
+        this.$toast(e.response.data.message);
       }
-      this.$router.push('/');
     },
   },
 
