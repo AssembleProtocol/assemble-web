@@ -294,6 +294,8 @@ import TransactionItem from './components/TransactionItem';
 const WALLET_COST = 30000;
 const FEE = 100;
 
+let timer;
+
 export default {
   components: {
     PointText,
@@ -347,15 +349,22 @@ export default {
     };
   },
   async mounted() {
-    const { data } = await this.$http.get('/config/asm-price');
-    const { price } = data;
-    this.POINT_RATIO = price;
+    await this.fetchASMPrice();
+    timer = setInterval(() => this.fetchASMPrice(), 1000 * 60);
     const from = Number(this.asp - FEE);
     if (from > 0) this.from = from;
     else this.from = 0;
     this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
   },
+  destroyed() {
+    clearInterval(timer);
+  },
   methods: {
+    async fetchASMPrice() {
+      const { data } = await this.$http.get('/config/asm-price');
+      const { price } = data;
+      this.POINT_RATIO = price;
+    },
     goToCreateWallet() {
       if (this.hasWallet) return;
       if (this.asp < WALLET_COST) {
