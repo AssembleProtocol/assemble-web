@@ -14,6 +14,10 @@
     font-size: 24px;
     line-height: 38px;
   }
+  .point-ratio-text {
+    font-size: 14px;
+    color: #FFC42C;
+  }
   .contents {
     margin-top: 20px;
     padding: 0 20px;
@@ -65,6 +69,7 @@
   section.exchange-center-send-container
     header.header
       h1.header-title 포인트 → ASM
+      p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
     .contents
       asm-input.input-wrapper(:value="displayExchangeText", readonly)
       asm-input.input-wrapper(v-model="address", placeholder="받는 주소")
@@ -83,7 +88,8 @@
 import { mapState } from 'vuex';
 import AsmInput from '@/components/AsmInput';
 
-let timer;
+let qrScannerTimer;
+let fetchASMPriceTimer;
 
 export default {
   components: {
@@ -94,7 +100,6 @@ export default {
   },
   computed: {
     ...mapState({
-      to: (state) => state.route.query.to,
       from: (state) => state.route.query.from,
       me: (state) => state.me,
     }),
@@ -110,22 +115,35 @@ export default {
     return {
       address: '',
       hasQrScanner: false,
+      to: null,
+      POINT_RATIO: null,
     };
   },
-  mounted() {
+  async mounted() {
+    await this.fetchASMPrice();
+    fetchASMPriceTimer = setInterval(() => this.fetchASMPrice(), 1000 * 5);
     if (window.s3app) this.hasQrScanner = true;
   },
+  destroyed() {
+    clearInterval(fetchASMPriceTimer);
+  },
   methods: {
+    async fetchASMPrice() {
+      const { data } = await this.$http.get('/config/asm-price');
+      const { price } = data;
+      this.POINT_RATIO = price;
+      this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
+    },
     openQrScanner() {
       if (window.s3app) {
         window.s3app.scannedAddress = '';
         window.s3app.openQrScanner();
-        timer = setInterval(() => {
+        qrScannerTimer = setInterval(() => {
           if (window.s3app.scannedAddress) {
             const splitted = window.s3app.scannedAddress.split('ethereum:');
             if (splitted.length === 2) [, this.address] = splitted;
             else this.address = window.s3app.scannedAddress;
-            clearInterval(timer);
+            clearInterval(qrScannerTimer);
           }
         }, 100);
       }

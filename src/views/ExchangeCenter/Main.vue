@@ -364,6 +364,7 @@ export default {
       const { data } = await this.$http.get('/config/asm-price');
       const { price } = data;
       this.POINT_RATIO = price;
+      this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
     },
     goToCreateWallet() {
       if (this.hasWallet) return;
