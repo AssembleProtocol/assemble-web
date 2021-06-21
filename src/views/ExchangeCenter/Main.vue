@@ -267,7 +267,7 @@
             asm-input(:fontSize="24", :value="to", :readonly="true")
               i.exchange-input-icon.asm(slot="prefix")
           button.bg-button.exchange-button(:class="{ disabled: notEnoughAsp }", @click="goToExchange") {{ displayExchangeText }}
-          p.error-message(v-if="errorMessage") {{ errorMessage }}
+          p.error-message(v-if="notEnoughAsp") {{ notEnoughAsp }}
       section.section.shortcut(v-if="hasWallet && walletAvailable")
         nav.section-nav
           h2.section-title 바로가기
@@ -292,6 +292,7 @@ import ReceivingAsmActionSheet from './components/ReceivingAsmActionSheet';
 import TransactionItem from './components/TransactionItem';
 
 const WALLET_COST = 30000;
+const MINIMUM = 1000;
 const FEE = 100;
 
 let timer;
@@ -316,22 +317,18 @@ export default {
       this.from = Number(v);
       this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
     },
-    notEnoughAsp(v) {
-      if (v) this.errorMessage = '교환에는 최소 1100P가 필요합니다.';
-      else this.errorMessage = null;
-    },
   },
   computed: {
     ...mapState({
       me: (state) => state.me,
     }),
     notEnoughAsp() {
-      if (this.asp < 1100) return true;
-      if (this.from < 1100) return true;
-      return false;
+      if (this.asp - this.from < 0) return '잔여 포인트 부족';
+      if (this.asp - this.from < FEE) return `교환 수수료 ${FEE}P 부족`;
+      if (this.from < MINIMUM) return `최소 ${MINIMUM}P 필요`;
+      return null;
     },
     displayExchangeText() {
-      if (this.notEnoughAsp) return '잔여 포인트 부족으로 교환 불가';
       return `${this.from || 0} P를 ${this.to || 0} ASM 로 교환`;
     },
     myWalletAddress() {
@@ -344,7 +341,6 @@ export default {
       receivingAsmVisible: false,
       from: null,
       to: null,
-      errorMessage: null,
       POINT_RATIO: null,
     };
   },
@@ -386,10 +382,7 @@ export default {
     },
     goToExchange() {
       if (this.notEnoughAsp) return;
-      if (!this.from) {
-        this.errorMessage = '잔액이 부족합니다';
-        return;
-      }
+      if (!this.from) return;
       this.$router.push({
         path: '/exchange-center/exchange',
         query: {

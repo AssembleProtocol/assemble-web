@@ -88,7 +88,7 @@
       .form-group
         p.label 교환 ASM
         p.value {{ to }} ASM
-      p.description 교환받은 ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
+      p.description {{ price }}P/ASM로 교환되었습니다. 교환받은 ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
       button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
 </template>
 
@@ -101,6 +101,7 @@ export default {
       address: (state) => state.route.query.address,
       from: (state) => state.route.query.from,
       to: (state) => state.route.query.to,
+      price: (state) => state.route.query.price,
     }),
     displayAddress() {
       if (!this.address) return '';

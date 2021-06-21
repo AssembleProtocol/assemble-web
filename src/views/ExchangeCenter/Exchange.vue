@@ -81,7 +81,7 @@
       .link-button-wrapper
         button.link-button(@click="inputMyAddress") 내 교환소 지갑 주소 입력하기
       button.next-button(@click="goToNext") 다음
-      p.description 받는 주소에는 ASM을 받을 본인 또는 상대방의 암호화폐 거래소에서 발급 받은 주소 또는 이더리움 지갑의 주소를 입력하세요. 교환에는 100 포인트의 수수료가 추가로 소요됩니다.
+      p.description 최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다. 받는 주소에는 ASM을 받을 본인 또는 상대방의 암호화폐 거래소에서 발급 받은 주소 또는 이더리움 지갑의 주소를 입력하세요. 교환에는 100 포인트의 수수료가 추가로 소요됩니다.
 </template>
 
 <script>

@@ -65,6 +65,12 @@
     line-height: 28px;
     font-weight: bold;
   }
+  .description {
+    margin-top: 20px;
+    color: rgba(214, 218, 224, 0.6);
+    font-size: 14px;
+    line-height: 28px;
+  }
 </style>
 
 <template lang="pug">
@@ -86,17 +92,19 @@
         p.label 교환 ASM
         p.value {{ to }} ASM
       button.submit-button(@click="goToExchangeResult") 교환하기
+      p.description 최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다.
 </template>
 
 <script>
 import { mapState } from 'vuex';
+
+let fetchASMPriceTimer;
 
 export default {
   computed: {
     ...mapState({
       address: (state) => state.route.query.address,
       from: (state) => state.route.query.from,
-      to: (state) => state.route.query.to,
     }),
     displayAddress() {
       if (!this.address) return '';
@@ -106,25 +114,33 @@ export default {
   data() {
     return {
       loading: false,
+      to: null,
+      POINT_RATIO: null,
     };
   },
-  mounted() {
-    this.$emit('showNavClose');
-    this.$emit('hideNavPoint');
+  async mounted() {
+    await this.fetchASMPrice();
+    fetchASMPriceTimer = setInterval(() => this.fetchASMPrice(), 1000 * 5);
   },
   destroyed() {
-    this.$emit('hideNavClose');
-    this.$emit('showNavPoint');
+    clearInterval(fetchASMPriceTimer);
   },
   methods: {
+    async fetchASMPrice() {
+      const { data } = await this.$http.get('/config/asm-price');
+      const { price } = data;
+      this.POINT_RATIO = price;
+      this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
+    },
     async goToExchangeResult() {
       if (this.loading) return;
       try {
         this.loading = true;
-        await this.$http.post('/wallet/exchange/point-to-asm', { to: this.address, point: Number(this.from) });
+        const { data } = await this.$http.post('/wallet/exchange/point-to-asm', { to: this.address, point: Number(this.from) });
+        const { address, point, asm, price } = data;
         this.$router.push({
           path: '/exchange-center/exchange-result',
-          query: { address: this.address, from: this.from, to: this.to },
+          query: { address, from: point, to: asm, price },
         });
       } catch (e) {
         if (!e.response || !e.response.data) return;
