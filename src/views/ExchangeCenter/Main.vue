@@ -350,7 +350,7 @@ export default {
   },
   async mounted() {
     await this.fetchASMPrice();
-    timer = setInterval(() => this.fetchASMPrice(), 1000 * 60);
+    timer = setInterval(() => this.fetchASMPrice(), 1000 * 5);
     const from = Number(this.asp - FEE);
     if (from > 0) this.from = from;
     else this.from = 0;
