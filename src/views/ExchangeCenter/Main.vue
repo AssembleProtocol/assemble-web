@@ -323,6 +323,7 @@ export default {
       me: (state) => state.me,
     }),
     notEnoughAsp() {
+      if (this.asp < MINIMUM) return `최소 ${MINIMUM}P 필요`;
       if (this.asp - this.from < 0) return '잔여 포인트 부족';
       if (this.asp - this.from < FEE) return `교환 수수료 ${FEE}P 부족`;
       if (this.from < MINIMUM) return `최소 ${MINIMUM}P 필요`;
