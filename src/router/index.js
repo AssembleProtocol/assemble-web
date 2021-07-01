@@ -194,12 +194,14 @@ export default function (store, http) {
       path: '/store/products/:productId',
       name: 'StoreProductDetail',
       component: StoreProductDetail,
+      beforeEnter: checkToken,
       props: (route) => ({ productId: route.params.productId }),
     },
     {
       path: '/store/orders/:productId',
       name: 'StoreOrder',
       component: StoreOrder,
+      beforeEnter: checkToken,
       props: (route) => ({ productId: route.params.productId }),
     },
     {
@@ -211,12 +213,14 @@ export default function (store, http) {
     {
       path: '/store/tickets',
       name: 'StoreTicket',
+      beforeEnter: checkToken,
       component: StoreTicket,
     },
     {
       path: '/store/resend-ticket-complete/:purchasedId',
       name: 'StoreResendTicketComplete',
       component: StoreResendTicketComplete,
+      beforeEnter: checkToken,
       props: (route) => ({ purchasedId: route.params.purchasedId }),
     },
   ];
