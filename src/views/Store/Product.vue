@@ -149,6 +149,7 @@ export default {
   },
   computed: {
     notEnoughAsp() {
+      if (!this.marketItem) return true;
       if (Number(this.totalAsp) < Number(this.marketItem.price)) return true;
       return false;
     },
