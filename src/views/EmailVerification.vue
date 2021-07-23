@@ -111,7 +111,7 @@
       form.form(@submit.prevent="submit")
         p.info-description 포인트와 ASM을 안전하게 보관하고, 사용하려면 계정 이메일에 대한 인증이 필요합니다. 메일함을 확인해 인증코드를 확인하고 입력해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요. 인증이 완료될 때까지 이 창을 닫지 마세요.
         input.input(placeholder="이메일", type="email", :value="email", disabled)
-        input.input(v-if="verificationToken", placeholder="인증코드", v-model="pinCode")
+        input.input(v-if="verificationToken", placeholder="인증코드", type="number" v-model="pinCode")
       button.submit-button(v-if="!verificationToken", @click="send") 인증코드 발송
       button.submit-button(v-else, @click="submit") 인증하기
       button.resend(@click="send") 인증코드 재발송

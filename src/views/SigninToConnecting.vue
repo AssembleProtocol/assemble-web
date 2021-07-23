@@ -171,26 +171,31 @@ export default {
         this.error = true;
         return;
       }
-      const accessToken = await this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password,
-      });
-      this.$localStorage.set('token', `${accessToken}`);
-      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-      await this.$store.dispatch('fetchMe');
-      if (!this.me.emailVerified) {
-        this.$router.push({
-          path: '/email-verification',
-          query: { email: this.me.email, from: 'signin-to-connecting' },
+      try {
+        const accessToken = await this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password,
         });
-        return;
-      }
+        this.$localStorage.set('token', `${accessToken}`);
+        this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
-      this.$router.push({
-        path: '/connecting',
-        query: this.$route.query,
-      });
+        await this.$store.dispatch('fetchMe');
+        if (!this.me.emailVerified) {
+          this.$router.push({
+            path: '/email-verification',
+            query: { email: this.me.email, from: 'signin-to-connecting' },
+          });
+          return;
+        }
+
+        this.$router.push({
+          path: '/connecting',
+          query: this.$route.query,
+        });
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      }
     },
   },
 };

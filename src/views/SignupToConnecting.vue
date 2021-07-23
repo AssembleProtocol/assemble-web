@@ -171,31 +171,35 @@ export default {
         this.error = true;
         return;
       }
-      await this.$http.post('/users', {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      });
 
-      const accessToken = await this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password,
-      });
-      this.$localStorage.set('token', `${accessToken}`);
-      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-      await this.$store.dispatch('fetchMe');
-      if (!this.me.emailVerified) {
-        this.$router.push({
-          path: '/email-verification',
-          query: { email: this.me.email, from: 'signup-to-connecting' },
+      try {
+        await this.$http.post('/users', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
         });
-        return;
+        const accessToken = await this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password,
+        });
+        this.$localStorage.set('token', `${accessToken}`);
+        this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        await this.$store.dispatch('fetchMe');
+        if (!this.me.emailVerified) {
+          this.$router.push({
+            path: '/email-verification',
+            query: { ...this.$route.query, email: this.me.email, from: 'signup-to-connecting' },
+          });
+          return;
+        }
+        this.$router.push({
+          path: '/connecting',
+          query: this.$route.query,
+        });
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
       }
-      this.$router.push({
-        path: '/connecting',
-        query: this.$route.query,
-      });
     },
     goToSignIn() {
       this.$router.push({ path: '/signin-to-connecting', query: this.$route.query });
