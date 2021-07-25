@@ -1,6 +1,6 @@
 <style lang="less" scoped>
   .signin-to-connecting-wrapper {
-    padding: 0 20px 80px 0;
+    padding: 0 20px 80px 20px;
   }
 
   .header {
