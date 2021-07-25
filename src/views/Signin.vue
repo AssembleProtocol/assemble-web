@@ -1,6 +1,6 @@
 <style lang="less" scoped>
   .signin-wrapper {
-    padding: 0 20px;
+    padding: 0 20px 80px 0;
   }
   .header {
     width: 100%;

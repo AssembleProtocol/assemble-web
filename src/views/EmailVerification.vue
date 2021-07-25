@@ -1,6 +1,6 @@
 <style lang="less" scoped>
   .email-verification {
-    padding: 0 20px;
+    padding: 0 20px 80px 0;
   }
   .header {
     width: 100%;

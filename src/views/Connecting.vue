@@ -1,6 +1,6 @@
 <style lang="less" scoped>
   .account-link-wrapper {
-    padding: 0 20px;
+    padding: 0 20px 80px 0;
   }
 
   .header {
