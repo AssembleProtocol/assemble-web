@@ -127,16 +127,21 @@ export default {
   },
   methods: {
     async submit() {
-      const { data } = await this.$http.post('/oauth2/auth-codes', {
-        client_id: this.client_id,
-        redirect_uri: decodeURIComponent(this.redirect_uri),
-        response_type: this.response_type,
-      });
-      const { code } = data;
-      // TODO: redirect_uri에 query 고려해서 붙여야함
-      let url = `${decodeURIComponent(this.redirect_uri)}?code=${code}&client_id=${this.client_id}`;
-      if (this.state) url = `${url}&state=${this.state}`;
-      window.location.href = url;
+      try {
+        const { data } = await this.$http.post('/oauth2/auth-codes', {
+          client_id: this.client_id,
+          redirect_uri: decodeURIComponent(this.redirect_uri),
+          response_type: this.response_type,
+        });
+        const { code } = data;
+        // TODO: redirect_uri에 query 고려해서 붙여야함
+        let url = `${decodeURIComponent(this.redirect_uri)}?code=${code}&client_id=${this.client_id}`;
+        if (this.state) url = `${url}&state=${this.state}`;
+        window.location.href = url;
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      }
     },
   },
 };
