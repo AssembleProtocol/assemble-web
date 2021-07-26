@@ -62,6 +62,8 @@
 <script>
 import moment from 'moment';
 
+const ASSEMBLE_MASETER_WALLET_ADDRESS = '0xba419bbdbe63f85afd907ae4059422526cc24421';
+
 moment.locale('ko');
 
 export default {
@@ -81,6 +83,7 @@ export default {
     description() {
       if (this.transaction.transferType === 'WITHDRAWAL') {
         const address = this.transaction.to;
+        if (address === ASSEMBLE_MASETER_WALLET_ADDRESS) return '받는 주소: 어셈블';
         const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
         return `받는 주소 ${addressText}`;
       }

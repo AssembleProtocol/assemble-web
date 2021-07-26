@@ -126,8 +126,9 @@ export default {
       this.asm = parseFloat(asm.toFixed(4));
     },
     goToNext() {
-      if (this.asm < FEE) {
-        this.$toast('ASM을 보내는데 300ASM이 필요합니다.');
+      const asm = Number(this.wallet.balance - FEE);
+      if (this.asm > asm) {
+        this.$toast('잔액이 부족합니다. 수수료로 300ASM이 필요합니다.');
         return;
       }
       this.$router.push({
