@@ -242,7 +242,7 @@
             .point-box-nav-right
               button.point-box-nav-text-button(@click="goToCreateWallet") 만들기
           p.wallet-description 교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.
-      section.section(v-if="hasWallet && walletAvailable")
+      section.section(v-if="hasWallet && walletAvailable && (walletHistories && walletHistories.length > 0)")
         nav.section-nav
           h2.section-title 트랜잭션
           router-link.link-button(to="/exchange-center/transactions") 모두 보기
