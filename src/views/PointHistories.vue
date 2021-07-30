@@ -60,6 +60,7 @@ import PointText from '@/components/PointText';
 
 const APP_TITLE_MAP = {
   clubpass: '클럽패스',
+  sta1: '스타일닷컴',
   exchange: 'ASM 교환소',
   market: 'Assemble 마켓',
 };

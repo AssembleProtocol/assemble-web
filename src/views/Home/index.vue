@@ -103,18 +103,22 @@ import StoreSection from './components/StoreSection';
 
 const MY_APP_URL_MAP = {
   clubpass: 'https://club-pass.com/ko/me',
+  sta1: 'https://www.sta1.com/more/menu',
 };
 
 const MY_APP_SUBTITLE_MAP = {
   clubpass: 'club-pass.com',
+  sta1: 'sta1.com',
 };
 
 const MY_APP_NAME_MAP = {
   clubpass: '클럽패스',
+  sta1: '스타일닷컴',
 };
 
 const APP_TITLE_MAP = {
   clubpass: '클럽패스',
+  sta1: '스타일닷컴',
   exchange: 'ASM 교환소',
   market: 'Assemble 마켓',
 };

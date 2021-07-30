@@ -20,8 +20,8 @@
     &.clubpass {
       background-image: url(~@/assets/clubpass.png);
     }
-    &.market {
-      background-image: url(~@/assets/market.png);
+    &.sta1 {
+      background-image: url(~@/assets/sta1.png);
     }
   }
   .contents {

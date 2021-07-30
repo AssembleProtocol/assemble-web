@@ -27,7 +27,7 @@
     align-self: flex-start;
     width: 75px;
     height: 75px;
-    border-radius: 50%;
+    border-radius: 32px;
     border: 1px solid #F7F8FA;
     background-size: cover;
     background-repeat: no-repeat;
@@ -37,8 +37,8 @@
     &.clubpass {
       background-image: url(~@/assets/clubpass.png);
     }
-    &.market {
-      background-image: url(~@/assets/market.png);
+    &.sta1 {
+      background-image: url(~@/assets/sta1.png);
     }
   }
   .contents {
