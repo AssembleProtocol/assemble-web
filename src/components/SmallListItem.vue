@@ -10,7 +10,7 @@
     width: 32px;
     height: 32px;
     margin-top: 10px;
-    border-radius: 50%;
+    border-radius: 14px;
     border: 1px solid #F7F8FA;
     background-size: cover;
     background-repeat: no-repeat;
