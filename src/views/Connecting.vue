@@ -86,9 +86,9 @@
       .assemble-logo
 
     .content
-      h1.title 클럽패스와 연결하기
+      h1.title {{ appName }} 연결하기
       .account-info
-        .club-pass.text 클럽패스 #[strong {{ appUserName }}]
+        .club-pass.text {{ appName }} #[strong {{ appUserName }}]
         .assemble.text 어셈블 #[strong {{ me.name }}] #[strong {{ me.email }}]
         .account-link.text 두 계정을 연결하고 있습니다.
         p.info.text 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
@@ -99,18 +99,28 @@
 <script>
 import { mapState } from 'vuex';
 
+const APP_NAME_MAP = {
+  clubpass: '클럽패스',
+  sta1: '스타일닷컴',
+};
+
 export default {
   computed: {
     ...mapState({
       me: (state) => state.me,
+      client_id: (state) => state.route.query.client_id,
     }),
+    appName() {
+      const name = APP_NAME_MAP[this.client_id];
+      if (!name) return '';
+      return name;
+    },
   },
   data() {
     return {
       appUserName: '',
       name: '',
       email: '',
-      client_id: '',
       redirect_uri: '',
       response_type: '',
       state: '',
@@ -120,7 +130,6 @@ export default {
     this.appUserName = this.$route.query.appUserName;
     this.name = this.$route.query.name;
     this.email = this.$route.query.email;
-    this.client_id = this.$route.query.client_id;
     this.redirect_uri = this.$route.query.redirect_uri;
     this.response_type = this.$route.query.response_type;
     this.state = this.$route.query.state;

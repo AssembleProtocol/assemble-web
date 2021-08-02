@@ -131,7 +131,7 @@
       .assemble-logo
 
     .form-wrapper
-      h1.form-title 클럽패스와 연결하기
+      h1.form-title {{ appName }} 연결하기
       form(@submit.prevent="submit")
         input.readonly(:value="appUserName",readonly)
         input.email(placeholder="이메일", type="email", v-model="email")
@@ -145,11 +145,22 @@
 <script>
 import { mapState } from 'vuex';
 
+const APP_NAME_MAP = {
+  clubpass: '클럽패스',
+  sta1: '스타일닷컴',
+};
+
 export default {
   computed: {
     ...mapState({
       me: (state) => state.me,
+      client_id: (state) => state.route.query.client_id,
     }),
+    appName() {
+      const name = APP_NAME_MAP[this.client_id];
+      if (!name) return '';
+      return name;
+    },
   },
   data() {
     return {

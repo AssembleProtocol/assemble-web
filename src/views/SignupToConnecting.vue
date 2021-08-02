@@ -128,13 +128,13 @@
       .assemble-logo
 
     .form-wrapper
-      h1.form-title 회원가입 및 클럽패스와 연결하기
+      h1.form-title 회원가입 및 {{ appName }} 연결하기
       form(@submit.prevent="submit")
         input(:value="appUserName",readonly).readonly
         input(placeholder="이름" type="text", v-model="name").name
         input(placeholder="이메일", type="email", v-model="email").email
         input(placeholder="비밀번호", type="password", v-model="password").password
-        p.info 연결이 완료되면 클럽패스와 어셈블 및 클럽패스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
+        p.info 연결이 완료되면 어셈블과 {{ appName }}의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
         button.join(type="submit") 회원가입
         p.error-message(v-if="error") 입력 정보들을 확인해주세요.
       button(@click="goToSignIn").member 기존 회원인가요?
@@ -143,11 +143,22 @@
 <script>
 import { mapState } from 'vuex';
 
+const APP_NAME_MAP = {
+  clubpass: '클럽패스',
+  sta1: '스타일닷컴',
+};
+
 export default {
   computed: {
     ...mapState({
       me: (state) => state.me,
+      client_id: (state) => state.route.query.client_id,
     }),
+    appName() {
+      const name = APP_NAME_MAP[this.client_id];
+      if (!name) return '';
+      return name;
+    },
   },
   data() {
     return {
