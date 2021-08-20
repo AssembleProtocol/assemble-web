@@ -30,6 +30,11 @@
   .list-item-group {
     margin-top: 10px;
   }
+  @media only screen and (min-width: 768px) {
+    .contents {
+      margin: 0 auto;
+    }
+  }
 </style>
 
 <template lang="pug">
@@ -40,7 +45,7 @@
     nav.nav
       button.back-button(@click="$router.back()")
       h1.title 포인트 내역
-    .contents
+    .contents.assemble-section
       .list-item-group
         small-list-item(
           v-for="(history, index) in histories",
@@ -97,7 +102,6 @@ export default {
   },
   methods: {
     async initHistories() {
-      console.log('initHistories');
       if (this.initLoading) return;
       this.initLoading = true;
       try {
