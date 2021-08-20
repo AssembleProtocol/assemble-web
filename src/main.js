@@ -41,7 +41,7 @@ let canGoBack = false;
 r.afterEach((to, from) => {
   if (from.name) canGoBack = true;
   else canGoBack = false;
-  if (window.s3app) {
+  if (window.s3app && window.s3app.onRouteNameChange) {
     const { path, name } = to;
     window.s3app.onRouteNameChange({ path, name });
   }
