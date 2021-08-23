@@ -1,16 +1,14 @@
 <style lang="less" scoped>
-  .signup-wrapper {
+  .signup-container {
     padding: 0 20px 80px 20px;
   }
-
-  .header {
+  .nav {
     width: 100%;
     height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   .assemble-logo {
     width: 201px;
     height: 32px;
@@ -18,13 +16,11 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
-
-  .form-wrapper {
+  .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
   .form-title {
     max-width: 500px;
     width: 100%;
@@ -34,14 +30,12 @@
     line-height: 160%;
     color: #1F2E44;
   }
-
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
-
   input {
     margin-top: 20px;
     padding-left: 10px;
@@ -62,13 +56,11 @@
       line-height: 55px;
       color: #C5CAD0;
     }
-
     &:focus {
       outline: none !important;
       border:1px solid #1D6AFE;
     }
   }
-
   .info {
     margin-top: 20px;
     max-width: 500px;
@@ -78,7 +70,6 @@
     opacity: 0.6;
     color: #48596D;
   }
-
   .join {
     display: flex;
     justify-content: center;
@@ -94,7 +85,6 @@
     color: #F7F8FA;
     background-color: #1D6AFE;
   }
-
   .error-message {
     margin-top: 5px;
     font-weight: bold;
@@ -103,7 +93,6 @@
     text-align: center;
     color: #FF134C;
   }
-
   .member {
     display: flex;
     justify-content: center;
@@ -114,14 +103,29 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .signup-container {
+      padding: 0;
+    }
+    .nav {
+      height: 120px;
+      padding: 0 60px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-title {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
-  section.signup-wrapper
-    .header
+  section.signup-container
+    .nav
       .assemble-logo
-
-    .form-wrapper
+    .contents.assemble-section
       h1.form-title 회원가입하기
       form(@submit.prevent="submit")
         input.name(placeholder="이름", type="text" v-model="form.name")
@@ -161,28 +165,32 @@ export default {
         this.error = true;
         return;
       }
-
-      await this.$http.post('/users', {
-        name: this.form.name,
-        email: this.form.email,
-        password: this.form.password,
-      });
-      const accessToken = await this.$store.dispatch('login', {
-        email: this.form.email,
-        password: this.form.password,
-      });
-      this.$localStorage.set('token', `${accessToken}`);
-      this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-      await this.$store.dispatch('fetchMe');
-      if (!this.me.emailVerified) {
-        this.$router.push({
-          path: '/email-verification',
-          query: { email: this.me.email },
+      try {
+        await this.$http.post('/users', {
+          name: this.form.name,
+          email: this.form.email,
+          password: this.form.password,
         });
-        return;
+        const accessToken = await this.$store.dispatch('login', {
+          email: this.form.email,
+          password: this.form.password,
+        });
+        this.$localStorage.set('token', `${accessToken}`);
+        this.$http.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+        await this.$store.dispatch('fetchMe');
+        if (!this.me.emailVerified) {
+          this.$router.push({
+            path: '/email-verification',
+            query: { email: this.me.email },
+          });
+          return;
+        }
+        this.$router.push('/');
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
       }
-      this.$router.push('/');
     },
   },
 };

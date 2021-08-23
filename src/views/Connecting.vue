@@ -1,16 +1,14 @@
 <style lang="less" scoped>
-  .account-link-wrapper {
+  .connecting-container {
     padding: 0 20px 80px 20px;
   }
-
-  .header {
+  .nav {
     width: 100%;
     height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   .assemble-logo {
     width: 201px;
     height: 32px;
@@ -18,13 +16,11 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
-
-  .content {
+  .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
   .title {
     margin-top: 40px;
     max-width: 500px;
@@ -34,23 +30,19 @@
     line-height: 160%;
     color: #1F2E44;
   }
-
   .account-info {
     margin-top: 10px;
   }
-
   .text {
     font-size: 14px;
     line-height: 200%;
     opacity: 0.6;
     color: #48596D;
   }
-
   .info {
     max-width: 500px;
     width: 100%;
   }
-
   .account {
     display: flex;
     justify-content: center;
@@ -66,8 +58,7 @@
     color: #F7F8FA;
     background-color: #1D6AFE;
   }
-
-  .another {
+  .another-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,14 +69,30 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .connecting-container {
+      padding: 0;
+    }
+    .nav {
+      height: 120px;
+      padding: 0 60px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .title {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
-  section.account-link-wrapper
-    .header
+  section.connecting-container
+    .nav
       .assemble-logo
 
-    .content
+    .contents.assemble-section
       h1.title {{ appName }} 연결하기
       .account-info
         .club-pass.text {{ appName }} #[strong {{ appUserName }}]
@@ -93,7 +100,7 @@
         .account-link.text 두 계정을 연결하고 있습니다.
         p.info.text 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
       button.account(@click="submit") 연결하기
-      router-link(to="/signin-to-connecting").another 다른 계정으로 연결하기
+      button.another-button(@click="goToSigninToConnecting") 다른 계정으로 연결하기
 </template>
 
 <script>
@@ -151,6 +158,9 @@ export default {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
       }
+    },
+    goToSigninToConnecting() {
+      this.$router.push({ path: '/signin-to-connecting', query: this.$route.query });
     },
   },
 };

@@ -13,7 +13,6 @@ import Signup from '@/views/Signup';
 import Signin from '@/views/Signin';
 import ChangePassword from '@/views/ChangePassword';
 import RequestResetPassword from '@/views/RequestResetPassword';
-import ResetPassword from '@/views/ResetPassword';
 import ChangeEmail from '@/views/ChangeEmail';
 
 import ExchangeCenter from '@/views/ExchangeCenter';
@@ -101,11 +100,6 @@ export default function (store, http) {
       path: '/request-reset-password',
       name: 'RequestResetPassword',
       component: RequestResetPassword,
-    },
-    {
-      path: '/reset-password',
-      name: 'ResetPassword',
-      component: ResetPassword,
     },
     {
       path: '/change-email',

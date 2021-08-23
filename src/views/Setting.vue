@@ -1,8 +1,8 @@
 <style lang="less" scoped>
-  .setting-wrapper {
+  .setting-container {
     padding: 0 20px;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -60,14 +60,32 @@
   .assemble-protocol {
     margin-top: 60px;
   }
+  @media only screen and (min-width: 768px) {
+    .setting-container {
+      padding: 0;
+    }
+    .nav {
+      position: inherit;
+      height: 120px;
+      padding: 0 60px;
+      background-color: transparent;
+    }
+    .back-button {
+      top: 48px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
-  section.setting-wrapper
-    .header
+  section.setting-container
+    .nav
       button.back-button(@click="goBack")
       button.logout-button(@click="logout") 로그아웃
-    .contents
+    .contents.assemble-section
       section.section
         h2.section-title 계정 관리하기
         router-link(to="/change-email").link 이메일 주소 변경하기

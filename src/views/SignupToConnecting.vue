@@ -1,9 +1,9 @@
 <style lang="less" scoped>
-  .signup-to-connecting-wrapper {
+  .signup-to-connecting-container {
     padding: 0 20px 80px 20px;
   }
 
-  .header {
+  .nav {
     width: 100%;
     height: 80px;
     display: flex;
@@ -19,7 +19,7 @@
     background-size: cover;
   }
 
-  .form-wrapper {
+  .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,14 +120,30 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .signup-to-connecting-container {
+      padding: 0;
+    }
+    .nav {
+      height: 120px;
+      padding: 0 60px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-title {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
-  section.signup-to-connecting-wrapper
-    .header
+  section.signup-to-connecting-container
+    .nav
       .assemble-logo
 
-    .form-wrapper
+    .contents.assemble-section
       h1.form-title 회원가입 및 {{ appName }} 연결하기
       form(@submit.prevent="submit")
         input(:value="appUserName",readonly).readonly

@@ -2,7 +2,7 @@
   .signin-wrapper {
     padding: 0 20px 80px 20px;
   }
-  .header {
+  .nav {
     width: 100%;
     height: 80px;
     display: flex;
@@ -16,7 +16,7 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
-  .form-wrapper {
+  .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -99,14 +99,27 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .nav {
+      height: 120px;
+      padding: 0 60px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-title {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.signin-wrapper
-    .header
+    .nav
       .assemble-logo
 
-    .form-wrapper
+    .contents.assemble-section
       h1.form-title 로그인하기
       form(@submit.prevent="submit")
         input.email(placeholder="이메일", type="email", v-model="form.email")

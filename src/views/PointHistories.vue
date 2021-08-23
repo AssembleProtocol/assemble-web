@@ -31,8 +31,21 @@
     margin-top: 10px;
   }
   @media only screen and (min-width: 768px) {
+    .nav {
+      position: inherit;
+      height: 120px;
+      padding: 0 60px;
+      background-color: transparent;
+    }
+    .back-button {
+      top: 48px;
+    }
     .contents {
       margin: 0 auto;
+      padding: 20px;
+    }
+    .list-item-group {
+      margin-top: 0;
     }
   }
 </style>

@@ -1,9 +1,9 @@
 <style lang="less" scoped>
-  .signin-to-connecting-wrapper {
+  .signin-to-connecting-container {
     padding: 0 20px 80px 20px;
   }
 
-  .header {
+  .nav {
     width: 100%;
     height: 80px;
     display: flex;
@@ -19,7 +19,7 @@
     background-size: cover;
   }
 
-  .form-wrapper {
+  .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -123,14 +123,30 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .signin-to-connecting-container {
+      padding: 0;
+    }
+    .nav {
+      height: 120px;
+      padding: 0 60px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-title {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
-  section.signin-to-connecting-wrapper
-    .header
+  section.signin-to-connecting-container
+    .nav
       .assemble-logo
 
-    .form-wrapper
+    .contents.assemble-section
       h1.form-title {{ appName }} 연결하기
       form(@submit.prevent="submit")
         input.readonly(:value="appUserName",readonly)
@@ -139,7 +155,7 @@
         p.info 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
         button.login(type="submit") 로그인
         p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
-      router-link.join(to="/signup") 회원가입
+      button.join(@click="goToSignupToConnecting") 회원가입
 </template>
 
 <script>
@@ -207,6 +223,9 @@ export default {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
       }
+    },
+    goToSignupToConnecting() {
+      this.$router.push({ path: '/signup-to-connecting', query: this.$route.query });
     },
   },
 };
