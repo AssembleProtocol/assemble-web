@@ -2,14 +2,13 @@
   .exchange-center-send-container {
     color: #F7F8FA;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
-    padding: 0 20px;
   }
-  .header-title {
+  .nav-title {
     color: #F7F8FA;
     font-size: 24px;
     line-height: 38px;
@@ -21,7 +20,6 @@
     color: #6096FF;
   }
   .contents {
-    margin-top: 20px;
     padding: 0 20px;
   }
   .input-wrapper {
@@ -59,13 +57,22 @@
     font-size: 14px;
     line-height: 28px;
   }
+  @media only screen and (min-width: 768px) {
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .nav {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.exchange-center-send-container
-    header.header
-      h1.header-title ASM 보내기
-    .contents
+    .contents.assemble-section.dark
+      header.nav
+        h1.nav-title ASM 보내기
       asm-input.input-wrapper(v-model="address", placeholder="주소 입력하기")
         button.qr-code-scan-button(
           v-if="hasQrScanner",

@@ -81,19 +81,24 @@
   }
   @media only screen and (min-width: 768px) {
     .store-container {
-      width: calc(100% - 474px);
       background-color: #FFFFFF;
       box-shadow: 0px 2px 48px rgba(31, 46, 68, 0.08);
       border-radius: 20px;
-    }
-    .histories-button{
-      display: none;
+      padding: 20px;
     }
     .notice {
       display: none;
     }
     .tab-list {
-      top: 120px;
+      top: unset;
+      position: relative;
+    }
+    .contents {
+      margin: -10px -10px 0 -10px;
+    }
+    .product-card-wrapper {
+      width: calc((100% - 60px) / 3);
+      margin: 20px 10px;
     }
   }
 </style>

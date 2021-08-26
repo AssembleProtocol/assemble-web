@@ -2,19 +2,17 @@
   .exchange-center-send-result-container {
     color: #F7F8FA;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    padding: 0 20px;
   }
-  .header-title {
+  .nav-title {
     color: #F7F8FA;
     font-size: 24px;
     line-height: 38px;
   }
   .contents {
-    margin-top: 20px;
     padding: 0 20px;
   }
   .form-group {
@@ -61,23 +59,22 @@
     color: #F7F8FA;
     font-weight: bold;
   }
-  .link-button-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  .link-button {
-    color: #2E75FF;
-    line-height: 28px;
-    font-weight: bold;
+  @media only screen and (min-width: 768px) {
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .nav {
+      margin-top: 0;
+    }
   }
 </style>
 
 <template lang="pug">
   section.exchange-center-send-result-container
-    header.header
-      h1.header-title 접수되었습니다
-    .contents
+    .contents.assemble-section.dark
+      header.nav
+        h1.nav-title 접수되었습니다
       .form-group
         p.label 받는 주소
         p.value {{ displayAddress }}
@@ -93,8 +90,6 @@
         p.value {{ Number(asm) + 300 }} ASM
       p.description ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
       button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
-      //- .link-button-wrapper
-        a.link-button(href="#") Etherscan에서 진행 상황 보기
 </template>
 
 <script>

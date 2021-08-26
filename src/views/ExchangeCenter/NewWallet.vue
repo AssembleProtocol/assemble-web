@@ -2,19 +2,17 @@
   .exchange-center-new-wallet-container {
     color: #F7F8FA;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     margin-top: 20px;
-    padding: 0 20px;
   }
-  .header-title {
+  .nav-title {
     color: #F7F8FA;
     font-size: 24px;
     line-height: 38px;
   }
   .contents {
-    margin-top: 20px;
     padding: 0 20px;
   }
   .form-group {
@@ -72,13 +70,22 @@
     font-size: 14px;
     line-height: 28px;
   }
+  @media only screen and (min-width: 768px) {
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .nav {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.exchange-center-new-wallet-container
-    header.header
-      h1.header-title 내 교환소 지갑 만들기
-    .contents
+    .contents.assemble-section.dark
+      header.nav
+        h1.nav-title 내 교환소 지갑 만들기
       .form-group
         p.label 보유 포인트
         p.value {{ asp | displayNumber }} P

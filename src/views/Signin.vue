@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  .signin-wrapper {
+  .signin-container {
     padding: 0 20px 80px 20px;
   }
   .nav {
@@ -115,7 +115,7 @@
 </style>
 
 <template lang="pug">
-  section.signin-wrapper
+  section.signin-container
     .nav
       .assemble-logo
 

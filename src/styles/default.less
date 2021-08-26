@@ -19,6 +19,9 @@ html, body, #app {
 
 body {
   background-color: #fff;
+  &.dark {
+    background-color: #000;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -61,13 +64,4 @@ button:focus, input:focus, select:focus, textarea:focus {
 a {
   text-decoration: none;
   color: #1F2E44;
-}
-
-
-@media only screen and (max-width: 767px) {
-  body {
-    &.dark {
-      background-color: #000;
-    }
-  }
 }

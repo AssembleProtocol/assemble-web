@@ -75,6 +75,12 @@
     opacity: 0;
     transform: translateY(0.5%);
   }
+  @media only screen and (min-width: 768px) {
+    .nav {
+      height: 120px;
+      padding: 0 80px;
+    }
+  }
 </style>
 
 <template lang="pug">

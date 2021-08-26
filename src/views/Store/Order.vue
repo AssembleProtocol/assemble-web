@@ -80,6 +80,22 @@
     line-height: 28px;
     color: rgba(31, 46, 68, .6);
   }
+  @media only screen and (min-width: 768px) {
+    .nav {
+      position: relative;
+      top: unset;
+      height: 120px;
+      padding: 0 60px;
+      background-color: transparent;
+    }
+    .back-button {
+      top: 48px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
@@ -87,7 +103,7 @@
     nav.nav
       button.back-button(@click="$router.back()")
       h1.title 포인트로 구입하기
-    .contents(v-if="marketItem")
+    .contents.assemble-section(v-if="marketItem")
       product-list-item(
         :image="marketItem.image",
         :brandName="marketItem.brandName",

@@ -55,10 +55,16 @@
     color: #6096FF;
   }
   @media only screen and (min-width: 768px) {
+    .home-container {
+      max-width: 1185px;
+      margin: 0 auto;
+    }
     .nav {
+      position: relative;
       justify-content: unset;
       height: 120px;
       padding: 0 80px;
+      background-color: transparent;
     }
     .nav-point-box {
       display: flex;
@@ -86,7 +92,6 @@
       flex-direction: row-reverse;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 0 40px;
       > * { flex-shrink: 0; }
     }
     .section {
@@ -98,12 +103,15 @@
       display: none;
     }
     .desktop-section {
-      position: sticky;
-      top: 120px;
-      width: 434px;
+      width: calc(100% * 2 / 5);
+      padding: 20px;
     }
     .histories-section {
       margin-top: 40px;
+    }
+    .store-section-wrapper {
+      width: calc(100% * 3 / 5);
+      padding: 20px;
     }
   }
 </style>
@@ -151,7 +159,8 @@
               size="small",
             )
               point-text.partner-item-point(slot="suffix", :type="history.amount > 0 ? 'plus' : 'minus'", :value="Math.abs(history.amount)", size="small")
-      store-section
+      .store-section-wrapper
+        store-section
 </template>
 
 <script>

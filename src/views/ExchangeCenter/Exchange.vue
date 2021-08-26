@@ -2,14 +2,13 @@
   .exchange-center-send-container {
     color: #F7F8FA;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
-    padding: 0 20px;
   }
-  .header-title {
+  .nav-title {
     color: #F7F8FA;
     font-size: 24px;
     line-height: 38px;
@@ -19,7 +18,6 @@
     color: #FFC42C;
   }
   .contents {
-    margin-top: 20px;
     padding: 0 20px;
   }
   .input-wrapper {
@@ -63,14 +61,23 @@
     font-size: 14px;
     line-height: 28px;
   }
+  @media only screen and (min-width: 768px) {
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .nav {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.exchange-center-send-container
-    header.header
-      h1.header-title 포인트 → ASM
-      p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
-    .contents
+    .contents.assemble-section.dark
+      header.nav
+        h1.nav-title 포인트 → ASM
+        p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
       asm-input.input-wrapper(:value="displayExchangeText", readonly)
       asm-input.input-wrapper(v-model="address", placeholder="받는 주소")
         button.qr-code-scan-button(
