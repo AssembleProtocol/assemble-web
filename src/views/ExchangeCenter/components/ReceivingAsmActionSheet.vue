@@ -69,6 +69,12 @@
     color: #F7F8FA;
     font-weight: bold;
   }
+  @media only screen and (min-width: 768px) {
+    .receiving-asm-action-sheet {
+      width: 394px;
+      left: calc((100% - 394px) / 2);
+    }
+  }
 </style>
 
 <template lang="pug">

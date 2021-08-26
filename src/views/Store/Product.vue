@@ -1,6 +1,9 @@
 <style lang="less" scoped>
   @back-button-top: 24px;
 
+  .desktop-nav {
+    display: none;
+  }
   .back-button {
     position: fixed;
     top: @back-button-top;
@@ -84,12 +87,8 @@
     white-space: pre-line;
   }
   .buy-button {
-    position: sticky;
-    bottom: 20px;
     display: block;
-    width: calc(100% - 40px);
     height: 55px;
-    margin-left: 20px;
     border-radius: 9px;
     background-color: #1D6AFE;
     text-align: center;
@@ -97,39 +96,107 @@
     font-weight: bold;
     color: #fff;
 
+    &.sticky {
+      position: sticky;
+      bottom: 20px;
+      width: calc(100% - 40px);
+      margin-left: 20px;
+    }
     &.inactive {
       background-color: #868A93;
       color: #D6D9E0;
+    }
+  }
+  @media only screen and (min-width: 768px) {
+    .store-product-detail-container {
+      max-width: 1185px;
+      margin: 0 auto;
+    }
+    .article {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0 40px;
+      > * { flex-shrink: 0; }
+    }
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 120px;
+      padding: 0 80px;
+    }
+    .desktop-nav-back-button {
+      width: 32px;
+      height: 32px;
+      background-image: url('~@/assets/back-button.png');
+      background-repeat: no-repeat;
+      background-size: 24px;
+      background-position: center;
+    }
+    .dekstop-nav-title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+    }
+    .buy-button {
+      height: 52px;
+      padding: 0 40px;
+    }
+    .back-button, .divider, .buy-button.sticky {
+      display: none;
+    }
+    .header {
+      width: calc((100% - 40px) / 2);
+      margin-top: 0;
+      padding-bottom: 20px;
+    }
+    .ratio-product-image-wrapper {
+      width: calc(100% - 40px);
+      padding-top: calc(100% - 40px);
+      margin: 20px 20px 10px 20px;
+    }
+    .contents {
+      width: calc((100% - 40px) / 2);
+      padding-top: 20px;
     }
   }
 </style>
 
 <template lang="pug">
   section.store-product-detail-container
+    nav.desktop-nav
+      button.desktop-nav-back-button(@click="$router.back()")
+      p.dekstop-nav-title {{ marketItem.brandName }} {{ marketItem.name }}
+      button.buy-button(
+        :class="{ inactive: notEnoughAsp }"
+        @click="order",
+      ) {{ notEnoughAspText }}
     button.back-button(
       :style="{ marginTop: `${statusBarHeight}px` }",
       @click="$router.back()",
     )
-    header.header(v-if="marketItem")
-      .ratio-product-image-wrapper
-        .product-image(:style="{ backgroundImage: marketItem.image ? `url(${marketItem.image})` : '' }")
-        .product-image-overlay
-      p.product-brand-name {{ marketItem.brandName }}
-      p.product-name {{ marketItem.name }}
-      p.product-price {{ marketItem.price | displayNumber }} P
-    hr.divider
-    .contents(v-if="marketItem")
-      h2.contents-title 상품 상세 정보 및 유의사항
-      p.contents-text {{ marketItem.descriptionText }}
-      img.contents-img(
-        v-if="marketItem.descriptionImage",
-        :src="marketItem.descriptionImage",
-        width="100%",
-      )
-    button.buy-button(
-      :class="{ inactive: notEnoughAsp }"
-      @click="order",
-    ) {{ notEnoughAspText }}
+    article.article
+      header.header.assemble-section(v-if="marketItem")
+        .ratio-product-image-wrapper
+          .product-image(:style="{ backgroundImage: marketItem.image ? `url(${marketItem.image})` : '' }")
+          .product-image-overlay
+        p.product-brand-name {{ marketItem.brandName }}
+        p.product-name {{ marketItem.name }}
+        p.product-price {{ marketItem.price | displayNumber }} P
+      hr.divider
+      .contents.assemble-section(v-if="marketItem")
+        h2.contents-title 상품 상세 정보 및 유의사항
+        p.contents-text {{ marketItem.descriptionText }}
+        img.contents-img(
+          v-if="marketItem.descriptionImage",
+          :src="marketItem.descriptionImage",
+          width="100%",
+        )
+      button.buy-button.sticky(
+        :class="{ inactive: notEnoughAsp }"
+        @click="order",
+      ) {{ notEnoughAspText }}
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <style lang="less" scoped>
-  .email-verification {
+  .email-verification-container {
     padding: 0 20px 80px 20px;
   }
-  .header {
+  .nav {
     width: 100%;
     height: 80px;
     display: flex;
@@ -16,10 +16,10 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
-  .content {
+  .contents {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
   .title {
     max-width: 500px;
@@ -100,13 +100,29 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .email-verification-container {
+      padding: 0;
+    }
+    .nav {
+      height: 120px;
+      padding: 0 60px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .title {
+      margin-top: 0;
+    }
+  }
 </style>
 
 <template lang="pug">
-  section.email-verification
-    .header
+  section.email-verification-container
+    .nav
       .assemble-logo
-    .content
+    .contents.assemble-section
       h1.title 이메일 인증 필요
       form.form(@submit.prevent="submit")
         p.info-description 포인트와 ASM을 안전하게 보관하고, 사용하려면 계정 이메일에 대한 인증이 필요합니다. 메일함을 확인해 인증코드를 확인하고 입력해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요. 인증이 완료될 때까지 이 창을 닫지 마세요.

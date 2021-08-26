@@ -79,13 +79,35 @@
     width: calc((100% - 20px) / 2);
     margin: 20px 5px;
   }
+  @media only screen and (min-width: 768px) {
+    .store-container {
+      background-color: #FFFFFF;
+      box-shadow: 0px 2px 48px rgba(31, 46, 68, 0.08);
+      border-radius: 20px;
+      padding: 20px;
+    }
+    .notice {
+      display: none;
+    }
+    .tab-list {
+      top: unset;
+      position: relative;
+    }
+    .contents {
+      margin: -10px -10px 0 -10px;
+    }
+    .product-card-wrapper {
+      width: calc((100% - 60px) / 3);
+      margin: 20px 10px;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.store-container
     nav.nav
       img(src="~@/assets/store-logo.svg", height="36")
-      router-link.link-button(to="/store/tickets") 구입 내역
+      router-link.link-button.histories-button(to="/store/tickets") 구입 내역
     .notice(v-if="!noticeClosed")
       .notice-description.
         모든 상품을 가지고 있는 어셈블 포인트로#[br]

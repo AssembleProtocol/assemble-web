@@ -11,6 +11,9 @@
     background-color: #fff;
     z-index: 999;
   }
+  .nav-point-box {
+    display: none;
+  }
   .profile-button {
     width: 32px;
     height: 32px;
@@ -51,48 +54,113 @@
     line-height: 28px;
     color: #6096FF;
   }
+  @media only screen and (min-width: 768px) {
+    .home-container {
+      max-width: 1185px;
+      margin: 0 auto;
+    }
+    .nav {
+      position: relative;
+      justify-content: unset;
+      height: 120px;
+      padding: 0 80px;
+      background-color: transparent;
+    }
+    .nav-point-box {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      margin-left: auto;
+      padding: 0 8px;
+      border-radius: 12px;
+      background-color: #F7F8FA;
+    }
+    .nav-point-box-title {
+      font-size: 14px;
+      line-height: 24px;
+      color: #48596D;
+      font-weight: bold;
+    }
+    .nav-point-box-text {
+      margin-left: 10px;
+    }
+    .profile-button {
+      margin-left: 20px;
+    }
+    .article {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      align-items: flex-start;
+      > * { flex-shrink: 0; }
+    }
+    .section {
+      background-color: #FFFFFF;
+      box-shadow: 0px 2px 48px rgba(31, 46, 68, 0.08);
+      border-radius: 20px;
+    }
+    .point-section {
+      display: none;
+    }
+    .desktop-section {
+      width: calc(100% * 2 / 5);
+      padding: 20px;
+    }
+    .histories-section {
+      margin-top: 40px;
+    }
+    .store-section-wrapper {
+      width: calc(100% * 3 / 5);
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.home-container
     nav.nav
       img.logo(src="@/assets/assemble-logo.png", height="32")
+      .nav-point-box
+        span.nav-point-box-title 보유 포인트
+        point-text.nav-point-box-text(:value="totalAsp", size="xsmall")
       router-link.profile-button(to="/setting")
     article.article
-      section.section
+      section.section.point-section
         .point-box
           nav.point-box-nav
             strong.point-box-title 보유 포인트
           point-text.point-box-text(:value="totalAsp")
-      section.section
-        h1.section-title 연결된 앱
-        .list-item-group
-          router-link.list-item-wrapper(to="/exchange-center")
-            list-item(title="ASM 교환소", appId="exchange", subtitle="app.assembleprotocol.com")
-          a.list-item-wrapper(
-            v-for="myApp in myApps",
-            :key="myApp._id",
-            :href="myApp.url",
-            target="_blank",
-            @click="handleLink($event, myApp.url)",
-          )
-            list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
-      section.section(v-if="histories && (histories.length > 0)")
-        .section-header
-          h1.section-title 최근 포인트 내역
-          router-link.link-button(to="/point-histories") 모두 보기
-        .list-item-group
-          small-list-item(
-            v-for="history in histories",
-            :key="history._id",
-            :appId="history.appId",
-            :title="historyAppNamesMap[history._id]",
-            :titleSuffix="history.createdAt",
-            :subtitle="history.message",
-            size="small",
-          )
-            point-text.partner-item-point(slot="suffix", :type="history.amount > 0 ? 'plus' : 'minus'", :value="Math.abs(history.amount)", size="small")
-      store-section
+      section.desktop-section
+        section.section.app-section
+          h1.section-title 연결된 앱
+          .list-item-group
+            router-link.list-item-wrapper(to="/exchange-center")
+              list-item(title="ASM 교환소", appId="exchange", subtitle="app.assembleprotocol.com")
+            a.list-item-wrapper(
+              v-for="myApp in myApps",
+              :key="myApp._id",
+              :href="myApp.url",
+              target="_blank",
+              @click="handleLink($event, myApp.url)",
+            )
+              list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
+        section.section.histories-section(v-if="histories && (histories.length > 0)")
+          .section-header
+            h1.section-title 최근 포인트 내역
+            router-link.link-button(to="/point-histories") 모두 보기
+          .list-item-group
+            small-list-item(
+              v-for="history in histories",
+              :key="history._id",
+              :appId="history.appId",
+              :title="historyAppNamesMap[history._id]",
+              :titleSuffix="history.createdAt",
+              :subtitle="history.message",
+              size="small",
+            )
+              point-text.partner-item-point(slot="suffix", :type="history.amount > 0 ? 'plus' : 'minus'", :value="Math.abs(history.amount)", size="small")
+      .store-section-wrapper
+        store-section
 </template>
 
 <script>

@@ -60,6 +60,22 @@
       cursor: default;
     }
   }
+  @media only screen and (min-width: 768px) {
+    .nav {
+      position: inherit;
+      height: 120px;
+      padding: 0 80px;
+      background-color: transparent;
+    }
+    .back-button {
+      top: 48px;
+      left: 80px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
@@ -67,9 +83,9 @@
     nav.nav
       button.back-button(@click="$router.back()")
       h1.title 구입한 티켓들
-    .contents(v-if="isEmpty")
+    .contents.assemble-section(v-if="isEmpty")
       p.empty-text 구입한 티켓이 없습니다.
-    .contents(v-else)
+    .contents.assemble-section(v-else)
       .ticket-item(v-for="purchasedItem in purchasedItems", :key="purchasedItem._id")
         .ticket-item-content
           product-list-item(

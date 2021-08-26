@@ -2,7 +2,7 @@
   .request-reset-password-container {
     padding: 0 20px;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -84,13 +84,28 @@
     background-color: #1D6AFE;
     text-align: center;
   }
+  @media only screen and (min-width: 768px) {
+    .request-reset-password-container {
+      padding: 0;
+    }
+    .nav {
+      position: inherit;
+      height: 120px;
+      padding: 0 80px;
+      background-color: transparent;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.request-reset-password-container
-    header.header
+    header.nav
       button.back-button(@click="goBack")
-    .contents
+    .contents.assemble-section
       h1.form-title 비밀번호 재설정하기
       p.description 존재하는 이메일 주소라면, 해당 이메일 주소 계정의 비밀번호를 재설정 할 수 있는 링크가 전송될 것입니다.
       form(@submit.prevent="submit")

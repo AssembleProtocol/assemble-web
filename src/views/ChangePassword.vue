@@ -2,7 +2,7 @@
   .change-password-container {
     padding: 0 20px;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -93,13 +93,28 @@
       background-color: #808080;
     }
   }
+  @media only screen and (min-width: 768px) {
+    .change-password-container {
+      padding: 0;
+    }
+    .nav {
+      position: inherit;
+      height: 120px;
+      padding: 0 80px;
+      background-color: transparent;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.change-password-container
-    header.header
+    header.nav
       button.back-button(@click="goBack")
-    .contents
+    .contents.assemble-section
       h1.form-title 비밀번호 변경하기
       form(@submit.prevent="submit")
         input.password(placeholder="기존 비밀번호", type="password", v-model="oldPassword")

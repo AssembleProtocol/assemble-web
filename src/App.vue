@@ -1,4 +1,7 @@
 <style lang="less" scoped>
+  .bar {
+    display: none;
+  }
   .page-enter-active, .page-leave-active {
     transition: opacity 200ms, transform 200ms ease;
   }
@@ -8,20 +11,27 @@
   }
   @media only screen and (min-width: 768px) {
     #app {
-      min-height: 100vh;
-      max-width: 414px;
-      margin: 0 auto;
       background-color: #fff;
-      box-shadow: 0px 0px 64px rgba(0, 0, 0, 0.08);
       &.dark {
         background-color: #000;
       }
+    }
+    .bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(90.02deg, #56CEF3 0%, #3430FF 20.31%, #0F52D2 99.48%);
+      z-index: 99999;
     }
   }
 </style>
 
 <template lang="pug">
   #app
+    .bar
     transition(:name="transitionName", mode="out-in")
       router-view
 </template>

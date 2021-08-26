@@ -136,7 +136,6 @@ export default {
       .attr('width', this.bottomBarWidth)
       .attr('height', (d) => {
         let height = Math.abs(d.end - d.start);
-        console.log(height);
         if (height === 0) height = BAR_MIN_HEIGHT;
         return height;
       })

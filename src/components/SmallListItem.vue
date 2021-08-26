@@ -14,7 +14,7 @@
     border: 1px solid #F7F8FA;
     background-size: cover;
     background-repeat: no-repeat;
-    &.exchange {
+    &.market {
       background-image: url(~@/assets/asm-exchange.png);
     }
     &.clubpass {
@@ -39,6 +39,7 @@
     justify-content: center;
     margin-right: 10px;
     overflow: hidden;
+    white-space: nowrap;
   }
   .title {
     display: flex;

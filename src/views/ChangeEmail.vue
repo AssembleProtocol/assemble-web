@@ -2,7 +2,7 @@
   .change-email-container {
     padding: 0 20px;
   }
-  .header {
+  .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -104,13 +104,31 @@
     line-height: 200%;
     color: #1D6AFE;
   }
+  @media only screen and (min-width: 768px) {
+    .change-email-container {
+      padding: 0;
+    }
+    .nav {
+      position: inherit;
+      height: 120px;
+      padding: 0 80px;
+      background-color: transparent;
+    }
+    .back-button {
+      top: 48px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.change-email-container
-    header.header
+    header.nav
       button.back-button(@click="goBack")
-    .contents
+    .contents.assemble-section
       h1.form-title 이메일 변경하기
       form(@submit.prevent="submit")
         input.input(placeholder="새 이메일 주소", type="email", v-model="email", :disabled="verificationToken")

@@ -60,6 +60,23 @@
     line-height: 28px;
     color: rgba(31, 46, 68, .6);
   }
+  @media only screen and (min-width: 768px) {
+    .nav {
+      position: relative;
+      top: unset;
+      height: 120px;
+      padding: 0 80px;
+      background-color: transparent;
+    }
+    .close-button {
+      top: 48px;
+      left: 80px;
+    }
+    .contents {
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
@@ -67,7 +84,7 @@
     nav.nav
       button.close-button(@click="goToHome")
       h1.title 구입이 완료되었습니다!
-    .contents(v-if="purchasedItem")
+    .contents.assemble-section(v-if="purchasedItem")
       product-list-item(
         :image="purchasedItem.itemImage",
         :brandName="purchasedItem.itemBrandName",

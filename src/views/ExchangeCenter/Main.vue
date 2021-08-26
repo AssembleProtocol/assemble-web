@@ -5,9 +5,9 @@
   }
   .section {
     padding: 20px;
-    &.excahnge {
-      margin-top: 20px;
-    }
+  }
+  .exchange-section {
+    margin-top: 20px;
   }
   .section-title {
     font-size: 24px;
@@ -212,12 +212,25 @@
     line-height: 36px;
     color: #6096FF;
   }
+  @media only screen and (min-width: 768px) {
+    .contents {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .desktop-section {
+      margin-left: 40px;
+    }
+    .exchange-section, .shortcut-section {
+      margin-top: 20px;
+    }
+  }
 </style>
 
 <template lang="pug">
   section.exchange-center-main-container
     .contents(v-if="!initLoading")
-      section.section
+      section.section.assemble-section.dark
         h1.section-title.large ASM 교환소
         p.section-description.
           어셈블 포인트와 ASM은 서로 교환할 수 있어요.#[br]
@@ -242,40 +255,41 @@
             .point-box-nav-right
               button.point-box-nav-text-button(@click="goToCreateWallet") 만들기
           p.wallet-description 교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.
-      section.section(v-if="hasWallet && walletAvailable && (walletHistories && walletHistories.length > 0)")
-        nav.section-nav
-          h2.section-title 트랜잭션
-          router-link.link-button(to="/exchange-center/transactions") 모두 보기
-        .transaction-list
-          transaction-item(
-            v-for="walletHistory in walletHistories",
-            :key="walletHistory._id",
-            :transaction="walletHistory",
-          )
-      section.section.excahnge
-        nav.section-nav
-          h2.section-title 포인트 → ASM
-          p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
-        .exchange-form-group
-          .exchange-input-box
-            asm-input(:fontSize="24", :value="from", @input="calcTo")
-              i.exchange-input-icon.asp(slot="prefix")
-            button.link-button.exchange-all-input-button(@click="inputAllFrom") 전액 입력하기
-          .exchange-icon-wrapper
-            i.exchange-icon
-          .exchange-input-box
-            asm-input(:fontSize="24", :value="to", :readonly="true")
-              i.exchange-input-icon.asm(slot="prefix")
-          button.bg-button.exchange-button(:class="{ disabled: notEnoughAsp }", @click="goToExchange") {{ displayExchangeText }}
-          p.error-message(v-if="notEnoughAsp") {{ notEnoughAsp }}
-      section.section.shortcut(v-if="hasWallet && walletAvailable")
-        nav.section-nav
-          h2.section-title 바로가기
-        .shortcut-button-group
-          button.shortcut-button(@click="goToSendAsm") ASM 보내기
-          button.shortcut-button(@click="showReceivingAsm") ASM 받기
-          button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
-          a.shortcut-button(:href="`https://etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
+      section.desktop-section
+        section.section.transaction-section.assemble-section.dark(v-if="hasWallet && walletAvailable && (walletHistories && walletHistories.length > 0)")
+          nav.section-nav
+            h2.section-title 트랜잭션
+            router-link.link-button(to="/exchange-center/transactions") 모두 보기
+          .transaction-list
+            transaction-item(
+              v-for="walletHistory in walletHistories",
+              :key="walletHistory._id",
+              :transaction="walletHistory",
+            )
+        section.section.exchange-section.assemble-section.dark
+          nav.section-nav
+            h2.section-title 포인트 → ASM
+            p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
+          .exchange-form-group
+            .exchange-input-box
+              asm-input(:fontSize="24", :value="from", @input="calcTo")
+                i.exchange-input-icon.asp(slot="prefix")
+              button.link-button.exchange-all-input-button(@click="inputAllFrom") 전액 입력하기
+            .exchange-icon-wrapper
+              i.exchange-icon
+            .exchange-input-box
+              asm-input(:fontSize="24", :value="to", :readonly="true")
+                i.exchange-input-icon.asm(slot="prefix")
+            button.bg-button.exchange-button(:class="{ disabled: notEnoughAsp }", @click="goToExchange") {{ displayExchangeText }}
+            p.error-message(v-if="notEnoughAsp") {{ notEnoughAsp }}
+        section.section.shortcut-section.assemble-section.dark(v-if="hasWallet && walletAvailable")
+          nav.section-nav
+            h2.section-title 바로가기
+          .shortcut-button-group
+            button.shortcut-button(@click="goToSendAsm") ASM 보내기
+            button.shortcut-button(@click="showReceivingAsm") ASM 받기
+            button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
+            a.shortcut-button(:href="`https://etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
 
     receiving-asm-action-sheet(
       :address="myWalletAddress",

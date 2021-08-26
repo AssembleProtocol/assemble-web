@@ -16,6 +16,13 @@
         line-height: 27px;
       }
     }
+    &.xsmall {
+      .point-text {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 24px;
+      }
+    }
     &.plus {
       .point-text {
         color: #4886FD;
@@ -35,7 +42,7 @@
     img.point-text-icon(
       :src="iconSrc",
       :class="{ asm: pointType === 'asm' }",
-      :height="size === 'large' ? 69 : 27",
+      :height="iconHeight",
     )
 </template>
 
@@ -53,7 +60,7 @@ export default {
     },
     size: {
       type: String,
-      default: 'large', // 'large', 'small'
+      default: 'large', // 'large', 'small', 'xsmall'
     },
     type: {
       type: String,
@@ -76,6 +83,11 @@ export default {
       if (this.type === 'large') return DefaultLargeIcon;
       if (this.type === 'plus') return BlueSmallIcon;
       return DefaultSmallIcon;
+    },
+    iconHeight() {
+      if (this.size === 'large') return 69;
+      if (this.size === 'small') return 27;
+      return 24;
     },
   },
 };
