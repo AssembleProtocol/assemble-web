@@ -77,8 +77,10 @@
   }
   @media only screen and (min-width: 768px) {
     .nav {
+      position: inherit;
       height: 120px;
       padding: 0 80px;
+      background-color: transparent;
     }
   }
 </style>

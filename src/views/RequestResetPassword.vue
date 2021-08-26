@@ -89,8 +89,10 @@
       padding: 0;
     }
     .nav {
+      position: inherit;
       height: 120px;
-      padding: 0 60px;
+      padding: 0 80px;
+      background-color: transparent;
     }
     .contents {
       margin: 0 auto;

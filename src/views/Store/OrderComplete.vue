@@ -65,11 +65,12 @@
       position: relative;
       top: unset;
       height: 120px;
-      padding: 0 60px;
+      padding: 0 80px;
       background-color: transparent;
     }
     .close-button {
       top: 48px;
+      left: 80px;
     }
     .contents {
       margin: 0 auto;

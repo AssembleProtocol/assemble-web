@@ -82,14 +82,14 @@
   }
   @media only screen and (min-width: 768px) {
     .nav {
-      position: relative;
-      top: unset;
+      position: inherit;
       height: 120px;
-      padding: 0 60px;
+      padding: 0 80px;
       background-color: transparent;
     }
     .back-button {
       top: 48px;
+      left: 80px;
     }
     .contents {
       margin: 0 auto;
