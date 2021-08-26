@@ -63,7 +63,7 @@
       position: relative;
       justify-content: unset;
       height: 120px;
-      padding: 0 80px;
+      padding: 0 60px;
       background-color: transparent;
     }
     .nav-point-box {
@@ -92,6 +92,7 @@
       flex-direction: row-reverse;
       justify-content: space-between;
       align-items: flex-start;
+      margin-top: -20px;
       > * { flex-shrink: 0; }
     }
     .section {
