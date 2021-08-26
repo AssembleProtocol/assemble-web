@@ -136,8 +136,12 @@
     }
     .dekstop-nav-title {
       flex: 1;
+      margin: 0 20px;
       text-align: center;
       font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .buy-button {
       height: 52px;

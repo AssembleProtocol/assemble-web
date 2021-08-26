@@ -101,6 +101,11 @@
       margin: 20px 10px;
     }
   }
+  @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .product-card-wrapper {
+      width: calc((100% - 40px) / 2);
+    }
+  }
 </style>
 
 <template lang="pug">
