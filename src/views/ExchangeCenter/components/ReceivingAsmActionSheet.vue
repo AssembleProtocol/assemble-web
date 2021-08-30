@@ -75,7 +75,7 @@
   action-sheet.receiving-asm-action-sheet(:visible="visible", @close="close", ref="actionSheet")
     article.container
       nav.nav
-        strong.title ASM 받기
+        strong.title 입금 전용 주소
         button.close-button(@click="doClose")
       section.contents
         p.address(@click="copy") {{ displayAddress }}
