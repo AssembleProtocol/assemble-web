@@ -52,7 +52,7 @@ Vue.prototype.$history = {
 };
 
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: 'ko',
   defaultLocale: 'ko',
 });
 
