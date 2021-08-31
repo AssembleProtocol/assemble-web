@@ -107,6 +107,15 @@
       width: calc(100% * 2 / 5);
       padding: 20px;
     }
+    .list-item-wrapper {
+      display: block;
+      &:first-of-type {
+        margin-top: -10px;
+      }
+      &:last-of-type {
+        margin-bottom: -10px;
+      }
+    }
     .histories-section {
       margin-top: 40px;
     }

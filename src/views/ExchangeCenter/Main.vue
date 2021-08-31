@@ -6,8 +6,8 @@
   .section {
     padding: 20px;
   }
-  .exchange-section {
-    margin-top: 20px;
+  .transaction-section {
+    margin-bottom: 20px;
   }
   .section-title {
     font-size: 24px;
@@ -221,8 +221,8 @@
     .desktop-section {
       margin-left: 40px;
     }
-    .exchange-section, .shortcut-section {
-      margin-top: 20px;
+    .exchange-section {
+      margin-bottom: 20px;
     }
   }
 </style>

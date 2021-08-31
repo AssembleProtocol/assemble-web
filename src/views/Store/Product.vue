@@ -116,7 +116,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 0 40px;
+      padding: 0 40px 40px 0;
       > * { flex-shrink: 0; }
     }
     .desktop-nav {
