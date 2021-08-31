@@ -133,7 +133,7 @@
         input.password(placeholder="비밀번호", type="password", v-model="form.password")
         button.join(type="submit") 회원가입
         p.error-message(v-if="error") 입력 정보들을 확인해주세요.
-      router-link(to="/signin").member 기존 회원인가요?
+      locale-router-link(to="/signin").member 기존 회원인가요?
 </template>
 
 <script>

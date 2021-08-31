@@ -38,7 +38,7 @@ import StoreResendTicketComplete from '@/views/Store/ResendTicketComplete';
 
 Vue.use(VueRouter);
 
-export default function (store, http) {
+export default function (store, http, i18n) {
   const checkToken = async function beforeEnter(to, from, next) {
     if (store.state.me) return next();
     if (localStorage.token) {
@@ -63,72 +63,72 @@ export default function (store, http) {
 
   const routes = [
     {
-      path: '/',
+      path: '',
       name: 'Home',
       beforeEnter: checkToken,
       component: Home,
     },
     {
-      path: '/point-histories',
+      path: 'point-histories',
       name: 'PointHistories',
       beforeEnter: checkToken,
       component: PointHistories,
     },
     {
-      path: '/setting',
+      path: 'setting',
       name: 'Setting',
       beforeEnter: checkToken,
       component: Setting,
     },
     {
-      path: '/signup-to-connecting',
+      path: 'signup-to-connecting',
       name: 'SignupToConnecting',
       component: SignupToConnecting,
     },
     {
-      path: '/signin-to-connecting',
+      path: 'signin-to-connecting',
       name: 'SigninToConnecting',
       component: SigninToConnecting,
     },
     {
-      path: '/change-password',
+      path: 'change-password',
       name: 'ChangePassword',
       beforeEnter: checkToken,
       component: ChangePassword,
     },
     {
-      path: '/request-reset-password',
+      path: 'request-reset-password',
       name: 'RequestResetPassword',
       component: RequestResetPassword,
     },
     {
-      path: '/change-email',
+      path: 'change-email',
       name: 'ChangeEmail',
       beforeEnter: checkToken,
       component: ChangeEmail,
     },
     {
-      path: '/connecting',
+      path: 'connecting',
       name: 'Connecting',
       component: Connecting,
     },
     {
-      path: '/email-verification',
+      path: 'email-verification',
       name: 'EmailVerification',
       component: EmailVerification,
     },
     {
-      path: '/signup',
+      path: 'signup',
       name: 'Signup',
       component: Signup,
     },
     {
-      path: '/signin',
+      path: 'signin',
       name: 'Signin',
       component: Signin,
     },
     {
-      path: '/exchange-center',
+      path: 'exchange-center',
       beforeEnter: checkToken,
       component: ExchangeCenter,
       children: [
@@ -185,33 +185,33 @@ export default function (store, http) {
       ],
     },
     {
-      path: '/store/products/:productId',
+      path: 'store/products/:productId',
       name: 'StoreProductDetail',
       component: StoreProductDetail,
       beforeEnter: checkToken,
       props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/store/orders/:productId',
+      path: 'store/orders/:productId',
       name: 'StoreOrder',
       component: StoreOrder,
       beforeEnter: checkToken,
       props: (route) => ({ productId: route.params.productId }),
     },
     {
-      path: '/store/order-complete/:purchasedId',
+      path: 'store/order-complete/:purchasedId',
       name: 'StoreOrderComplete',
       component: StoreOrderComplete,
       props: (route) => ({ purchasedId: route.params.purchasedId }),
     },
     {
-      path: '/store/tickets',
+      path: 'store/tickets',
       name: 'StoreTicket',
       beforeEnter: checkToken,
       component: StoreTicket,
     },
     {
-      path: '/store/resend-ticket-complete/:purchasedId',
+      path: 'store/resend-ticket-complete/:purchasedId',
       name: 'StoreResendTicketComplete',
       component: StoreResendTicketComplete,
       beforeEnter: checkToken,
@@ -222,7 +222,26 @@ export default function (store, http) {
   return new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes,
+    routes: [
+      {
+        path: '/:locale',
+        component: {
+          render: (h) => h('router-view'),
+        },
+        beforeEnter: (to, from, next) => {
+          const { locale } = to.params;
+          const supportedLocales = process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(',');
+          if (!supportedLocales.includes(locale)) return next('ko');
+          if (i18n.locale !== locale) i18n.locale = locale;
+          return next();
+        },
+        children: routes,
+      },
+      {
+        path: '*',
+        redirect: '/ko',
+      },
+    ],
     // TODO: 200ms page transition
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {

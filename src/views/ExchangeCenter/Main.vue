@@ -259,7 +259,7 @@
         section.section.transaction-section.assemble-section.dark(v-if="hasWallet && walletAvailable && (walletHistories && walletHistories.length > 0)")
           nav.section-nav
             h2.section-title 트랜잭션
-            router-link.link-button(to="/exchange-center/transactions") 모두 보기
+            locale-router-link.link-button(to="/exchange-center/transactions") 모두 보기
           .transaction-list
             transaction-item(
               v-for="walletHistory in walletHistories",
@@ -399,7 +399,7 @@ export default {
       if (this.notEnoughAsp) return;
       if (!this.from) return;
       this.$router.push({
-        path: '/exchange-center/exchange',
+        path: this.localePath('/exchange-center/exchange'),
         query: {
           from: this.from,
           to: this.to,
