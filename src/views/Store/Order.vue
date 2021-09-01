@@ -223,7 +223,7 @@ export default {
           phoneNumber: this.phoneNumber,
         },
       });
-      this.$router.replace(`/store/order-complete/${data.purchaseItem._id}`);
+      this.$router.replace(this.$localePath(`/store/order-complete/${data.purchaseItem._id}`));
     },
   },
 };

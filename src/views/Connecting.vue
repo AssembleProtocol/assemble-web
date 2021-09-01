@@ -160,7 +160,7 @@ export default {
       }
     },
     goToSigninToConnecting() {
-      this.$router.push({ path: '/signin-to-connecting', query: this.$route.query });
+      this.$router.push({ path: this.$localePath('/signin-to-connecting'), query: this.$route.query });
     },
   },
 };

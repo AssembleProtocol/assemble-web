@@ -174,9 +174,9 @@ export default {
         this.$toast('인증이 완료되었습니다');
 
         if (this.from === 'signup-to-connecting' || this.from === 'signin-to-connecting') {
-          this.$router.push({ path: '/connecting', query: this.$route.query });
+          this.$router.push({ path: this.$localePath('/connecting'), query: this.$route.query });
         } else {
-          this.$router.push('/');
+          this.$router.push(this.$localePath('/'));
         }
       } catch (e) {
         if (!e.response || !e.response.data) return;

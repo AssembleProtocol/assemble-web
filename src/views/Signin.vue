@@ -168,12 +168,12 @@ export default {
         await this.$store.dispatch('fetchMe');
         if (!this.me.emailVerified) {
           this.$router.push({
-            path: '/email-verification',
+            path: this.$localePath('/email-verification'),
             query: { email: this.me.email },
           });
           return;
         }
-        this.$router.push('/');
+        this.$router.push(this.$localePath('/'));
       } catch (e) {
         if (!e.response || !e.response.data) {
           this.$toast('이메일 또는 비밀번호를 확인해주세요.');

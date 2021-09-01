@@ -174,7 +174,7 @@ export default {
         });
         await this.$store.dispatch('fetchMe');
         this.$toast('인증이 완료되었습니다');
-        this.$router.push(`/${this.$i18n.locale}/setting`);
+        this.$router.push(this.$localePath('/setting'));
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);

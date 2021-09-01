@@ -148,7 +148,7 @@ export default {
     logout() {
       this.$localStorage.remove('token');
       this.$store.commit('SET_ME', null);
-      this.$router.push('/signin');
+      this.$router.push(this.$localePath('/signin'));
     },
     handleLink(e, url) {
       e.preventDefault();

@@ -209,14 +209,14 @@ export default {
         await this.$store.dispatch('fetchMe');
         if (!this.me.emailVerified) {
           this.$router.push({
-            path: '/email-verification',
+            path: this.$localePath('/email-verification'),
             query: { email: this.me.email, from: 'signin-to-connecting' },
           });
           return;
         }
 
         this.$router.push({
-          path: '/connecting',
+          path: this.$localePath('/connecting'),
           query: this.$route.query,
         });
       } catch (e) {
@@ -225,7 +225,7 @@ export default {
       }
     },
     goToSignupToConnecting() {
-      this.$router.push({ path: '/signup-to-connecting', query: this.$route.query });
+      this.$router.push({ path: this.$localePath('/signup-to-connecting'), query: this.$route.query });
     },
   },
 };

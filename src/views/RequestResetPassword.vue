@@ -128,7 +128,7 @@ export default {
       try {
         await this.$http.post('/reset-password-emails', { email: this.email });
         this.$toast('보냈습니다! 메일함을 확인하세요.');
-        this.$router.push('/signin');
+        this.$router.push(this.$localePath('/signin'));
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);

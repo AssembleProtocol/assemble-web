@@ -265,7 +265,7 @@ export default {
   methods: {
     order() {
       if (this.notEnoughAsp) return;
-      this.$router.push(`/store/orders/${this.productId}`);
+      this.$router.push(this.$localePath(`/store/orders/${this.productId}`));
     },
   },
 };

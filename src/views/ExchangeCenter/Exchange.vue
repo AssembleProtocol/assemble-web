@@ -160,7 +160,7 @@ export default {
     },
     goToNext() {
       this.$router.push({
-        path: '/exchange-center/exchange-confirmation',
+        path: this.$localePath('/exchange-center/exchange-confirmation'),
         query: { address: this.address, to: this.to, from: this.from },
       });
     },

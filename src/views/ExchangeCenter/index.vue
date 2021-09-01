@@ -174,13 +174,13 @@ export default {
     },
     goExchangeHome() {
       this.initWallet();
-      this.$router.push('/exchange-center');
+      this.$router.push(this.$localePath('/exchange-center'));
     },
     goBack() {
-      if (this.routeName === 'ExchangeCenterMain') this.$router.push('/');
+      if (this.routeName === 'ExchangeCenterMain') this.$router.push(this.$localePath('/'));
       else if (this.$history.canGoBack()) this.$router.back();
       else if (window.s3app) window.close();
-      else this.$router.push('/');
+      else this.$router.push(this.$localePath('/'));
     },
     async createWallet() {
       if (this.hasWallet) return;

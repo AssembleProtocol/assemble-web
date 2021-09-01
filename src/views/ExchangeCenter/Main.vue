@@ -383,7 +383,7 @@ export default {
         this.$toast('지갑을 생성하는데 30,000P가 필요합니다.');
         return;
       }
-      this.$router.push('/exchange-center/new-wallet');
+      this.$router.push(this.$localePath('/exchange-center/new-wallet'));
     },
     calcTo(value) {
       if (value) this.from = Number(value);
@@ -399,7 +399,7 @@ export default {
       if (this.notEnoughAsp) return;
       if (!this.from) return;
       this.$router.push({
-        path: this.localePath('/exchange-center/exchange'),
+        path: this.$localePath('/exchange-center/exchange'),
         query: {
           from: this.from,
           to: this.to,
@@ -407,7 +407,7 @@ export default {
       });
     },
     goToSendAsm() {
-      this.$router.push('/exchange-center/send');
+      this.$router.push(this.$localePath('/exchange-center/send'));
     },
     showReceivingAsm() {
       this.receivingAsmVisible = true;

@@ -149,7 +149,7 @@ export default {
           newPassword: this.newPassword,
         });
         this.$toast('비밀번호가 변경되었습니다.');
-        this.$router.push('/setting');
+        this.$router.push(this.$localePath('/setting'));
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);

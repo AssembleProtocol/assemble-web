@@ -35,17 +35,20 @@ if (token) {
 }
 axios.defaults.baseURL = `${process.env.VUE_APP_API_BASE}`;
 
-Vue.prototype.$http = axios;
-Vue.prototype.localePath = (to, locale) => {
-  if (typeof to !== 'string') return to;
-  console.log(Vue.prototype.i18n);
-  return `/${locale}/${this.to.replace(/^\/|\/$/g, '')}`;
-};
-
 const i18n = new VueI18n({
   locale: 'ko',
   defaultLocale: 'ko',
 });
+
+Vue.prototype.$http = axios;
+
+Vue.prototype.$localePath = function localePath(to) {
+  if (typeof to !== 'string') return to;
+  let locale;
+  if (this.$i18n.locale) locale = this.$i18n.locale;
+  else locale = 'ko';
+  return `/${locale}/${to.replace(/^\/|\/$/g, '')}`;
+};
 
 const r = router(store, Vue.prototype.$http, i18n);
 let canGoBack = false;

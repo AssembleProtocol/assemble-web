@@ -167,9 +167,7 @@ export default {
             purchasedItemId,
           },
         });
-        this.$router.push({
-          path: `/store/resend-ticket-complete/${purchasedItemId}`,
-        });
+        this.$router.push(this.$localePath(`/store/resend-ticket-complete/${purchasedItemId}`));
       } catch (e) {
         console.error(e);
         this.$toast('사용되었거나 만료되어 재발송할 수 없는 상태입니다.');

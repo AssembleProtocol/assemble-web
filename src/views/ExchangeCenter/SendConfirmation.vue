@@ -128,7 +128,7 @@ export default {
           amount: Number(this.asm),
         });
         this.$router.push({
-          path: '/exchange-center/send-result',
+          path: this.$localePath('/exchange-center/send-result'),
           query: this.$route.query,
         });
       } catch (e) {

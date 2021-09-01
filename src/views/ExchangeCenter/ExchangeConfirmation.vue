@@ -146,7 +146,7 @@ export default {
         const { data } = await this.$http.post('/wallet/exchange/point-to-asm', { to: this.address, point: Number(this.from) });
         const { address, point, asm, price } = data;
         this.$router.push({
-          path: '/exchange-center/exchange-result',
+          path: this.$localePath('/exchange-center/exchange-result'),
           query: { address, from: point, to: asm, price },
         });
       } catch (e) {

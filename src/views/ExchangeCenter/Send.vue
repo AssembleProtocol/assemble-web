@@ -139,7 +139,7 @@ export default {
         return;
       }
       this.$router.push({
-        path: '/exchange-center/send-confirmation',
+        path: this.$localePath('/exchange-center/send-confirmation'),
         query: { address: this.address, asm: this.asm },
       });
     },

@@ -168,7 +168,7 @@ export default {
   },
   methods: {
     goToHome() {
-      this.$router.push('/');
+      this.$router.push(this.$localePath('/'));
     },
   },
 };
