@@ -83,7 +83,7 @@
   section.store-order-complete-container
     nav.nav
       button.close-button(@click="goToHome")
-      h1.title 구입이 완료되었습니다!
+      h1.title {{ $t('title') }}
     .contents.assemble-section(v-if="purchasedItem")
       product-list-item(
         :image="purchasedItem.itemImage",
@@ -92,20 +92,20 @@
       )
       .invoice-box
         .form-group
-          p.label 받는 번호
+          p.label {{ $t('receivePhoneNumber') }}
           p.value {{ purchasedItem.phoneNumber }}
         hr.divider
         .form-group
-          p.label 보유 포인트
+          p.label {{ $t('holdingPoints') }}
           p.value {{ afterPaidTotalAsp | displayNumber }} P
         .form-group
-          p.label 상품 가격
+          p.label {{ $t('productPrice') }}
           p.value - {{ purchasedItem.paid | displayNumber }} P
         hr.divider
         .form-group
-          p.label 합계
+          p.label {{ $t('sum') }}
           p.value {{ totalAsp | displayNumber }} P
-      p.notice-description 받는 번호로 몇 분 내로 티켓이 도착합니다!
+      p.notice-description {{ $t('description') }}
 </template>
 
 <script>
@@ -173,3 +173,24 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "구입이 완료되었습니다!",
+    "receivePhoneNumber": "받는 핸드폰 번호",
+    "holdingPoints": "보유 포인트",
+    "productPrice": "상품 가격",
+    "sum": "합계",
+    "description": "받는 번호로 몇 분 내로 티켓이 도착합니다!"
+  },
+  "en": {
+    "title": "Your purchase is complete!",
+    "receivePhoneNumber": "phone number you receive",
+    "holdingPoints": "holding points",
+    "productPrice": "product price",
+    "sum": "sum",
+    "description": "Your ticket will arrive in a few minutes at the number you receive!"
+  }
+}
+</i18n>

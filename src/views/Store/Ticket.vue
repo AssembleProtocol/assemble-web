@@ -82,9 +82,9 @@
   section.store-tickets-container
     nav.nav
       button.back-button(@click="$router.back()")
-      h1.title 구입한 티켓들
+      h1.title {{ $t('title') }}
     .contents.assemble-section(v-if="isEmpty")
-      p.empty-text 구입한 티켓이 없습니다.
+      p.empty-text {{ $('emptyText') }}
     .contents.assemble-section(v-else)
       .ticket-item(v-for="purchasedItem in purchasedItems", :key="purchasedItem._id")
         .ticket-item-content
@@ -94,8 +94,8 @@
             :brandName="purchasedItem.itemBrandName",
             :name="purchasedItem.itemName",
           )
-        button.ticket-button.expired(v-if="expiredTicketsMap[purchasedItem._id]") 만료됨
-        button.ticket-button(v-else, @click="goToResending(purchasedItem._id)") 재발송
+        button.ticket-button.expired(v-if="expiredTicketsMap[purchasedItem._id]") {{ $t('expired') }}
+        button.ticket-button(v-else, @click="goToResending(purchasedItem._id)") {{ $t('resend') }}
 </template>
 
 <script>
@@ -176,3 +176,20 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "구입한 티켓들",
+    "emptyText": "구입한 티켓이 없습니다.",
+    "expired": "만료됨",
+    "resend": "재발송"
+  },
+  "en": {
+    "title": "Purchased tickets",
+    "emptyText": "There is no ticket you purchased.",
+    "expired": "expired",
+    "resend": "resend"
+  }
+}
+</i18n>

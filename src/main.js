@@ -42,15 +42,15 @@ const i18n = new VueI18n({
 
 Vue.prototype.$http = axios;
 
-Vue.prototype.$localePath = function localePath(to) {
+Vue.prototype.$localePath = function localePath(to, locale) {
   if (typeof to !== 'string') return to;
-  let locale;
-  if (this.$i18n.locale) locale = this.$i18n.locale;
-  else locale = 'ko';
-  return `/${locale}/${to.replace(/^\/|\/$/g, '')}`;
+  let l = locale;
+  if (this && this.$i18n && this.$i18n.locale) l = this.$i18n.locale;
+  else l = 'ko';
+  return `/${l}/${to.replace(/^\/|\/$/g, '')}`;
 };
 
-const r = router(store, Vue.prototype.$http, i18n);
+const r = router(store, Vue.prototype, i18n);
 let canGoBack = false;
 
 r.afterEach((to, from) => {

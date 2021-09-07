@@ -123,14 +123,14 @@
     .nav
       .assemble-logo
     .contents.assemble-section
-      h1.title 이메일 인증 필요
+      h1.title {{ $t('title') }}
       form.form(@submit.prevent="submit")
-        p.info-description 포인트와 ASM을 안전하게 보관하고, 사용하려면 계정 이메일에 대한 인증이 필요합니다. 메일함을 확인해 인증코드를 확인하고 입력해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요. 인증이 완료될 때까지 이 창을 닫지 마세요.
-        input.input(placeholder="이메일", type="email", :value="email", disabled)
-        input.input(v-if="verificationToken", placeholder="인증코드", type="number" v-model="pinCode")
-      button.submit-button(v-if="!verificationToken", @click="send") 인증코드 발송
-      button.submit-button(v-else, @click="submit") 인증하기
-      button.resend(@click="send") 인증코드 재발송
+        p.info-description {{ $t('description') }}
+        input.input(:placeholder="$t('email')", type="email", :value="email", disabled)
+        input.input(v-if="verificationToken", :placeholder="$t('pinCode')", type="number" v-model="pinCode")
+      button.submit-button(v-if="!verificationToken", @click="send") {{ $t('requestPinCode') }}
+      button.submit-button(v-else, @click="submit") {{ $t('submit') }}
+      button.resend(@click="send") {{ $t('resend') }}
 </template>
 
 <script>
@@ -186,3 +186,44 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "이메일 인증 필요",
+    "description": "포인트와 ASM을 안전하게 보관하고, 사용하려면 계정 이메일에 대한 인증이 필요합니다. 메일함을 확인해 인증코드를 확인하고 입력해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요. 인증이 완료될 때까지 이 창을 닫지 마세요.",
+    "email": "이메일",
+    "pinCode": "인증코드",
+    "requestPinCode": "인증코드 발송",
+    "submit": "인증하기",
+    "resend": "인증코드 재발송"
+  },
+  "en": {
+    "title": "Email authentication required",
+    "description": "Authentication for account email is required to keep and use points and ASM securely. Please check your mailbox and enter the verification code. If you haven't received it, check your spam mailbox or try to resend it. Do not close this window until authentication is complete.",
+    "email": "email",
+    "pinCode": "pincode",
+    "requestPinCode": "send pincode",
+    "submit": "authenticate",
+    "resend": "resend pincode"
+  },
+  "ja": {
+    "title": "e-mail認証が必要",
+    "description": "ポイントとASMを安全に保管し、使用するためにはアカウントメールに対する認証が必要です。 メールボックスを確認して認証コードを確認して入力してください。 もし届かなかったら、迷惑メールボックスを確認したり、再送したりしてみてください。 認証が完了するまでこのウィンドウを閉めないでください。",
+    "email": "電子メール",
+    "pinCode": "認証コード",
+    "requestPinCode": "認証コード送信",
+    "submit": "認証する",
+    "resend": "認証コード再送"
+  },
+  "cn": {
+    "title": "需要 e-mail 认证",
+    "description": "安全保管并使用积分和ASM需要验证您的账户邮箱 。 请确认邮箱并输入验证码。 如果你没收到,请确认一下你的垃圾邮件箱,或者尝试重新发送. 在验证完成前不要关闭此窗口 。",
+    "email": "电子邮件",
+    "pinCode": "验证码",
+    "requestPinCode": "发送验证码",
+    "submit": "认证",
+    "resend": "重新发送验证码"
+  }
+}
+</i18n>

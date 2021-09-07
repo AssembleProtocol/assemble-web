@@ -58,7 +58,7 @@
   )
     nav.nav
       button.back-button(@click="$router.back()")
-      h1.title 포인트 내역
+      h1.title {{ $t('title') }}
     .contents.assemble-section
       .list-item-group
         small-list-item(
@@ -151,3 +151,20 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "포인트 내역"
+  },
+  "en": {
+    "title": "Point History"
+  },
+  "ja": {
+    "title": "ポイントの内訳"
+  },
+  "cn": {
+    "title": "积分明细"
+  }
+}
+</i18n>

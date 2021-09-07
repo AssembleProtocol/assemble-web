@@ -231,35 +231,32 @@
   section.exchange-center-main-container
     .contents(v-if="!initLoading")
       section.section.assemble-section.dark
-        h1.section-title.large ASM 교환소
-        p.section-description.
-          어셈블 포인트와 ASM은 서로 교환할 수 있어요.#[br]
-          ASM으로 교환하면, 사람들과 안전하게 주고받거나,#[br]
-          암호화폐 거래소에서 거래할 수 있어요.
+        h1.section-title.large {{ $t('asmExchange') }}
+        p.section-description(v-html="$t('description')")
         .point-box(v-if="hasWallet && walletAvailable")
           nav.point-box-nav
-            strong.point-box-title 보유 ASM
+            strong.point-box-title {{ $t('pointBoxTitle') }}
             .point-box-nav-right
               button.point-box-nav-button.send(@click="goToSendAsm")
               button.point-box-nav-button.receive(@click="showReceivingAsm")
           point-text.point-box-text(:value="wallet.balance", pointType="asm")
         .point-box(v-else-if="hasWallet && !walletAvailable")
           nav.point-box-nav
-            strong.point-box-title 내 교환소 지갑
+            strong.point-box-title {{ $t('pointBoxWalletTitle') }}
           .wallet-loading-wrapper
             .wallet-loading
-            p.wallet-loading-text 만드는 중
+            p.wallet-loading-text {{ $t('walletLoadingText') }}
         .point-box(v-else)
           nav.point-box-nav
-            strong.point-box-title 내 교환소 지갑
+            strong.point-box-title {{ $t('pointBoxWalletTitle') }}
             .point-box-nav-right
-              button.point-box-nav-text-button(@click="goToCreateWallet") 만들기
-          p.wallet-description 교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.
+              button.point-box-nav-text-button(@click="goToCreateWallet") {{ $t('creating') }}
+          p.wallet-description {{ $t('walletCreatingDescripton') }}
       section.desktop-section
         section.section.transaction-section.assemble-section.dark(v-if="hasWallet && walletAvailable && (walletHistories && walletHistories.length > 0)")
           nav.section-nav
-            h2.section-title 트랜잭션
-            locale-router-link.link-button(to="/exchange-center/transactions") 모두 보기
+            h2.section-title {{ $t('transactionTitle') }}
+            locale-router-link.link-button(to="/exchange-center/transactions") {{ $t('viewAll') }}
           .transaction-list
             transaction-item(
               v-for="walletHistory in walletHistories",
@@ -268,13 +265,13 @@
             )
         section.section.exchange-section.assemble-section.dark
           nav.section-nav
-            h2.section-title 포인트 → ASM
+            h2.section-title {{ $t('exchangeTitle') }}
             p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
           .exchange-form-group
             .exchange-input-box
               asm-input(:fontSize="24", :value="from", @input="calcTo")
                 i.exchange-input-icon.asp(slot="prefix")
-              button.link-button.exchange-all-input-button(@click="inputAllFrom") 전액 입력하기
+              button.link-button.exchange-all-input-button(@click="inputAllFrom") {{ $t('enterTheFullAmount') }}
             .exchange-icon-wrapper
               i.exchange-icon
             .exchange-input-box
@@ -284,12 +281,12 @@
             p.error-message(v-if="notEnoughAsp") {{ notEnoughAsp }}
         section.section.shortcut-section.assemble-section.dark(v-if="hasWallet && walletAvailable")
           nav.section-nav
-            h2.section-title 바로가기
+            h2.section-title {{ $t('shortcut') }}
           .shortcut-button-group
-            button.shortcut-button(@click="goToSendAsm") ASM 보내기
-            button.shortcut-button(@click="showReceivingAsm") ASM 받기
-            button.shortcut-button(@click="showReceivingAsm") ASM 입금 주소 보기
-            a.shortcut-button(:href="`https://etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") Etherscan에서 보기
+            button.shortcut-button(@click="goToSendAsm") {{ $t('sendASM') }}
+            button.shortcut-button(@click="showReceivingAsm") {{ $t('recieveASM') }}
+            button.shortcut-button(@click="showReceivingAsm") {{ $t('ASMaddress') }}
+            a.shortcut-button(:href="`https://etherscan.io/address/${myWalletAddress}#tokentxns`", target="_blank") {{ $t('viewInEthercan') }}
 
     receiving-asm-action-sheet(
       :address="myWalletAddress",
@@ -335,16 +332,17 @@ export default {
   computed: {
     ...mapState({
       me: (state) => state.me,
+      locale: (state) => state.route.params.locale,
     }),
     notEnoughAsp() {
-      if (this.asp < MINIMUM) return `최소 ${MINIMUM}P 필요`;
-      if (this.asp - this.from < 0) return '잔여 포인트 부족';
-      if (this.asp - this.from < FEE) return `교환 수수료 ${FEE}P 부족`;
-      if (this.from < MINIMUM) return `최소 ${MINIMUM}P 필요`;
+      if (this.asp < MINIMUM) return this.$t('notEnoughAsp', { point: MINIMUM });
+      if (this.asp - this.from < 0) return this.$t('notEnoughRemainingPoints');
+      if (this.asp - this.from < FEE) return this.$t('notEnoughFee', { fee: FEE });
+      if (this.from < MINIMUM) return this.$t('notEnoughAsp', { point: MINIMUM });
       return null;
     },
     displayExchangeText() {
-      return `${this.from || 0} P를 ${this.to || 0} ASM 로 교환`;
+      return this.$t('exchangeText', { from: this.from, to: this.to });
     },
     myWalletAddress() {
       if (!this.me) return '';
@@ -418,3 +416,96 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "asmExchange": "ASM 교환소",
+    "description": "어셈블 포인트와 ASM은 서로 교환할 수 있어요.</br>ASM으로 교환하면, 사람들과 안전하게 주고받거나,</br>암호화폐 거래소에서 거래할 수 있어요.",
+    "pointBoxTitle": "보유 ASM",
+    "pointBoxWalletTitle": "내 교환소 지갑",
+    "walletLoadingText": "만드는 중",
+    "creating": "만들기",
+    "walletCreatingDescripton": "교환소 지갑을 만들면, 앱을 떠나지 않고 이곳에서 간편하게 ASM을 관리할 수 있습니다. 지갑 생성에는 30,000 포인트가 소요됩니다.",
+    "transactionTitle": "트랜잭션",
+    "exchangeTitle": "포인트 → ASM",
+    "enterTheFullAmount": "전액 입력하기",
+    "viewAll": "모두 보기",
+    "shortcut": "바로가기",
+    "sendASM": "ASM 보내기",
+    "recieveASM": "ASM 받기",
+    "ASMaddress": "ASM 입금 주소 보기",
+    "viewInEthercan": "Etherscan에서 보기",
+    "notEnoughAsp": "최소 {point}P 필요",
+    "notEnoughRemainingPoints": "잔여 포인트 부족",
+    "notEnoughFee": "교환 수수료 {fee}P 부족",
+    "exchangeText": "{from} P를 {to} ASM 로 교환"
+  },
+  "en": {
+    "asmExchange": "ASM Exchange",
+    "description": "Assemble points and ASM can be exchanged.</br>If you exchange it with ASM,</br>you can exchange it safely with people or trade it on the cryptocurrency exchange.",
+    "pointBoxTitle": "ASM Retained",
+    "pointBoxWalletTitle": "My Exchange Wallet",
+    "walletLoadingText": "Creating",
+    "creating": "creating",
+    "walletCreatingDescripton": "If you create an exchange wallet, you can easily manage ASM here without leaving the app. Wallet creation costs 30,000 points.",
+    "transactionTitle": "Transaction",
+    "exchangeTitle": "Point → ASM",
+    "enterTheFullAmount": "enter the full amount",
+    "viewAll": "View all",
+    "shortcut": "Shortcut",
+    "sendASM": "Send ASM",
+    "recieveASM": "Recieve ASM",
+    "ASMaddress": "View ASM Deposit Address",
+    "viewInEthercan": "View in Ethercan",
+    "notEnoughAsp": "Minimum {point}P required",
+    "notEnoughRemainingPoints": "not enough remaining points",
+    "notEnoughFee": "not enough exchange fee {fee}P",
+    "exchangeText": "Exchange {from}P to {to}ASM"
+  },
+  "ja": {
+    "asmExchange": "ASM交換所",
+    "description": "アセンブルポイントとASMはお互いに交換できます。</br>ASMに交換すれば、人々と安全にやり取りしたり、</br>暗号通貨取引所で取引することができます。",
+    "pointBoxTitle": "保有ASM",
+    "pointBoxWalletTitle": "私の交換所財布",
+    "walletLoadingText": "作り中",
+    "creating": "造り",
+    "walletCreatingDescripton": "交換所の財布を作れば、アプリを離れずにここで簡単にASMを管理できます。 ウォレットの生成には30,000ポイントが必要となります。",
+    "transactionTitle": "Transaction",
+    "exchangeTitle": "Point → ASM",
+    "enterTheFullAmount": "全額を記入する",
+    "viewAll": "丸見え",
+    "shortcut": "真っ直ぐに行く",
+    "sendASM": "ASM送信",
+    "recieveASM": "ASMを受信する",
+    "ASMaddress": "ASM入金アドレスを見る",
+    "viewInEthercan": "Etherscanで見る",
+    "notEnoughAsp": "最低{point}P必要",
+    "notEnoughRemainingPoints": "残りの点が足りない",
+    "notEnoughFee": "●交換手数料{fee}P不足",
+    "exchangeText": "●{from}Pを{to}ASMに交換"
+  },
+  "cn": {
+    "asmExchange": "ASM交换站",
+    "description": "汇编积分和ASM可以互相交换。</br>用ASM交换的话，可以安全地与人交流，</br>也可以在加密货币交易所进行交易。",
+    "pointBoxTitle": "持有ASM",
+    "pointBoxWalletTitle": "我的交换所钱包",
+    "walletLoadingText": "正在创建",
+    "creating": "制作",
+    "walletCreatingDescripton": "如果制作交换所钱包，不离开应用程序，在这里便捷地管理ASM 生成钱包需要30,000积分。",
+    "transactionTitle": "Transaction",
+    "exchangeTitle": "Point → ASM",
+    "enterTheFullAmount": "输入全部金额",
+    "viewAll": "全部查看",
+    "shortcut": "快捷键",
+    "sendASM": "发送 ASM",
+    "recieveASM": "接收ASM",
+    "ASMaddress": "显示ASM汇款地址",
+    "viewInEthercan": "在 Eterscan 上显示",
+    "notEnoughAsp": "至少需要{point}P",
+    "notEnoughRemainingPoints": "剩下的分数不够",
+    "notEnoughFee": "交换手续费缺口{fee}P",
+    "exchangeText": "将{from}P替换为{to}ASM"
+  }
+}
+</i18n>

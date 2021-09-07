@@ -144,24 +144,34 @@
       .assemble-logo
 
     .contents.assemble-section
-      h1.form-title 회원가입 및 {{ appName }} 연결하기
+      h1.form-title {{ $t('title', { appName }) }}
       form(@submit.prevent="submit")
         input(:value="appUserName",readonly).readonly
-        input(placeholder="이름" type="text", v-model="name").name
-        input(placeholder="이메일", type="email", v-model="email").email
-        input(placeholder="비밀번호", type="password", v-model="password").password
-        p.info 연결이 완료되면 어셈블과 {{ appName }}의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.
-        button.join(type="submit") 회원가입
-        p.error-message(v-if="error") 입력 정보들을 확인해주세요.
-      button(@click="goToSignIn").member 기존 회원인가요?
+        input(:placeholder="$t('name')" type="text", v-model="name").name
+        input(:placeholder="$t('email')", type="email", v-model="email").email
+        input(:placeholder="$t('password')", type="password", v-model="password").password
+        p.info {{ $t('description', { appName }) }}
+        button.join(type="submit") {{ $t('submit') }}
+        p.error-message(v-if="error") {{ $t('errorMessage') }}
+      button(@click="goToSignIn").member {{ $t('signIn') }}
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
 const APP_NAME_MAP = {
-  clubpass: '클럽패스',
-  sta1: '스타일닷컴',
+  clubpass: {
+    ko: '클럽패스',
+    en: 'Clubpass',
+    ja: 'Clubpass',
+    cn: 'Clubpass',
+  },
+  sta1: {
+    ko: '스타일닷컴',
+    en: 'sta1.com',
+    ja: 'sta1.com',
+    cn: 'sta1.com',
+  },
 };
 
 export default {
@@ -169,9 +179,10 @@ export default {
     ...mapState({
       me: (state) => state.me,
       client_id: (state) => state.route.query.client_id,
+      locale: (state) => state.route.params.locale,
     }),
     appName() {
-      const name = APP_NAME_MAP[this.client_id];
+      const name = APP_NAME_MAP[this.client_id][this.locale];
       if (!name) return '';
       return name;
     },
@@ -234,3 +245,48 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "회원가입 및 {appName} 연결하기",
+    "name": "이름",
+    "email": "이메일",
+    "password": "비밀번호",
+    "description": "연결이 완료되면 어셈블과 {appName}의 계정 공개 정보, 어셈블 포인트 이력과 합계를 함께 공유합니다.",
+    "submit": "회원가입",
+    "errorMessage": "입력 정보들을 확인해주세요.",
+    "signIn": "기존 회원인가요?"
+  },
+  "en": {
+    "title": "Sign up for membership and connecting {appName}",
+    "name": "name",
+    "email": "email",
+    "password": "password",
+    "description": "Once the connection is complete, share the account disclosure information, assemble point history and totals of Assemble and {appName}.",
+    "submit": "sign up",
+    "errorMessage": "Please check the input information.",
+    "signIn": "Are you an existing member?"
+  },
+  "ja": {
+    "title": "会員登録および{appName}を接続します。",
+    "name": "お名前",
+    "email": "パスワード",
+    "password": "パスワード",
+    "description": "接続が完了すると、Assembleと{appName}のアカウント公開情報、アセンブルポイント履歴と合計を共有します。",
+    "submit": "会員加入",
+    "errorMessage": "入力情報を確認してください。",
+    "signIn": "既存会員ですか。"
+  },
+  "cn": {
+    "title": "注册会员及连接{appName}",
+    "name": "名气",
+    "email": "电子邮件",
+    "password": "密码",
+    "description": "连接完成后， 共享Assemble 和{appName} 的账户公开信息、 汇编积分履历和合计。",
+    "submit": "注册会员",
+    "errorMessage": "请确认输入信息。",
+    "signIn": "是现有会员吗？"
+  }
+}
+</i18n>

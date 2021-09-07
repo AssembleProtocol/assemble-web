@@ -190,7 +190,7 @@
         p.product-price {{ marketItem.price | displayNumber }} P
       hr.divider
       .contents.assemble-section(v-if="marketItem")
-        h2.contents-title 상품 상세 정보 및 유의사항
+        h2.contents-title {{ $t('detailTitle') }}
         p.contents-text {{ marketItem.descriptionText }}
         img.contents-img(
           v-if="marketItem.descriptionImage",
@@ -205,6 +205,7 @@
 
 <script>
 import gql from 'graphql-tag';
+import { mapState } from 'vuex';
 
 export default {
   props: {
@@ -219,14 +220,17 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      locale: (state) => state.route.params.locale,
+    }),
     notEnoughAsp() {
       if (!this.marketItem) return true;
       if (Number(this.totalAsp) < Number(this.marketItem.price)) return true;
       return false;
     },
     notEnoughAspText() {
-      if (this.notEnoughAsp) return '포인트가 부족해요';
-      return '구입하기';
+      if (this.notEnoughAsp) return this.$t('notEnoughAspText');
+      return this.$t('enoughAspText');
     },
   },
   apollo: {
@@ -270,3 +274,28 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "detailTitle": "상품 상세 정보 및 유의사항",
+    "enoughAspText": "구입하기",
+    "notEnoughAspText": "포인트가 부족해요"
+  },
+  "en": {
+    "detailTitle": "Product details and cautions",
+    "enoughAspText": "Buy",
+    "notEnoughAspText": "You don't have enough points."
+  },
+  "ja": {
+    "detailTitle": "商品の詳細情報及び注意事項",
+    "enoughAspText": "購入する",
+    "notEnoughAspText": "「ポイント」が足りない。"
+  },
+  "cn": {
+    "detailTitle": "商品详细信息及注意事项",
+    "enoughAspText": "购买",
+    "notEnoughAspText": "分数不够啊。"
+  }
+}
+</i18n>

@@ -106,11 +106,11 @@
     header.nav
       button.back-button(@click="goBack")
     .contents.assemble-section
-      h1.form-title 비밀번호 재설정하기
-      p.description 존재하는 이메일 주소라면, 해당 이메일 주소 계정의 비밀번호를 재설정 할 수 있는 링크가 전송될 것입니다.
+      h1.form-title {{ $t('title') }}
+      p.description {{ $t('description') }}
       form(@submit.prevent="submit")
-        input.password(placeholder="이메일 주소", type="email", v-model="email")
-        button.submit-button(type="submit") 재설정 메일 요청
+        input.password(:placeholder="$t('email')", type="email", v-model="email")
+        button.submit-button(type="submit") {{ $t('submit') }}
 </template>
 
 <script>
@@ -138,3 +138,32 @@ export default {
 
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "비밀번호 재설정하기",
+    "description": "존재하는 이메일 주소라면, 해당 이메일 주소 계정의 비밀번호를 재설정 할 수 있는 링크가 전송될 것입니다.",
+    "email": "이메일 주소",
+    "submit": "재설정 메일 요청"
+  },
+  "en": {
+    "title": "Reset Password",
+    "description": "If an email address exists, a link will be sent to reset the password for that email address account.",
+    "email": "e-mail address",
+    "submit": "Reset mail request"
+  },
+  "ja": {
+    "title": "暗証番号の再設定",
+    "description": "存在するメールアドレスであれば、該当メールアドレスアカウントのパスワードを再設定できるリンクが送信されます。",
+    "email": "イーメールアドレス",
+    "submit": "再設定メール要請"
+  },
+  "cn": {
+    "title": "重新设置密码",
+    "description": "如果您是已有的邮箱地址， 将会发送重新设置该邮箱地址账户密码的链接 。",
+    "email": "电子邮件地址",
+    "submit": "请求重置邮件"
+  }
+}
+</i18n>

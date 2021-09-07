@@ -115,11 +115,11 @@
     header.nav
       button.back-button(@click="goBack")
     .contents.assemble-section
-      h1.form-title 비밀번호 변경하기
+      h1.form-title {{ $t('title') }}
       form(@submit.prevent="submit")
-        input.password(placeholder="기존 비밀번호", type="password", v-model="oldPassword")
-        input.password(placeholder="새 비밀번호", type="password", v-model="newPassword")
-        button.login-button(:class="{ inactive: !validity }", type="submit") 변경하기
+        input.password(:placeholder="$t('previousPassword')", type="password", v-model="oldPassword")
+        input.password(:placeholder="$t('newPassword')", type="password", v-model="newPassword")
+        button.login-button(:class="{ inactive: !validity }", type="submit") {{ $t('submit') }}
 </template>
 
 <script>
@@ -159,3 +159,32 @@ export default {
 
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "비밀번호 변경하기",
+    "previousPassword": "기존 비밀번호",
+    "newPassword": "새 비밀번호",
+    "submit": "변경하기"
+  },
+  "en": {
+    "title": "Change password",
+    "previousPassword": "previous password",
+    "newPassword": "new password",
+    "submit": "Change"
+  },
+  "ja": {
+    "title": "暗証番号変更",
+    "previousPassword": "既存パスワード",
+    "newPassword": "新しい暗証番号",
+    "submit": "変更する"
+  },
+  "cn": {
+    "title": "更改密码",
+    "previousPassword": "现有密码",
+    "newPassword": "新建密码",
+    "submit": "更改"
+  }
+}
+</i18n>

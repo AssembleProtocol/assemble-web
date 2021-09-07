@@ -84,22 +84,22 @@
   section.exchange-center-exchange-result-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title 포인트 → ASM 확인하기
+        h1.nav-title {{ $t('title') }}
       .form-group
-        p.label 받는 주소
+        p.label {{ $t('incomingAddress') }}
         p.value {{ displayAddress }}
       .form-group
-        p.label 지불 포인트
+        p.label {{ $t('paymentPoints') }}
         p.value {{ from }} P
       .form-group
-        p.label 교환 수수료
+        p.label {{ $t('exchangeFee') }}
         p.value 100 P
       hr.divier
       .form-group
-        p.label 교환 ASM
+        p.label {{ $t('exchangeASM') }}
         p.value {{ to }} ASM
-      button.submit-button(@click="goToExchangeResult") 교환하기
-      p.description 최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다.
+      button.submit-button(@click="goToExchangeResult") {{ $t('toExchange') }}
+      p.description {{ $t('description') }}
 </template>
 
 <script>
@@ -159,3 +159,38 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "포인트 → ASM",
+    "incomingAddress": "받는 주소",
+    "paymentPoints": "지불 포인트",
+    "exchangeFee": "교환 수수료",
+    "exchangeASM": "교환 ASM",
+    "toExchange": "교환하기",
+    "description": "최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다."
+  },
+  "en": {
+    "title": "Check Point → ASM",
+    "incomingAddress": "incoming address",
+    "paymentPoints": "payment points",
+    "exchangeFee": "exchange fee",
+    "exchangeASM": "exchagne ASM",
+    "toExchange": "To Exchange",
+    "description": "The last exchanged ASM may be different due to market price fluctuations."
+  },
+  "ja": {
+    "title": "Point→ASMを確認します",
+    "incomingAddress": "宛先",
+    "paymentPoints": "支払いポイント",
+    "exchangeFee": "交換手数料"
+  },
+  "cn": {
+    "title": "确认Point→ASM",
+    "incomingAddress": "收件地址",
+    "paymentPoints": "支付点",
+    "exchangeFee": "交换手续费"
+  }
+}
+</i18n>

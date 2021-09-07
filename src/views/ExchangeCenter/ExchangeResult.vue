@@ -84,19 +84,19 @@
   section.exchange-center-exchange-result-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title 접수되었습니다
+        h1.nav-title {{ $t('title') }}
       .form-group
-        p.label 받는 주소
+        p.label {{ $t('incomingAddress') }}
         p.value {{ displayAddress }}
       .form-group
-        p.label 지불 포인트
+        p.label {{ $t('paymentPoints') }}
         p.value {{ from }} P
       hr.divider
       .form-group
-        p.label 교환 ASM
+        p.label {{ $t('exchangeASM') }}
         p.value {{ to }} ASM
-      p.description {{ price }}P/ASM로 교환되었습니다. 교환받은 ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
-      button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
+      p.description {{ $t('description', { price }) }}
+      button.submit-button(@click="goToExchangeMain") {{ $t('returnToExcahnge') }}
 </template>
 
 <script>
@@ -130,3 +130,24 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "접수되었습니다",
+    "incomingAddress": "받는 주소",
+    "paymentPoints": "지불 포인트",
+    "exchangeASM": "교환 ASM",
+    "description": "{price}P/ASM로 교환되었습니다. 교환받은 ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.",
+    "returnToExcahnge": "교환소로 돌아가기"
+  },
+  "en": {
+    "title": "You've received",
+    "incomingAddress": "incoming address",
+    "paymentPoints": "payment points",
+    "exchangeASM": "exchagne ASM",
+    "description": "Exchanged to {price}P/ASM. Sending exchanged ASM. It usually ends in a few minutes, but it can take an hour or two. This delay is caused by the technical characteristics of cryptocurrency.",
+    "returnToExcahnge": "Return to Exchange"
+  }
+}
+</i18n>

@@ -74,21 +74,21 @@
   section.exchange-center-send-confirmation-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title 최종 확인하기
+        h1.nav-title {{ $t('title') }}
       .form-group
-        p.label 받는 주소
+        p.label {{ $t('incomingAddress') }}
         p.value {{ displayAddress }}
       .form-group
-        p.label 수량
+        p.label {{ $t('quantity') }}
         p.value {{ asm }} ASM
       .form-group
-        p.label 수수료
+        p.label {{ $t('fee') }}
         p.value 300 ASM
       hr.divier
       .form-group
-        p.label 합계
+        p.label {{ $t('sum') }}
         p.value {{ Number(asm) + 300 }} ASM
-      button.subimt-button(@click="goToResult") 보내기
+      button.subimt-button(@click="goToResult") {{ $t('send') }}
       //- p.description ASM을 보낼 때 소요되는 수수료는 네트워크 상황에 따라 달라질 수 있습니다.  이 수수료는 편의를 위해 어셈블에 의하여 최적값이 자동으로 계산되지만, 어셈블이 부과하는 것은 아닙니다. 암호화폐의 기술적 특성에 기인합니다.
 </template>
 
@@ -141,3 +141,40 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "최종 확인하기",
+    "incomingAddress": "받는 주소",
+    "quantity": "수량",
+    "fee": "수수료",
+    "sum": "합계",
+    "send": "보내기"
+  },
+  "en": {
+    "title": "Confirmation",
+    "incomingAddress": "incoming address",
+    "quantity": "quantity",
+    "fee": "fee",
+    "sum": "sum",
+    "send": "Send"
+  },
+  "ja": {
+    "title": "最終確認",
+    "incomingAddress": "宛先",
+    "quantity": "数量",
+    "fee": "手数料",
+    "sum": "合計",
+    "send": "送り"
+  },
+  "cn": {
+    "title": "最终确认",
+    "incomingAddress": "收件地址",
+    "quantity": "数量",
+    "fee": "佣金",
+    "sum": "合计",
+    "send": "发送"
+  }
+}
+</i18n>

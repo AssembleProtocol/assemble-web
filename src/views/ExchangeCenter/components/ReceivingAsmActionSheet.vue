@@ -81,15 +81,13 @@
   action-sheet.receiving-asm-action-sheet(:visible="visible", @close="close", ref="actionSheet")
     article.container
       nav.nav
-        strong.title ASM 받기
+        strong.title {{ $t('title') }}
         button.close-button(@click="doClose")
       section.contents
         p.address(@click="copy") {{ displayAddress }}
         vue-qrcode.qr-code(:width="200", :value="`ethereum:${address}`")
-        p.description.
-          QR코드를 촬영하거나, 주소를 공유하세요.#[br]
-          이 교환소로 ASM을 받아올 수 있습니다.
-        button.share-button(@click="share") 주소 공유하기
+        p.description(v-html="$t('description')")
+        button.share-button(@click="share") {{ $t('sharingAddress') }}
 </template>
 
 <script>
@@ -132,3 +130,28 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "ASM 받기",
+    "description": "QR코드를 촬영하거나, 주소를 공유하세요.<br/>이 교환소로 ASM을 받아올 수 있습니다.",
+    "sharingAddress": "주소 공유하기"
+  },
+  "en": {
+    "title": "Receive ASM",
+    "description": "Take a picture of the QR code or share your address. You can get ASM to this exchange.",
+    "sharingAddress": "Sharing Addresses"
+  },
+  "ja": {
+    "title": "ASMを受信する",
+    "description": "QR コードを撮影するか、アドレスを共有してください。 この交換所にASMを受け取ることができます。",
+    "sharingAddress": "アドレスを共有する"
+  },
+  "cn": {
+    "title": "接收ASM",
+    "description": "请拍摄二维码或共享地址。 您可以到这个交换所接收ASM。",
+    "sharingAddress": "共享地址"
+  }
+}
+</i18n>

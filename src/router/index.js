@@ -38,26 +38,26 @@ import StoreResendTicketComplete from '@/views/Store/ResendTicketComplete';
 
 Vue.use(VueRouter);
 
-export default function (store, http, i18n) {
+export default function (store, vuePrototype, i18n) {
+  const { $http, $localePath } = vuePrototype;
   const checkToken = async function beforeEnter(to, from, next) {
     if (store.state.me) return next();
+    const locale = i18n.locale || 'ko';
     if (localStorage.token) {
       try {
         await store.dispatch('fetchMe');
         if (!store.state.me.emailVerified) {
           return next({
-            path: '/email-verification',
-            query: {
-              email: store.state.me.email,
-            },
+            path: `/${locale}/email-verification`,
+            query: { email: store.state.me.email },
           });
         }
       } catch (e) {
         localStorage.removeItem('token');
-        http.defaults.headers.common.Authorization = '';
-        return next('/signin');
+        $http.defaults.headers.common.Authorization = '';
+        return next(`/${locale}/signin`);
       }
-    } else return next('/signin');
+    } else return next(`/${locale}/signin`);
     return next();
   };
 
@@ -231,7 +231,8 @@ export default function (store, http, i18n) {
         beforeEnter: (to, from, next) => {
           const { locale } = to.params;
           const supportedLocales = process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(',');
-          if (!supportedLocales.includes(locale)) return next('ko');
+          // TODO: locale 없이 들어온 path들에 locale 적용
+          if (!supportedLocales.includes(locale)) return next($localePath(to.fullPath), i18n.locale);
           if (i18n.locale !== locale) i18n.locale = locale;
           return next();
         },
@@ -242,7 +243,7 @@ export default function (store, http, i18n) {
         redirect: '/ko',
       },
     ],
-    // TODO: 200ms page transition
+    // 200ms page transition
     scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         return new Promise((resolve) => {
