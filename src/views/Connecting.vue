@@ -93,22 +93,32 @@
       .assemble-logo
 
     .contents.assemble-section
-      h1.title {{ appName }} 연결하기
+      h1.title {{ $t('title', { appName }) }}
       .account-info
         .club-pass.text {{ appName }} #[strong {{ appUserName }}]
-        .assemble.text 어셈블 #[strong {{ me.name }}] #[strong {{ me.email }}]
-        .account-link.text 두 계정을 연결하고 있습니다.
-        p.info.text 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
-      button.account(@click="submit") 연결하기
-      button.another-button(@click="goToSigninToConnecting") 다른 계정으로 연결하기
+        .assemble.text {{ $t('assembleLabel') }} #[strong {{ me.name }}] #[strong {{ me.email }}]
+        .account-link.text {{ $t('connectDescription') }}
+        p.info.text {{ $t('description') }}
+      button.account(@click="submit") {{ $t('submit') }}
+      button.another-button(@click="goToSigninToConnecting") {{ $t('anotherAccount') }}
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
 const APP_NAME_MAP = {
-  clubpass: '클럽패스',
-  sta1: '스타일닷컴',
+  clubpass: {
+    ko: '클럽패스',
+    en: 'Clubpass',
+    ja: 'Clubpass',
+    cn: 'Clubpass',
+  },
+  sta1: {
+    ko: '스타일닷컴',
+    en: 'sta1.com',
+    ja: 'sta1.com',
+    cn: 'sta1.com',
+  },
 };
 
 export default {
@@ -116,9 +126,10 @@ export default {
     ...mapState({
       me: (state) => state.me,
       client_id: (state) => state.route.query.client_id,
+      locale: (state) => state.route.params.locale,
     }),
     appName() {
-      const name = APP_NAME_MAP[this.client_id];
+      const name = APP_NAME_MAP[this.client_id][this.locale];
       if (!name) return '';
       return name;
     },
@@ -160,8 +171,45 @@ export default {
       }
     },
     goToSigninToConnecting() {
-      this.$router.push({ path: '/signin-to-connecting', query: this.$route.query });
+      this.$router.push({ path: this.$localePath('/signin-to-connecting'), query: this.$route.query });
     },
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "{appName} 연결하기",
+    "assembleLabel": "어셈블",
+    "connectDescription": "두 계정을 연결하고 있습니다.",
+    "description": "연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.",
+    "submit": "연결하기",
+    "anotherAccount": "다른 계정으로 연결하기"
+  },
+  "en": {
+    "title": "Connecting {appName}",
+    "assembleLabel": "assemble",
+    "connectDescription": "Connecting two accounts.",
+    "description": "When the connection is complete, the two services share account disclosure information, assemble point history, and sum together.",
+    "submit": "connecting",
+    "anotherAccount": "connecting to a different account"
+  },
+  "ja": {
+    "title": "{appName}接続します。",
+    "assembleLabel": "assemble",
+    "connectDescription": "二つのアカウントを繋いでいます。",
+    "description": "接続が完了すると、両サービスのアカウント公開情報、アセンブルポイント履歴と合計を両サービスが共有します。",
+    "submit": "つなぎ",
+    "anotherAccount": "別勘定につなぐ"
+  },
+  "cn": {
+    "title": "连接 {appName}",
+    "assembleLabel": "assemble",
+    "connectDescription": "正在连接两个账户。",
+    "description": "连接完成后， 两个服务将共享两个服务的账户公开信息、 汇编积分履历和合计 。",
+    "submit": "连接",
+    "anotherAccount": "连接到其它账户"
+  }
+}
+</i18n>

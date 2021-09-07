@@ -102,7 +102,7 @@
   section.store-order-container
     nav.nav
       button.back-button(@click="$router.back()")
-      h1.title 포인트로 구입하기
+      h1.title {{ $t('title') }}
     .contents.assemble-section(v-if="marketItem")
       product-list-item(
         :image="marketItem.image",
@@ -111,26 +111,26 @@
       )
       bg-input.phone-number-input(
         type="tel",
-        placeholder="티켓을 받을 휴대전화번호 입력",
+        :placeholder="$t('placeholder')",
         v-model="phoneNumber",
         @input="validPhoneNumber",
       )
       .invoice-box
         .form-group
-          p.label 보유 포인트
+          p.label {{ $t('holdingPoints') }}
           p.value {{ totalAsp | displayNumber }} P
         .form-group
-          p.label 상품 가격
+          p.label {{ $t('productPrice') }}
           p.value - {{ marketItem.price | displayNumber }} P
         hr.divider
         .form-group
-          p.label 합계
+          p.label {{ $t('sum') }}
           p.value {{ afterPaidTotalAsp | displayNumber }} P
       button.submit-button(
         :class="{ inactive: !phoneNumberValidity }",
         @click="submitOrder",
       ) {{ validityText }}
-      p.notice-description 30일간 유효합니다.
+      p.notice-description {{ $t('description') }}
 </template>
 
 <script>
@@ -161,8 +161,8 @@ export default {
       return Number(this.totalAsp) - Number(this.marketItem.price);
     },
     validityText() {
-      if (this.phoneNumberValidity) return '구입하기';
-      return '유효한 휴대전화번호를 입력하세요';
+      if (this.phoneNumberValidity) return this.$t('validityText');
+      return this.$t('invalidityText');
     },
   },
   apollo: {
@@ -223,8 +223,33 @@ export default {
           phoneNumber: this.phoneNumber,
         },
       });
-      this.$router.replace(`/store/order-complete/${data.purchaseItem._id}`);
+      this.$router.replace(this.$localePath(`/store/order-complete/${data.purchaseItem._id}`));
     },
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "포인트로 구입하기",
+    "placeholder": "티켓을 받을 휴대전화번호 입력",
+    "holdingPoints": "보유 포인트",
+    "productPrice": "상품 가격",
+    "sum": "합계",
+    "description": "30일간 유효합니다.",
+    "validityText": "구입하기",
+    "invalidityText": "유효한 휴대전화번호를 입력하세요"
+  },
+  "en": {
+    "title": "Buy as a point",
+    "placeholder": "enter the mobile phone number to receive",
+    "holdingPoints": "holding points",
+    "productPrice": "product price",
+    "sum": "sum",
+    "description": "Valid for 30 days.",
+    "validityText": "Buy",
+    "invalidityText": "Please enter a valid phone number."
+  }
+}
+</i18n>

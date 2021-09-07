@@ -147,23 +147,33 @@
       .assemble-logo
 
     .contents.assemble-section
-      h1.form-title {{ appName }} 연결하기
+      h1.form-title {{ $t('title', { appName }) }}
       form(@submit.prevent="submit")
         input.readonly(:value="appUserName",readonly)
-        input.email(placeholder="이메일", type="email", v-model="email")
-        input.password(placeholder="비밀번호", type="password", v-model="password")
-        p.info 연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.
-        button.login(type="submit") 로그인
-        p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
-      button.join(@click="goToSignupToConnecting") 회원가입
+        input.email(:placeholder="$t('email')", type="email", v-model="email")
+        input.password(:placeholder="$t('password')", type="password", v-model="password")
+        p.info {{ $t('description') }}
+        button.login(type="submit") {{ $t('submit') }}
+        p.error-message(v-if="error") {{ $t('errorMessage') }}
+      button.join(@click="goToSignupToConnecting") {{ $t('signUp') }}
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
 const APP_NAME_MAP = {
-  clubpass: '클럽패스',
-  sta1: '스타일닷컴',
+  clubpass: {
+    ko: '클럽패스',
+    en: 'Clubpass',
+    ja: 'Clubpass',
+    cn: 'Clubpass',
+  },
+  sta1: {
+    ko: '스타일닷컴',
+    en: 'sta1.com',
+    ja: 'sta1.com',
+    cn: 'sta1.com',
+  },
 };
 
 export default {
@@ -171,9 +181,10 @@ export default {
     ...mapState({
       me: (state) => state.me,
       client_id: (state) => state.route.query.client_id,
+      locale: (state) => state.route.params.locale,
     }),
     appName() {
-      const name = APP_NAME_MAP[this.client_id];
+      const name = APP_NAME_MAP[this.client_id][this.locale];
       if (!name) return '';
       return name;
     },
@@ -209,14 +220,14 @@ export default {
         await this.$store.dispatch('fetchMe');
         if (!this.me.emailVerified) {
           this.$router.push({
-            path: '/email-verification',
+            path: this.$localePath('/email-verification'),
             query: { email: this.me.email, from: 'signin-to-connecting' },
           });
           return;
         }
 
         this.$router.push({
-          path: '/connecting',
+          path: this.$localePath('/connecting'),
           query: this.$route.query,
         });
       } catch (e) {
@@ -225,8 +236,49 @@ export default {
       }
     },
     goToSignupToConnecting() {
-      this.$router.push({ path: '/signup-to-connecting', query: this.$route.query });
+      this.$router.push({ path: this.$localePath('/signup-to-connecting'), query: this.$route.query });
     },
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "{appName} 연결하기",
+    "email": "이메일",
+    "password": "비밀번호",
+    "description": "연결이 완료되면 두 서비스의 계정 공개 정보, 어셈블 포인트 이력과 합계를 두 서비스가 함께 공유합니다.",
+    "submit": "로그인",
+    "errorMessage": "이메일 혹은 비밀번호를 확인해주세요",
+    "signUp": "회원가입"
+  },
+  "en": {
+    "title": "Connecting {appName}",
+    "email": "email",
+    "password": "password",
+    "description": "When the connection is complete, the two services share account disclosure information, assemble point history, and sum together.",
+    "submit": "Login",
+    "errorMessage": "이메일 혹은 비밀번호를 확인해주세요",
+    "signUp": "Sign up"
+  },
+  "ja": {
+    "title": "{appName}接続します。",
+    "email": "パスワード",
+    "password": "パスワード",
+    "description": "接続が完了すると、両サービスのアカウント公開情報、アセンブルポイント履歴と合計を両サービスが共有します。",
+    "submit": "Login",
+    "errorMessage": "이메일 혹은 비밀번호를 확인해주세요",
+    "signUp": "会員加入です"
+  },
+  "cn": {
+    "title": "连接 {appName}",
+    "email": "电子邮件",
+    "password": "密码",
+    "description": "连接完成后， 两个服务将共享两个服务的账户公开信息、 汇编积分履历和合计 。",
+    "submit": "Login",
+    "errorMessage": "이메일 혹은 비밀번호를 확인해주세요",
+    "signUp": "注册会员"
+  }
+}
+</i18n>

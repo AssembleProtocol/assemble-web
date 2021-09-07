@@ -131,21 +131,25 @@
     nav.nav
       img.logo(src="@/assets/assemble-logo.png", height="32")
       .nav-point-box
-        span.nav-point-box-title 보유 포인트
+        span.nav-point-box-title {{ $t('holdingPoints') }}
         point-text.nav-point-box-text(:value="totalAsp", size="xsmall")
-      router-link.profile-button(to="/setting")
+      locale-router-link.profile-button(to="/setting")
     article.article
       section.section.point-section
         .point-box
           nav.point-box-nav
-            strong.point-box-title 보유 포인트
+            strong.point-box-title {{ $t('holdingPoints') }}
           point-text.point-box-text(:value="totalAsp")
       section.desktop-section
         section.section.app-section
-          h1.section-title 연결된 앱
+          h1.section-title {{ $t('connectedApps') }}
           .list-item-group
-            router-link.list-item-wrapper(to="/exchange-center")
-              list-item(title="ASM 교환소", appId="exchange", subtitle="app.assembleprotocol.com")
+            locale-router-link.list-item-wrapper(to="/exchange-center")
+              list-item(
+                :title="$t('asmExchange')",
+                appId="exchange",
+                subtitle="app.assembleprotocol.com",
+              )
             a.list-item-wrapper(
               v-for="myApp in myApps",
               :key="myApp._id",
@@ -156,8 +160,8 @@
               list-item(:title="myApp.name", :appId="myApp.appId", :subtitle="myApp.subtitle")
         section.section.histories-section(v-if="histories && (histories.length > 0)")
           .section-header
-            h1.section-title 최근 포인트 내역
-            router-link.link-button(to="/point-histories") 모두 보기
+            h1.section-title {{ $t('recentPointsHistories') }}
+            locale-router-link.link-button(to="/point-histories") {{ $t('viewAll') }}
           .list-item-group
             small-list-item(
               v-for="history in histories",
@@ -227,6 +231,7 @@ export default {
     };
   },
   async mounted() {
+    // console.log(this.$i18n.locale);
     const [
       { data: pointsData },
       { data: histories },
@@ -255,3 +260,36 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "holdingPoints": "보유 포인트",
+    "connectedApps": "연결된 앱",
+    "asmExchange": "ASM 교환소",
+    "recentPointsHistories": "최근 포인트 내역",
+    "viewAll": "모두 보기"
+  },
+  "en": {
+    "holdingPoints": "holding points",
+    "connectedApps": "connected apps",
+    "asmExchange": "ASM Exchange",
+    "recentPointsHistories": "Recent Points Histories",
+    "viewAll": "view all"
+  },
+  "ja": {
+    "holdingPoints": "保有ポイント",
+    "connectedApps": "連結されたアプリ",
+    "asmExchange": "ASM交換所",
+    "recentPointsHistories": "最近のポイントの内訳",
+    "viewAll": "丸見え"
+  },
+  "cn": {
+    "holdingPoints": "持仓点",
+    "connectedApps": "连接的应用程序",
+    "asmExchange": "ASM交换站",
+    "recentPointsHistories": "最近的积分明细",
+    "viewAll": "全部查看"
+  }
+}
+</i18n>

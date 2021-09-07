@@ -76,19 +76,19 @@
   section.exchange-center-send-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title 포인트 → ASM
+        h1.nav-title {{ $t('title') }}
         p.point-ratio-text {{ this.POINT_RATIO }}P / ASM
       asm-input.input-wrapper(:value="displayExchangeText", readonly)
-      asm-input.input-wrapper(v-model="address", placeholder="받는 주소")
+      asm-input.input-wrapper(v-model="address", :placeholder="$t('incomingAddress')")
         button.qr-code-scan-button(
           v-if="hasQrScanner",
           slot="suffix",
           @click="openQrScanner",
         )
       .link-button-wrapper
-        button.link-button(@click="inputMyAddress") 내 교환소 지갑 주소 입력하기
-      button.next-button(@click="goToNext") 다음
-      p.description 최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다. 받는 주소에는 ASM을 받을 본인 또는 상대방의 암호화폐 거래소에서 발급 받은 주소 또는 이더리움 지갑의 주소를 입력하세요. 교환에는 100 포인트의 수수료가 추가로 소요됩니다.
+        button.link-button(@click="inputMyAddress") {{ $t('enterMyAddress') }}
+      button.next-button(@click="goToNext") {{ $t('next') }}
+      p.description {{ $t('description') }}
 </template>
 
 <script>
@@ -160,10 +160,43 @@ export default {
     },
     goToNext() {
       this.$router.push({
-        path: '/exchange-center/exchange-confirmation',
+        path: this.$localePath('/exchange-center/exchange-confirmation'),
         query: { address: this.address, to: this.to, from: this.from },
       });
     },
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "포인트 → ASM",
+    "incomingAddress": "받는 주소",
+    "enterMyAddress": "내 교환소 지갑 주소 입력하기",
+    "next": "다음",
+    "description": "최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다. 받는 주소에는 ASM을 받을 본인 또는 상대방의 암호화폐 거래소에서 발급 받은 주소 또는 이더리움 지갑의 주소를 입력하세요. 교환에는 100 포인트의 수수료가 추가로 소요됩니다."
+  },
+  "en": {
+    "title": "Point → ASM",
+    "incomingAddress": "incoming address",
+    "enterMyAddress": "Enter My Exchange Wallet Address",
+    "next": "Next",
+    "description": "The last exchanged ASM may be different due to market price fluctuations. For the receiving address, enter the address of the person who will receive the ASM or the address of the Ethereum wallet issued by the counterparty's cryptocurrency exchange. An additional 100 points fee is required for the exchange."
+  },
+  "ja": {
+    "title": "Point → ASM",
+    "incomingAddress": "宛先",
+    "enterMyAddress": "私の交換所の財布のアドレスを入力する",
+    "next": "次ぎ",
+    "description": "最終的に交換されたASMは相場の変動によって異なる場合があります。 受け取る住所にはASMを受け取る本人または相手の暗号通貨取引所で発給された住所またはイーサリアム財布の住所を入力してください。 交換には100ポイントの手数料が追加でかかります。"
+  },
+  "cn": {
+    "title": "Point → ASM",
+    "incomingAddress": "收件地址",
+    "enterMyAddress": "输入我的交换站钱包地址",
+    "next": "下一个",
+    "description": "最终交换的ASM可能会因行情变动而存在差异。 在接收地址中输入本人或对方加密货币交易所签发的地址或以太钱包的地址。 交换需要追加100分的手续费。"
+  }
+}
+</i18n>

@@ -120,14 +120,14 @@
       .assemble-logo
 
     .contents.assemble-section
-      h1.form-title 로그인하기
+      h1.form-title {{ $t('title') }}
       form(@submit.prevent="submit")
-        input.email(placeholder="이메일", type="email", v-model="form.email")
-        input.password(placeholder="비밀번호", type="password", v-model="form.password")
-        button.login(type="submit") 로그인
-        p.error-message(v-if="error") 이메일 혹은 비밀번호를 확인해주세요
-      router-link.link-button(to="/request-reset-password") 비밀번호를 잊으셨나요?
-      router-link.link-button(to="/signup") 회원이 아니신가요?
+        input.email(:placeholder="$t('email')", type="email", v-model="form.email")
+        input.password(:placeholder="$t('password')", type="password", v-model="form.password")
+        button.login(type="submit") {{ $t('signInButton') }}
+        p.error-message(v-if="error") {{ $t('errorMessage') }}
+      locale-router-link.link-button(to="/request-reset-password") {{ $t('resetPassword') }}
+      locale-router-link.link-button(to="/signup") {{ $t('signUp') }}
 </template>
 
 <script>
@@ -168,12 +168,12 @@ export default {
         await this.$store.dispatch('fetchMe');
         if (!this.me.emailVerified) {
           this.$router.push({
-            path: '/email-verification',
+            path: this.$localePath('/email-verification'),
             query: { email: this.me.email },
           });
           return;
         }
-        this.$router.push('/');
+        this.$router.push(this.$localePath('/'));
       } catch (e) {
         if (!e.response || !e.response.data) {
           this.$toast('이메일 또는 비밀번호를 확인해주세요.');
@@ -186,3 +186,44 @@ export default {
 
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "로그인하기",
+    "email": "이메일",
+    "password": "비밀번호",
+    "signInButton": "로그인",
+    "errorMessage": "이메일 혹은 비밀번호를 확인해주세요",
+    "resetPassword": "비밀번호를 잊으셨나요?",
+    "signUp": "회원이 아니신가요?"
+  },
+  "en": {
+    "title": "Sign in",
+    "email": "email",
+    "password": "password",
+    "signInButton": "sign in",
+    "errorMessage": "Please check your email or password.",
+    "resetPassword": "Did you forget your password?",
+    "signUp": "Aren't you a member?"
+  },
+  "ja": {
+    "title": "ログインする",
+    "email": "電子メール",
+    "password": "パスワード",
+    "signInButton": "サイン·イン",
+    "errorMessage": "Eメールもしくはパスワードを確認してください。",
+    "resetPassword": "暗証番号を忘れましたか。",
+    "signUp": "会員ではないんでしょうか。"
+  },
+  "cn": {
+    "title": "登录",
+    "email": "电子邮件",
+    "password": "密码",
+    "signInButton": "签到",
+    "errorMessage": "请确认邮箱或密码",
+    "resetPassword": "忘记密码了吗？",
+    "signUp": "不是会员吗？"
+  }
+}
+</i18n>

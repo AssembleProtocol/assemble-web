@@ -74,22 +74,22 @@
   section.exchange-center-send-result-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title 접수되었습니다
+        h1.nav-title {{ $t('title') }}
       .form-group
-        p.label 받는 주소
+        p.label {{ $t('incomingAddress') }}
         p.value {{ displayAddress }}
       .form-group
-        p.label 수량
+        p.label {{ $t('quantity') }}
         p.value {{ asm }} ASM
       .form-group
-        p.label 수수료
+        p.label {{ $t('fee') }}
         p.value 300 ASM
       hr.divier
       .form-group
-        p.label 합계
+        p.label {{ $t('sum') }}
         p.value {{ Number(asm) + 300 }} ASM
-      p.description ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.
-      button.submit-button(@click="goToExchangeMain") 교환소로 돌아가기
+      p.description {{ $t('description') }}
+      button.submit-button(@click="goToExchangeMain") {{ $t('returnToExcahnge') }}
 </template>
 
 <script>
@@ -121,3 +121,44 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "접수되었습니다",
+    "incomingAddress": "받는 주소",
+    "quantity": "수량",
+    "fee": "수수료",
+    "sum": "합계",
+    "description": "ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.",
+    "returnToExcahnge": "교환소로 돌아가기"
+  },
+  "en": {
+    "title": "You've received.",
+    "incomingAddress": "incoming address",
+    "quantity": "quantity",
+    "fee": "fee",
+    "sum": "sum",
+    "description": "Sending ASM. It usually ends in a few minutes, but it can take an hour or two. This delay is caused by the technical characteristics of cryptocurrency.",
+    "returnToExcahnge": "Return to Exchange"
+  },
+  "ja": {
+    "title": "受け付けました",
+    "incomingAddress": "宛先",
+    "quantity": "数量",
+    "fee": "手数料",
+    "sum": "合計",
+    "description": "ASMを送っています。 通常数分以内に終わりますが、1~2時間かかることもあります。 このような遅延は暗号通貨の技術的特性により発生します。",
+    "returnToExcahnge": "交換所へ帰る"
+  },
+  "cn": {
+    "title": "已收到",
+    "incomingAddress": "收件地址",
+    "quantity": "数量",
+    "fee": "佣金",
+    "sum": "合计",
+    "description": "正在发送ASM。 一般在几分钟内结束，但可能需要一两个小时。 这种延迟是由于加密货币的技术特性引起的。",
+    "returnToExcahnge": "返回交换站"
+  }
+}
+</i18n>

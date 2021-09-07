@@ -133,7 +133,7 @@ export default {
   methods: {
     createWallet() {
       this.$emit('createWallet');
-      this.$router.push('/exchange-center/new-wallet-result');
+      this.$router.push(this.$localePath('/exchange-center/new-wallet-result'));
     },
   },
 };

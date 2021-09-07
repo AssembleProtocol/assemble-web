@@ -71,7 +71,7 @@
   section.store-order-complete-container
     nav.nav
       button.close-button(@click="goToHome")
-      h1.title 재발송 요청이 완료되었습니다.
+      h1.title {{ $t('title') }}
     .contents.assemble-section(v-if="purchasedItem")
       product-list-item(
         :image="purchasedItem.itemImage",
@@ -79,9 +79,9 @@
         :name="purchasedItem.itemName",
       )
       .form-group
-        p.label 받는 번호
+        p.label {{ $t('receivePhoneNumber') }}
         p.value {{ purchasedItem.phoneNumber }}
-      p.notice-description 받는 번호로 몇 분 내로 티켓이 도착합니다!
+      p.notice-description {{ $t('description') }}
 </template>
 
 <script>
@@ -134,3 +134,18 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "재발송 요청이 완료되었습니다.",
+    "receivePhoneNumber": "받는 번호",
+    "description": "받는 번호로 몇 분 내로 티켓이 도착합니다!"
+  },
+  "en": {
+    "title": "Your re-send request has been completed.",
+    "receivePhoneNumber": "receive phone number",
+    "description": "Your ticket will arrive in a few minutes at the phone number you receive!"
+  }
+}
+</i18n>

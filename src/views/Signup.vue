@@ -126,14 +126,14 @@
     .nav
       .assemble-logo
     .contents.assemble-section
-      h1.form-title 회원가입하기
+      h1.form-title {{ $t('title') }}
       form(@submit.prevent="submit")
-        input.name(placeholder="이름", type="text" v-model="form.name")
-        input.email(placeholder="이메일", type="email", v-model="form.email")
-        input.password(placeholder="비밀번호", type="password", v-model="form.password")
-        button.join(type="submit") 회원가입
-        p.error-message(v-if="error") 입력 정보들을 확인해주세요.
-      router-link(to="/signin").member 기존 회원인가요?
+        input.name(:placeholder="$t('name')", type="text" v-model="form.name")
+        input.email(:placeholder="$t('email')", type="email", v-model="form.email")
+        input.password(:placeholder="$t('password')", type="password", v-model="form.password")
+        button.join(type="submit") {{ $t('submit') }}
+        p.error-message(v-if="error") {{ $t('errorMessage') }}
+      locale-router-link(to="/signin").member {{ $t('signIn') }}
 </template>
 
 <script>
@@ -181,12 +181,12 @@ export default {
         await this.$store.dispatch('fetchMe');
         if (!this.me.emailVerified) {
           this.$router.push({
-            path: '/email-verification',
+            path: this.$localePath('/email-verification'),
             query: { email: this.me.email },
           });
           return;
         }
-        this.$router.push('/');
+        this.$router.push(this.$localePath('/'));
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
@@ -195,3 +195,44 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "회원가입하기",
+    "name": "이름",
+    "email": "이메일",
+    "password": "비밀번호",
+    "submit": "회원가입",
+    "errorMessage": "입력 정보들을 확인해주세요.",
+    "signIn": "기존 회원인가요?"
+  },
+  "en": {
+    "title": "Sign up",
+    "name": "name",
+    "email": "email",
+    "password": "password",
+    "submit": "sign up",
+    "errorMessage": "Please check the input information.",
+    "signIn": "Are you an existing member?"
+  },
+  "ja": {
+    "title": "会員加入",
+    "name": "お名前",
+    "email": "パスワード",
+    "password": "パスワード",
+    "submit": "会員加入",
+    "errorMessage": "入力情報を確認してください。",
+    "signIn": "既存会員ですか。"
+  },
+  "cn": {
+    "title": "注册会员",
+    "name": "名气",
+    "email": "电子邮件",
+    "password": "密码",
+    "submit": "注册会员",
+    "errorMessage": "请确认输入信息。",
+    "signIn": "是现有会员吗？"
+  }
+}
+</i18n>

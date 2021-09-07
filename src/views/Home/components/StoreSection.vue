@@ -112,11 +112,9 @@
   section.store-container
     nav.nav
       img(src="~@/assets/store-logo.svg", height="36")
-      router-link.link-button.histories-button(to="/store/tickets") 구입 내역
+      locale-router-link.link-button.histories-button(to="/store/tickets") {{ $t('purchaseHistories') }}
     .notice(v-if="!noticeClosed")
-      .notice-description.
-        모든 상품을 가지고 있는 어셈블 포인트로#[br]
-        간단히 구매할 수 있어요!
+      .notice-description(v-html="$t('noticeDescription')")
       button.notice-close-button(@click="closeNotice")
     ul.tab-list
       li.tab-item(
@@ -126,7 +124,7 @@
         @click="selectCategory(category)",
       ) {{ category }}
     .contents
-      router-link.product-card-wrapper(
+      locale-router-link.product-card-wrapper(
         v-for="marketItem in marketItems",
         :to="`/store/products/${marketItem._id}`",
       )
@@ -189,3 +187,24 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "purchaseHistories": "구입 내역",
+    "noticeDescription": "모든 상품을 가지고 있는 어셈블 포인트로</br>간단히 구매할 수 있어요!"
+  },
+  "en": {
+    "purchaseHistories": "Purchase Histories",
+    "noticeDescription": "You can simply buy it with an Assemble Point</br>that has all the products!"
+  },
+  "ja": {
+    "purchaseHistories": "購入内訳",
+    "noticeDescription": "全ての商品を持っているアセンブルポイントで簡単に購買できます！"
+  },
+  "cn": {
+    "purchaseHistories": "购买明细",
+    "noticeDescription": "拥有所有商品的汇编积分可简单购买！"
+  }
+}
+</i18n>

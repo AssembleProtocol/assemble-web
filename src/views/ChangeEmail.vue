@@ -129,15 +129,15 @@
     header.nav
       button.back-button(@click="goBack")
     .contents.assemble-section
-      h1.form-title 이메일 변경하기
+      h1.form-title {{ $t('title') }}
       form(@submit.prevent="submit")
-        input.input(placeholder="새 이메일 주소", type="email", v-model="email", :disabled="verificationToken")
-        input.input(placeholder="계정 비밀번호", type="password", v-model="password", :disabled="verificationToken")
+        input.input(:placeholder="$t('newEmail')", type="email", v-model="email", :disabled="verificationToken")
+        input.input(:placeholder="$t('password')", type="password", v-model="password", :disabled="verificationToken")
         input.input(v-if="verificationToken", placeholder="인증코드", v-model="pinCode")
-      p.info-description(v-if="verificationToken") 메일함을 확인해 인증코드를 확인하고 입력해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요. 인증이 완료될 때까지 이 창을 닫지 마세요.
-      button.submit-button(v-if="!verificationToken", @click="send") 다음
-      button.submit-button(v-else, @click="submit") 인증하기
-      button.resend(v-if="verificationToken", @click="send") 인증코드 재발송
+      p.info-description(v-if="verificationToken") {{ $t('description') }}
+      button.submit-button(v-if="!verificationToken", @click="send") {{ $t('next') }}
+      button.submit-button(v-else, @click="submit") {{ $t('submit') }}
+      button.resend(v-if="verificationToken", @click="send") {{ $t('resend') }}
 </template>
 
 <script>
@@ -174,7 +174,7 @@ export default {
         });
         await this.$store.dispatch('fetchMe');
         this.$toast('인증이 완료되었습니다');
-        this.$router.push('/setting');
+        this.$router.push(this.$localePath('/setting'));
       } catch (e) {
         if (!e.response || !e.response.data) return;
         this.$toast(e.response.data.message);
@@ -184,3 +184,44 @@ export default {
 
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "이메일 변경하기",
+    "newEmail": "새 이메일 주소",
+    "password": "계정 비밀번호",
+    "description": "메일함을 확인해 인증코드를 확인하고 입력해주세요. 만약 받지 못했다면, 스팸메일함을 확인해보거나 재발송을 시도해 보세요. 인증이 완료될 때까지 이 창을 닫지 마세요.",
+    "next": "다음",
+    "submit": "인증하기",
+    "resend": "인증코드 재발송"
+  },
+  "en": {
+    "title": "Change password",
+    "newEmail": "new email",
+    "password": "password",
+    "description": "Please check your mailbox and enter the verification code. If you haven't received it, check your spam mailbox or try to resend it. Do not close this window until authentication is complete.",
+    "next": "next",
+    "submit": "authenticate",
+    "resend": "resend"
+  },
+  "ja": {
+    "title": "暗証番号変更",
+    "newEmail": "新しいメールアドレス",
+    "password": "パスワード",
+    "description": "メールボックスを確認して認証コードを確認して入力してください。 もし届かなかったら、迷惑メールボックスを確認したり、再送したりしてみてください。 認証が完了するまでこのウィンドウを閉めないでください。",
+    "next": "次ぎ",
+    "submit": "認証する",
+    "resend": "認証コード再送"
+  },
+  "cn": {
+    "title": "更改密码",
+    "newEmail": "新建电子邮件地址",
+    "password": "密码",
+    "description": "请确认邮箱并输入验证码。 如果你没收到,请确认一下你的垃圾邮件箱,或者尝试重新发送. 在验证完成前不要关闭此窗口 。",
+    "next": "下一个",
+    "submit": "认证",
+    "resend": "重新发送验证码"
+  }
+}
+</i18n>

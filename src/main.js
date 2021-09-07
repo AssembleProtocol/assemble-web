@@ -15,6 +15,8 @@ import ElementUI from 'element-ui';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
+import LocaleRouterLink from '@/components/LocaleRouterLink';
+import getBrowserLocale from '@/utils/get-browser-locale';
 import { createProvider } from './vue-apollo';
 
 Vue.config.productionTip = false;
@@ -25,6 +27,7 @@ Vue.use(VueClipboard);
 Vue.use(VueLocalstorage);
 Vue.use(VueI18n);
 Vue.use(ElementUI);
+Vue.component('locale-router-link', LocaleRouterLink);
 
 const token = Vue.localStorage.get('token');
 
@@ -33,9 +36,22 @@ if (token) {
 }
 axios.defaults.baseURL = `${process.env.VUE_APP_API_BASE}`;
 
+const i18n = new VueI18n({
+  locale: getBrowserLocale({ countryCodeOnly: true }),
+  defaultLocale: 'ko',
+});
+
 Vue.prototype.$http = axios;
 
-const r = router(store, Vue.prototype.$http);
+Vue.prototype.$localePath = function localePath(to, locale) {
+  if (typeof to !== 'string') return to;
+  let l = locale;
+  if (this && this.$i18n && this.$i18n.locale) l = this.$i18n.locale;
+  else l = 'ko';
+  return `/${l}/${to.replace(/^\/|\/$/g, '')}`;
+};
+
+const r = router(store, Vue.prototype, i18n);
 let canGoBack = false;
 
 r.afterEach((to, from) => {
@@ -50,11 +66,6 @@ r.afterEach((to, from) => {
 Vue.prototype.$history = {
   canGoBack: () => canGoBack,
 };
-
-const i18n = new VueI18n({
-  locale: 'en',
-  defaultLocale: 'ko',
-});
 
 sync(store, r);
 

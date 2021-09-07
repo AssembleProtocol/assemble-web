@@ -35,7 +35,7 @@
   section.exchange-center-transactions-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title 트랜잭션
+        h1.nav-title {{ $t('title') }}
       .transaction-list
         transaction-item(
           v-for="walletHistory in walletHistories",
@@ -71,3 +71,20 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "ko": {
+    "title": "트랜잭션"
+  },
+  "en": {
+    "title": "Transaction"
+  },
+  "ja": {
+    "title": "Transaction"
+  },
+  "cn": {
+    "title": "Transaction"
+  }
+}
+</i18n>
