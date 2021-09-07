@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import getBrowserLocale from '@/utils/get-browser-locale';
 
 import Home from '@/views/Home';
 import PointHistories from '@/views/PointHistories';
@@ -240,7 +241,13 @@ export default function (store, vuePrototype, i18n) {
       },
       {
         path: '*',
-        redirect: '/ko',
+        redirect: () => {
+          const currentBrowserLocale = getBrowserLocale({ countryCodeOnly: true });
+          let locale;
+          if (currentBrowserLocale) locale = currentBrowserLocale;
+          else locale = 'ko';
+          return `/${locale}`;
+        },
       },
     ],
     // 200ms page transition

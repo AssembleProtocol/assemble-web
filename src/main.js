@@ -16,6 +16,7 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 import LocaleRouterLink from '@/components/LocaleRouterLink';
+import getBrowserLocale from '@/utils/get-browser-locale';
 import { createProvider } from './vue-apollo';
 
 Vue.config.productionTip = false;
@@ -36,7 +37,7 @@ if (token) {
 axios.defaults.baseURL = `${process.env.VUE_APP_API_BASE}`;
 
 const i18n = new VueI18n({
-  locale: 'ko',
+  locale: getBrowserLocale({ countryCodeOnly: true }),
   defaultLocale: 'ko',
 });
 
