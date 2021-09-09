@@ -45,8 +45,9 @@ Vue.prototype.$http = axios;
 
 Vue.prototype.$localePath = function localePath(to, locale) {
   if (typeof to !== 'string') return to;
-  let l = locale;
-  if (this && this.$i18n && this.$i18n.locale) l = this.$i18n.locale;
+  let l;
+  if (locale) l = locale;
+  else if (this && this.$i18n && this.$i18n.locale) l = this.$i18n.locale;
   else l = 'ko';
   return `/${l}/${to.replace(/^\/|\/$/g, '')}`;
 };

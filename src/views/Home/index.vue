@@ -4,7 +4,6 @@
     top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
     height: 80px;
     padding: 0 20px;
@@ -14,15 +13,23 @@
   .nav-point-box {
     display: none;
   }
-  .profile-button {
+  .nav-button {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     background-color: #F7F8FA;
-    background-image: url(~@/assets/user-icon.png);
     background-size: 24px;
     background-position: center;
     background-repeat: no-repeat;
+
+    &.profile {
+      margin-left: auto;
+      background-image: url(~@/assets/user-icon.png);
+    }
+    &.setting {
+      margin-left: 10px;
+      background-image: url(~@/assets/setting.svg);
+    }
   }
   .section {
     padding: 20px;
@@ -84,8 +91,10 @@
     .nav-point-box-text {
       margin-left: 10px;
     }
-    .profile-button {
-      margin-left: 20px;
+    .nav-button {
+      &.profile, &.setting {
+        margin-left: 20px;
+      }
     }
     .article {
       display: flex;
@@ -133,7 +142,8 @@
       .nav-point-box
         span.nav-point-box-title {{ $t('holdingPoints') }}
         point-text.nav-point-box-text(:value="totalAsp", size="xsmall")
-      locale-router-link.profile-button(to="/setting")
+      locale-router-link.nav-button.profile(to="/profile")
+      locale-router-link.nav-button.setting(to="/setting")
     article.article
       section.section.point-section
         .point-box

@@ -6,6 +6,7 @@ import Home from '@/views/Home';
 import PointHistories from '@/views/PointHistories';
 
 import Setting from '@/views/Setting';
+import Profile from '@/views/Profile';
 import SignupToConnecting from '@/views/SignupToConnecting';
 import SigninToConnecting from '@/views/SigninToConnecting';
 import Connecting from '@/views/Connecting';
@@ -80,6 +81,12 @@ export default function (store, vuePrototype, i18n) {
       name: 'Setting',
       beforeEnter: checkToken,
       component: Setting,
+    },
+    {
+      path: 'profile',
+      name: 'Profile',
+      beforeEnter: checkToken,
+      component: Profile,
     },
     {
       path: 'signup-to-connecting',
