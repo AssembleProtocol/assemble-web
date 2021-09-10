@@ -24,7 +24,6 @@ import ExchangeCenterSend from '@/views/ExchangeCenter/Send';
 import ExchangeCenterSendConfirmation from '@/views/ExchangeCenter/SendConfirmation';
 import ExchangeCenterSendResult from '@/views/ExchangeCenter/SendResult';
 
-import ExchangeCenterExchange from '@/views/ExchangeCenter/Exchange';
 import ExchangeCenterExchangeConfirmation from '@/views/ExchangeCenter/ExchangeConfirmation';
 import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult';
 
@@ -159,11 +158,6 @@ export default function (store, vuePrototype, i18n) {
           path: 'send-result',
           name: 'ExchangeCenterSendResult',
           component: ExchangeCenterSendResult,
-        },
-        {
-          path: 'exchange',
-          name: 'ExchangeCenterExchange',
-          component: ExchangeCenterExchange,
         },
         {
           path: 'exchange-confirmation',

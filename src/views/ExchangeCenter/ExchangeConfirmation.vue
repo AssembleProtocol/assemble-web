@@ -86,20 +86,17 @@
       header.nav
         h1.nav-title {{ $t('title') }}
       .form-group
-        p.label {{ $t('incomingAddress') }}
-        p.value {{ displayAddress }}
+        p.label {{ $t('currentRatio') }}
+        p.value {{ POINT_RATIO }} P / ASM
       .form-group
-        p.label {{ $t('paymentPoints') }}
-        p.value {{ from }} P
-      .form-group
-        p.label {{ $t('exchangeFee') }}
-        p.value 100 P
+        p.label {{ displayFromLabel }}
+        p.value {{ displayFrom }}
       hr.divier
       .form-group
-        p.label {{ $t('exchangeASM') }}
-        p.value {{ to }} ASM
+        p.label {{ displayToLabel }}
+        p.value {{ displayTo }}
+      p.description(v-html="$t('description')")
       button.submit-button(@click="goToExchangeResult") {{ $t('toExchange') }}
-      p.description {{ $t('description') }}
 </template>
 
 <script>
@@ -108,14 +105,31 @@ import { mapState } from 'vuex';
 let fetchASMPriceTimer;
 
 export default {
+  filters: {
+    displayNumber(number) {
+      return Number(number).toLocaleString();
+    },
+  },
   computed: {
     ...mapState({
-      address: (state) => state.route.query.address,
       from: (state) => state.route.query.from,
+      exchangeMethod: (state) => state.route.query.exchangeMethod,
     }),
-    displayAddress() {
-      if (!this.address) return '';
-      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+    displayFromLabel() {
+      if (this.exchangeMethod === 'toASM') return `${this.$t('paymentPoints')}`;
+      return `${this.$t('paymentASM')}`;
+    },
+    displayFrom() {
+      if (this.exchangeMethod === 'toASM') return `${Number(this.from).toLocaleString()} P`;
+      return `${Number(this.from).toLocaleString()} ASM`;
+    },
+    displayToLabel() {
+      if (this.exchangeMethod === 'toASM') return `${this.$t('exchangeASM')}`;
+      return `${this.$t('exchangePoints')}`;
+    },
+    displayTo() {
+      if (this.exchangeMethod === 'toASM') return `${Number(this.to).toLocaleString()} ASM`;
+      return `${Number(this.to).toLocaleString()} P`;
     },
   },
   data() {
@@ -137,17 +151,18 @@ export default {
       const { data } = await this.$http.get('/config/asm-price');
       const { price } = data;
       this.POINT_RATIO = price;
-      this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(4));
+      if (this.exchangeMethod === 'toASM') this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(0));
+      else this.to = parseFloat((this.from * this.POINT_RATIO).toFixed(0));
     },
     async goToExchangeResult() {
       if (this.loading) return;
       try {
         this.loading = true;
-        const { data } = await this.$http.post('/wallet/exchange/point-to-asm', { to: this.address, point: Number(this.from) });
-        const { address, point, asm, price } = data;
+        const { data } = await this.$http.post('/wallet/exchange/point-to-asm', { point: Number(this.from) });
+        const { point, asm, price } = data;
         this.$router.push({
           path: this.$localePath('/exchange-center/exchange-result'),
-          query: { address, from: point, to: asm, price },
+          query: { from: point, to: asm, price },
         });
       } catch (e) {
         if (!e.response || !e.response.data) return;
@@ -163,34 +178,34 @@ export default {
 <i18n>
 {
   "ko": {
-    "title": "포인트 → ASM",
-    "incomingAddress": "받는 주소",
-    "paymentPoints": "지불 포인트",
-    "exchangeFee": "교환 수수료",
-    "exchangeASM": "교환 ASM",
+    "title": "포인트 → ASM 확인하기",
+    "currentRatio": "현재 교환비",
+    "paymentPoints": "지불 예정 포인트",
+    "paymentASM": "지불 예정 ASM",
+    "exchangeASM": "교환 예정 ASM",
+    "exchangePoints": "교환 예정 포인트",
     "toExchange": "교환하기",
-    "description": "최종 교환된 ASM은 시세 변동에 의해 차이가 있을 수 있습니다."
+    "description": "ASM은 1단위로 교환됩니다. 입력하신 포인트는 최소 단위에 맞추어 자동으로 조정되었습니다. <b>교환비의 실시간 변동에 따라 실제 교환된 양은 차이가 있을 수 있으며, 지불 포인트를 넘지않는 금액으로 자동 조정됩니다.</b> 교환 후 취소는 불가합니다."
   },
   "en": {
     "title": "Check Point → ASM",
-    "incomingAddress": "incoming address",
-    "paymentPoints": "payment points",
-    "exchangeFee": "exchange fee",
-    "exchangeASM": "exchagne ASM",
+    "currentRatio": "Current exchange ratio",
+    "paymentPoints": "Point to be paid",
+    "paymentASM": "ASM to be paid",
+    "exchangeASM": "ASM to be exchanged.",
+    "exchangePoints": "Point to be exchanged.",
     "toExchange": "To Exchange",
     "description": "The last exchanged ASM may be different due to market price fluctuations."
   },
   "ja": {
     "title": "Point→ASMを確認します",
-    "incomingAddress": "宛先",
-    "paymentPoints": "支払いポイント",
-    "exchangeFee": "交換手数料"
+    "currentRatio": "宛先",
+    "paymentPoints": "支払いポイント"
   },
   "cn": {
     "title": "确认Point→ASM",
-    "incomingAddress": "收件地址",
-    "paymentPoints": "支付点",
-    "exchangeFee": "交换手续费"
+    "currentRatio": "收件地址",
+    "paymentPoints": "支付点"
   }
 }
 </i18n>

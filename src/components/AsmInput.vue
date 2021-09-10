@@ -5,6 +5,10 @@
     width: 100%;
     border-radius: 9px;
     background-color: #191F28;
+    &.disabled {
+      background-color: transparent;
+      border: 2px solid #191F28;
+    }
   }
   .icon-wrapper {
     position: absolute;
@@ -41,18 +45,19 @@
 </style>
 
 <template lang="pug">
-  .asm-input-wrapper
+  .asm-input-wrapper(:class="{ disabled }")
     .icon-wrapper.prefix(v-if="$slots.prefix")
       slot(name="prefix")
     input.input(
       :value="value",
       :class="{ hasPrefix, hasSuffix }",
       :style="inputStyleObj",
-      :readonly="readonly",
+      :disabled="disabled",
       :placeholder="placeholder",
       :type="type",
       @input="input",
       @blur="blur",
+      ref="input",
     )
     .icon-wrapper.suffix(v-if="$slots.suffix")
       slot(name="suffix")
@@ -69,7 +74,7 @@ export default {
       type: Number,
       default: 18,
     },
-    readonly: {
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -103,6 +108,9 @@ export default {
     },
     blur(e) {
       this.$emit('blur', e);
+    },
+    doFocus() {
+      this.$refs.input.focus();
     },
   },
 };

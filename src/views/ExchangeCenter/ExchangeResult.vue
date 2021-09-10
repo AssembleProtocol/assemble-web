@@ -44,7 +44,7 @@
   }
   .description {
     margin-top: 20px;
-    color: #D6DAE0;
+    color: rgba(214, 218, 224, .6);
     font-size: 14px;
     line-height: 28px;
   }
@@ -86,16 +86,16 @@
       header.nav
         h1.nav-title {{ $t('title') }}
       .form-group
-        p.label {{ $t('incomingAddress') }}
-        p.value {{ displayAddress }}
+        p.label {{ $t('currentRatio') }}
+        p.value {{ POINT_RATIO }} P / ASM
       .form-group
-        p.label {{ $t('paymentPoints') }}
-        p.value {{ from }} P
+        p.label {{ displayFromLabel }}
+        p.value {{ displayFrom }}
       hr.divider
       .form-group
-        p.label {{ $t('exchangeASM') }}
-        p.value {{ to }} ASM
-      p.description {{ $t('description', { price }) }}
+        p.label {{ displayToLabel }}
+        p.value {{ displayTo }}
+      p.description {{ displayDescription }}
       button.submit-button(@click="goToExchangeMain") {{ $t('returnToExcahnge') }}
 </template>
 
@@ -105,25 +105,52 @@ import { mapState } from 'vuex';
 export default {
   computed: {
     ...mapState({
-      address: (state) => state.route.query.address,
       from: (state) => state.route.query.from,
       to: (state) => state.route.query.to,
       price: (state) => state.route.query.price,
+      exchangeMethod: (state) => state.route.query.exchangeMethod,
     }),
-    displayAddress() {
-      if (!this.address) return '';
-      return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
+    displayFromLabel() {
+      if (this.exchangeMethod === 'toASM') return `${this.$t('paymentPoints')}`;
+      return `${this.$t('paymentASM')}`;
+    },
+    displayFrom() {
+      if (this.exchangeMethod === 'toASM') return `${this.from} P`;
+      return `${this.from} ASM`;
+    },
+    displayToLabel() {
+      if (this.exchangeMethod === 'toASM') return `${this.$t('exchangeASM')}`;
+      return `${this.$t('exchangePoints')}`;
+    },
+    displayTo() {
+      if (this.exchangeMethod === 'toASM') return `${Number(this.to).toLocaleString()} ASM`;
+      return `${Number(this.to).toLocaleString()} P`;
+    },
+    displayDescription() {
+      if (this.exchangeMethod === 'toASM') return this.$t('toASMDescription');
+      return this.$t('toPointDescription');
     },
   },
-  mounted() {
+  async mounted() {
     this.$emit('showNavClose');
     this.$emit('hideNavPoint');
+    await this.fetchASMPrice();
   },
   destroyed() {
     this.$emit('hideNavClose');
     this.$emit('showNavPoint');
   },
+  data() {
+    return {
+      POINT_RATIO: null,
+    };
+  },
   methods: {
+    async fetchASMPrice() {
+      const { data } = await this.$http.get('/config/asm-price');
+      const { price } = data;
+      this.POINT_RATIO = price;
+    },
     goToExchangeMain() {
       this.$emit('goExchangeHome');
     },
@@ -134,19 +161,25 @@ export default {
 <i18n>
 {
   "ko": {
-    "title": "접수되었습니다",
-    "incomingAddress": "받는 주소",
-    "paymentPoints": "지불 포인트",
-    "exchangeASM": "교환 ASM",
-    "description": "{price}P/ASM로 교환되었습니다. 교환받은 ASM을 보내는 중입니다. 보통 몇 분 안에 끝나지만, 한 두시간이 걸릴 수도 있습니다. 이러한 지연은 암호화폐의 기술적 특성으로 발생됩니다.",
+    "title": "교환이 완료되었습니다.",
+    "currentRatio": "적용 교환비",
+    "paymentPoints": "지불된 포인트",
+    "paymentASM": "지불된 ASM",
+    "exchangeASM": "교환된 ASM",
+    "exchangePoints": "교환된 포인트",
+    "toASMDescription": "교환된 ASM은 교환소의 보유 ASM에서 확인하실 수 있습니다.",
+    "toPointDescription": "교환된 포인트는 교환소 상단 또는 어셈블 홈에서 확인하실 수 있습니다.",
     "returnToExcahnge": "교환소로 돌아가기"
   },
   "en": {
-    "title": "You've received",
-    "incomingAddress": "incoming address",
+    "title": "The exchange has been completed.",
+    "currentRatio": "Current exchange ratio",
     "paymentPoints": "payment points",
-    "exchangeASM": "exchagne ASM",
-    "description": "Exchanged to {price}P/ASM. Sending exchanged ASM. It usually ends in a few minutes, but it can take an hour or two. This delay is caused by the technical characteristics of cryptocurrency.",
+    "paymentASM": "paid ASM",
+    "exchangeASM": "Exchange points",
+    "exchangePoints": "Point to be exchanged.",
+    "toASMDescription": "You can check the exchanged ASM on the exchange office's ASM.",
+    "toPointDescription": "The exchanged points can be found at the top of the exchange or at the assemble home.",
     "returnToExcahnge": "Return to Exchange"
   }
 }
