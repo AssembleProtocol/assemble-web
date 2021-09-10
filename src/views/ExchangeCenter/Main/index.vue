@@ -110,7 +110,7 @@
             .point-box-nav-right
               button.point-box-nav-button.send(@click="goToSendAsm")
               button.point-box-nav-button.receive(@click="showReceivingAsm")
-          point-text.point-box-text(:value="wallet.balance", pointType="asm")
+          point-text.point-box-text(:value="asmBalance", pointType="asm")
       section.desktop-section
         section.section.transaction-section.assemble-section.dark(v-if="walletHistories && walletHistories.length > 0")
           nav.section-nav
@@ -122,7 +122,7 @@
               :key="walletHistory._id",
               :transaction="walletHistory",
             )
-        exchange-section(:asp="asp", :wallet="wallet")
+        exchange-section(:asp="asp", :asmBalance="asmBalance")
         section.section.shortcut-section.assemble-section.dark
           nav.section-nav
             h2.section-title {{ $t('shortcut') }}
@@ -156,7 +156,7 @@ export default {
   },
   props: {
     initLoading: { type: Boolean },
-    wallet: { type: Object, default: null },
+    asmBalance: { type: [String, Number], default: null },
     asp: { type: [Number, String], default: null },
     walletHistories: { type: Array, default: () => [] },
   },

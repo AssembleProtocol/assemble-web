@@ -49,7 +49,7 @@
 
 <template lang="pug">
   .transaction-item-container
-    img.icon(v-if="transaction.transferType === 'WITHDRAWAL'", src="~@/assets/transaction-send.svg", width="32", height="32")
+    img.icon(v-if="transferType === '보냄'", src="~@/assets/transaction-send.svg", width="32", height="32")
     img.icon(v-else, src="~@/assets/transaction-receive.svg", width="32", height="32")
     .center
       .header
@@ -62,8 +62,6 @@
 <script>
 import moment from 'moment';
 
-const ASSEMBLE_MASETER_WALLET_ADDRESS = '0xba419bbdbe63f85afd907ae4059422526cc24421';
-
 moment.locale('ko');
 
 export default {
@@ -72,28 +70,38 @@ export default {
   },
   filters: {
     dateFilter(date) {
-      return moment(date - 0).fromNow();
+      return moment(date).fromNow();
     },
   },
   computed: {
+    transferType() {
+      return this.transaction.amount > 0 ? '받음' : '보냄';
+    },
     title() {
-      if (this.transaction.transferType === 'WITHDRAWAL') return '보냄';
-      return '받음';
+      return this.transferType;
     },
     description() {
-      if (this.transaction.transferType === 'WITHDRAWAL') {
-        const address = this.transaction.to;
-        if (address === ASSEMBLE_MASETER_WALLET_ADDRESS) return '받는 주소: 어셈블';
-        const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
-        return `받는 주소 ${addressText}`;
+      const prefix = this.transferType === '받음' ? '보낸 주소' : '받는 주소';
+      const { type } = this.transaction;
+      let text = '알 수 없음';
+      if (type === 'initialized') {
+        text = '어셈블';
+      } else if (type === 'exchange') {
+        text = '어셈블 교환소';
+      } else if (type === 'external') {
+        const address = this.transferType === '받음'
+          ? this.transaction.addressFrom : this.transaction.addressTo;
+        text = `${address.slice(0, 6)}...${address.slice(-4)}`;
+      } else if (type === 'internal') {
+        const name = this.transferType === '받음'
+          ? this.transaction.userNameFrom : this.transaction.userNameTo;
+        text = name;
       }
-      const address = this.transaction.from;
-      const addressText = `${address.slice(0, 6)}...${address.slice(-4)}`;
-      return `보낸 주소 ${addressText}`;
+      return `${prefix}: ${text}`;
     },
     amount() {
-      if (this.transaction.transferType === 'WITHDRAWAL') {
-        return `- ${Number(this.transaction.amount).toLocaleString()}`;
+      if (this.transferType === '보냄') {
+        return Number(this.transaction.amount).toLocaleString();
       }
       return `+ ${Number(this.transaction.amount).toLocaleString()}`;
     },

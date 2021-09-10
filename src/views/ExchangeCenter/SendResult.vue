@@ -44,7 +44,7 @@
   }
   .description {
     margin-top: 20px;
-    color: #D6DAE0;
+    color: rgba(214, 218, 224, .6);
     font-size: 14px;
     line-height: 28px;
   }
@@ -76,18 +76,20 @@
       header.nav
         h1.nav-title {{ $t('title') }}
       .form-group
-        p.label {{ $t('incomingAddress') }}
+        p.label(v-if="username") {{ $t('incomingUser') }}
+        p.label(v-else) {{ $t('incomingAddress') }}
         p.value {{ displayAddress }}
       .form-group
         p.label {{ $t('quantity') }}
         p.value {{ asm }} ASM
-      .form-group
+      .form-group(v-if="!username")
         p.label {{ $t('fee') }}
-        p.value 300 ASM
+        p.value {{ transferFee }} ASM
       hr.divier
       .form-group
         p.label {{ $t('sum') }}
-        p.value {{ Number(asm) + 300 }} ASM
+        p.value(v-if="!username") {{ Number(asm) + Number(transferFee) }} ASM
+        p.value(v-else) {{ Number(asm) }} ASM
       p.description {{ $t('description') }}
       button.submit-button(@click="goToExchangeMain") {{ $t('returnToExcahnge') }}
 </template>
@@ -100,9 +102,12 @@ export default {
     ...mapState({
       address: (state) => state.route.query.address,
       asm: (state) => state.route.query.asm,
+      transferFee: (state) => state.route.query.transferFee,
+      username: (state) => state.route.query.username,
     }),
     displayAddress() {
       if (!this.address) return '';
+      if (this.username) return this.username;
       return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
     },
   },
@@ -127,6 +132,7 @@ export default {
   "ko": {
     "title": "접수되었습니다",
     "incomingAddress": "받는 주소",
+    "incomingUser": "받는 유저",
     "quantity": "수량",
     "fee": "수수료",
     "sum": "합계",
@@ -136,6 +142,7 @@ export default {
   "en": {
     "title": "You've received.",
     "incomingAddress": "incoming address",
+    "incomingUser": "incoming user",
     "quantity": "quantity",
     "fee": "fee",
     "sum": "sum",

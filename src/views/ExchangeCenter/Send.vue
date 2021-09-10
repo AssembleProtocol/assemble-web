@@ -89,7 +89,6 @@
 <script>
 import AsmInput from '@/components/AsmInput';
 
-const FEE = 300;
 let timer;
 
 export default {
@@ -97,19 +96,26 @@ export default {
     AsmInput,
   },
   props: {
-    wallet: { type: Object, default: null },
+    asmBalance: { type: [String, Number], default: null },
   },
   data() {
     return {
+      transferFee: null,
       address: '',
       asm: '',
       hasQrScanner: false,
     };
   },
-  mounted() {
+  async mounted() {
+    await this.fetchFee();
     if (window.s3app) this.hasQrScanner = true;
   },
   methods: {
+    async fetchFee() {
+      const { data } = await this.$http.get('/exchange/asm-transfer-fee');
+      const { transferFee } = data;
+      this.transferFee = transferFee;
+    },
     openQrScanner() {
       if (window.s3app) {
         window.s3app.scannedAddress = '';
@@ -125,22 +131,22 @@ export default {
       }
     },
     inputAllBalance() {
-      let asm = Number(this.wallet.balance - FEE);
-      if (asm < FEE) {
-        this.$toast('ASM을 보내는데 300ASM이 필요합니다.');
+      let asm = Number(this.asmBalance - this.transferFee);
+      if (asm < this.transferFee) {
+        this.$toast(`ASM을 보내는데 ${this.transferFee}ASM이 필요합니다.`);
         asm = 0;
       }
       this.asm = parseFloat(asm.toFixed(4));
     },
     goToNext() {
-      const asm = Number(this.wallet.balance - FEE);
+      const asm = Number(this.asmBalance - this.transferFee);
       if (this.asm > asm) {
-        this.$toast('잔액이 부족합니다. 수수료로 300ASM이 필요합니다.');
+        this.$toast(`잔액이 부족합니다. 수수료로 ${this.transferFee}ASM이 필요합니다.`);
         return;
       }
       this.$router.push({
         path: this.$localePath('/exchange-center/send-confirmation'),
-        query: { address: this.address, asm: this.asm },
+        query: { address: this.address, asm: this.asm, transferFee: this.transferFee },
       });
     },
   },

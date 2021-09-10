@@ -27,9 +27,6 @@ import ExchangeCenterSendResult from '@/views/ExchangeCenter/SendResult';
 import ExchangeCenterExchangeConfirmation from '@/views/ExchangeCenter/ExchangeConfirmation';
 import ExchangeCenterExchangeResult from '@/views/ExchangeCenter/ExchangeResult';
 
-import ExchangeCenterNewWallet from '@/views/ExchangeCenter/NewWallet';
-import ExchangeCenterNewWalletResult from '@/views/ExchangeCenter/NewWalletResult';
-
 import ExchangeCenterTransactions from '@/views/ExchangeCenter/Transactions';
 import StoreProductDetail from '@/views/Store/Product';
 import StoreOrder from '@/views/Store/Order';
@@ -168,16 +165,6 @@ export default function (store, vuePrototype, i18n) {
           path: 'exchange-result',
           name: 'ExchangeCenterExchangeResult',
           component: ExchangeCenterExchangeResult,
-        },
-        {
-          path: 'new-wallet',
-          name: 'ExchangeCenterNewWallet',
-          component: ExchangeCenterNewWallet,
-        },
-        {
-          path: 'new-wallet-result',
-          name: 'ExchangeCenterNewWalletResult',
-          component: ExchangeCenterNewWalletResult,
         },
         {
           path: 'transactions',

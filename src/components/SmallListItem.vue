@@ -14,7 +14,7 @@
     border: 1px solid #F7F8FA;
     background-size: cover;
     background-repeat: no-repeat;
-    &.market {
+    &.exchange {
       background-image: url(~@/assets/asm-exchange.png);
     }
     &.clubpass {

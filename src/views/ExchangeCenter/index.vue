@@ -90,19 +90,19 @@
     nav.nav
       button.nav-button.close(v-if="navCloseVisible", @click="goExchangeHome")
       button.nav-button.back(v-else, @click="goBack")
-      .nav-right(v-if="wallet && navPointVisible")
+      .nav-right(v-if="navPointVisible")
         .nav-point-box
           i.nav-point-icon.asp
           p.nav-point-text.asp {{ asp | displayNumber }}
         .nav-point-box
           i.nav-point-icon.asm
-          p.nav-point-text.asm {{ wallet.balance | displayNumber }}
+          p.nav-point-text.asm {{ asmBalance | displayNumber }}
     article.article
       transition(name="page", mode="out-in")
         router-view(
           :key="routeName",
           :initLoading="initLoading",
-          :wallet="wallet",
+          :asmBalance="asmBalance",
           :asp="asp",
           :walletHistories="walletHistories",
           @showNavPoint="showNavPoint",
@@ -133,7 +133,7 @@ export default {
       navCloseVisible: false,
       initLoading: true,
       loading: false,
-      wallet: null,
+      asmBalance: null,
       asp: 0,
       walletHistories: null,
     };
@@ -142,7 +142,7 @@ export default {
     document.body.classList.add('dark');
     document.getElementById('app').classList.add('dark');
     this.initAsp();
-    await this.fetchWallet();
+    await this.fetchASMBalance();
     await this.fetchHistories();
   },
   destroyed() {
@@ -151,11 +151,12 @@ export default {
   },
   methods: {
     async fetchHistories() {
-      const { data: walletHistories } = await this.$http.get('/wallet/histories', { params: { size: 5 } });
+      const { data: walletHistories } = await this.$http.get('/exchange/transactions', { params: { offset: 0, limit: 5 } });
       this.walletHistories = walletHistories;
     },
-    goExchangeHome() {
-      this.initWallet();
+    async goExchangeHome() {
+      await this.initASMBalance();
+      await this.fetchHistories();
       this.$router.push(this.$localePath('/exchange-center'));
     },
     goBack() {
@@ -164,17 +165,19 @@ export default {
       else if (window.s3app) window.close();
       else this.$router.push(this.$localePath('/'));
     },
-    async initWallet() {
-      const { data: wallet } = await this.$http.get('/wallet');
-      this.wallet = wallet;
+    async initASMBalance() {
+      const { data } = await this.$http.get('/exchange/me/asm-balance');
+      const { asmBalance } = data;
+      this.asmBalance = asmBalance;
       this.initAsp();
     },
-    async fetchWallet() {
+    async fetchASMBalance() {
       if (this.loading) return;
       try {
         this.loading = true;
-        const { data: wallet } = await this.$http.get('/wallet');
-        this.wallet = wallet;
+        const { data } = await this.$http.get('exchange/me/asm-balance');
+        const { asmBalance } = data;
+        this.asmBalance = asmBalance;
         this.initAsp();
       } finally {
         this.loading = false;
@@ -197,6 +200,9 @@ export default {
     },
     hideNavClose() {
       this.navCloseVisible = false;
+    },
+    doClose() {
+      this.$refs.actionSheet.doClose();
     },
   },
 };

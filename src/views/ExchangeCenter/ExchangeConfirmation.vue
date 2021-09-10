@@ -84,7 +84,7 @@
   section.exchange-center-exchange-result-container
     .contents.assemble-section.dark
       header.nav
-        h1.nav-title {{ $t('title') }}
+        h1.nav-title {{ displayTitle }}
       .form-group
         p.label {{ $t('currentRatio') }}
         p.value {{ POINT_RATIO }} P / ASM
@@ -115,9 +115,13 @@ export default {
       from: (state) => state.route.query.from,
       exchangeMethod: (state) => state.route.query.exchangeMethod,
     }),
+    displayTitle() {
+      if (this.exchangeMethod === 'toASM') return this.$t('toASMTitle');
+      return this.$t('toPointTitle');
+    },
     displayFromLabel() {
-      if (this.exchangeMethod === 'toASM') return `${this.$t('paymentPoints')}`;
-      return `${this.$t('paymentASM')}`;
+      if (this.exchangeMethod === 'toASM') return this.$t('paymentPoints');
+      return this.$t('paymentASM');
     },
     displayFrom() {
       if (this.exchangeMethod === 'toASM') return `${Number(this.from).toLocaleString()} P`;
@@ -158,11 +162,19 @@ export default {
       if (this.loading) return;
       try {
         this.loading = true;
-        const { data } = await this.$http.post('/wallet/exchange/point-to-asm', { point: Number(this.from) });
-        const { point, asm, price } = data;
+        let query = { exchangeMethod: this.exchangeMethod };
+        if (this.exchangeMethod === 'toASM') {
+          const { data } = await this.$http.post('/exchange/point-to-asm', { point: Number(this.from) });
+          const { point, asm, price } = data;
+          query = { ...query, from: point, to: asm, price };
+        } else {
+          const { data } = await this.$http.post('/exchange/asm-to-point', { asm: Number(this.from) });
+          const { point, asm, price } = data;
+          query = { ...query, from: asm, to: point, price };
+        }
         this.$router.push({
           path: this.$localePath('/exchange-center/exchange-result'),
-          query: { from: point, to: asm, price },
+          query,
         });
       } catch (e) {
         if (!e.response || !e.response.data) return;
@@ -178,7 +190,8 @@ export default {
 <i18n>
 {
   "ko": {
-    "title": "포인트 → ASM 확인하기",
+    "toASMTitle": "포인트 → ASM 확인하기",
+    "toPointTitle": "ASM → 포인트 확인하기",
     "currentRatio": "현재 교환비",
     "paymentPoints": "지불 예정 포인트",
     "paymentASM": "지불 예정 ASM",
@@ -188,7 +201,8 @@ export default {
     "description": "ASM은 1단위로 교환됩니다. 입력하신 포인트는 최소 단위에 맞추어 자동으로 조정되었습니다. <b>교환비의 실시간 변동에 따라 실제 교환된 양은 차이가 있을 수 있으며, 지불 포인트를 넘지않는 금액으로 자동 조정됩니다.</b> 교환 후 취소는 불가합니다."
   },
   "en": {
-    "title": "Check Point → ASM",
+    "toASMTitle": "Check Point → ASM",
+    "toPointTitle": "Check ASM → Point",
     "currentRatio": "Current exchange ratio",
     "paymentPoints": "Point to be paid",
     "paymentASM": "ASM to be paid",
@@ -198,12 +212,12 @@ export default {
     "description": "The last exchanged ASM may be different due to market price fluctuations."
   },
   "ja": {
-    "title": "Point→ASMを確認します",
+    "toASMTitle": "Point→ASMを確認します",
     "currentRatio": "宛先",
     "paymentPoints": "支払いポイント"
   },
   "cn": {
-    "title": "确认Point→ASM",
+    "toASMTitle": "确认Point→ASM",
     "currentRatio": "收件地址",
     "paymentPoints": "支付点"
   }

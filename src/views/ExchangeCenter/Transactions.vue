@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     async fetchHistories() {
-      const { data: walletHistories } = await this.$http.get('/wallet/histories');
+      const { data: walletHistories } = await this.$http.get('/exchange/transactions');
       this.walletHistories = walletHistories;
     },
   },

@@ -47,6 +47,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    cursor: pointer;
   }
   .qr-code {
     margin-top: 20px;
@@ -69,6 +70,16 @@
     color: #F7F8FA;
     font-weight: bold;
   }
+  .loading-contents {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+  }
+  .loading {
+    font-size: 24px;
+    color: #6096FF;
+  }
   @media only screen and (min-width: 768px) {
     .receiving-asm-action-sheet {
       width: 394px;
@@ -79,7 +90,7 @@
 
 <template lang="pug">
   action-sheet.receiving-asm-action-sheet(:visible="visible", @close="close", ref="actionSheet")
-    article.container
+    article.container(v-if="!addressLoading")
       nav.nav
         strong.title {{ $t('title') }}
         button.close-button(@click="doClose")
@@ -88,6 +99,12 @@
         vue-qrcode.qr-code(:width="200", :value="`ethereum:${address}`")
         p.description(v-html="$t('description')")
         button.share-button(@click="share") {{ $t('sharingAddress') }}
+    article.container(v-else)
+      nav.nav
+        strong.title 입금 전용 주소
+        button.close-button(@click="doClose")
+      section.loading-contents
+        i.el-icon-loading.loading
 </template>
 
 <script>
@@ -101,7 +118,11 @@ export default {
   },
   props: {
     visible: { type: Boolean, default: false },
-    address: { type: String, default: '' },
+  },
+  watch: {
+    visible(value) {
+      if (value) this.fetchMyDepositAddress();
+    },
   },
   computed: {
     displayAddress() {
@@ -109,7 +130,30 @@ export default {
       return `${this.address.slice(0, 6)}...${this.address.slice(-4)}`;
     },
   },
+  data() {
+    return {
+      addressLoading: false,
+      address: null,
+    };
+  },
+  mounted() {
+    this.fetchMyDepositAddress();
+  },
   methods: {
+    async fetchMyDepositAddress() {
+      try {
+        this.addressLoading = true;
+        const { data } = await this.$http.get('/exchange/me/deposit-address');
+        this.address = data.depositAddress;
+      } catch (e) {
+        if (!e.response || !e.response.status) return;
+        if (e.response.status === 404 || e.response.status === '404') {
+          await this.$http.post('/exchange/me/deposit-address');
+        }
+      } finally {
+        this.addressLoading = false;
+      }
+    },
     close() {
       this.$emit('close');
     },
