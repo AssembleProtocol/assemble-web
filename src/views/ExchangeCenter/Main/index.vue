@@ -93,7 +93,12 @@
       align-items: flex-start;
     }
     .desktop-section {
-      margin-left: 40px;
+      &:not(:first-of-type) {
+        margin-left: 40px;
+      }
+    }
+    .assemble-section {
+      margin-bottom: 20px;
     }
   }
 </style>
@@ -101,16 +106,18 @@
 <template lang="pug">
   section.exchange-center-main-container
     .contents(v-if="!initLoading")
-      section.section.assemble-section.dark
-        h1.section-title.large {{ $t('asmExchange') }}
-        p.section-description(v-html="$t('description')")
-        .point-box
-          nav.point-box-nav
-            strong.point-box-title {{ $t('pointBoxTitle') }}
-            .point-box-nav-right
-              button.point-box-nav-button.send(@click="goToSendAsm")
-              button.point-box-nav-button.receive(@click="showReceivingAsm")
-          point-text.point-box-text(:value="asmBalance", pointType="asm")
+      section.desktop-section
+        section.section.assemble-section.dark
+          h1.section-title.large {{ $t('asmExchange') }}
+          p.section-description(v-html="$t('description')")
+          .point-box
+            nav.point-box-nav
+              strong.point-box-title {{ $t('pointBoxTitle') }}
+              .point-box-nav-right
+                button.point-box-nav-button.send(@click="goToSendAsm")
+                button.point-box-nav-button.receive(@click="showReceivingAsm")
+            point-text.point-box-text(:value="asmBalance", pointType="asm")
+        exchange-section(:asp="asp", :asmBalance="asmBalance")
       section.desktop-section
         section.section.transaction-section.assemble-section.dark(v-if="walletHistories && walletHistories.length > 0")
           nav.section-nav
@@ -122,7 +129,6 @@
               :key="walletHistory._id",
               :transaction="walletHistory",
             )
-        exchange-section(:asp="asp", :asmBalance="asmBalance")
         section.section.shortcut-section.assemble-section.dark
           nav.section-nav
             h2.section-title {{ $t('shortcut') }}

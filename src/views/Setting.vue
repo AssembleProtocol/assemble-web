@@ -86,7 +86,7 @@
     .contents.assemble-section
       section.section
         h2.section-title {{ $t('languageTitle') }}
-        button.link(:class="{ active: $i18n.locale === 'en' }", @click="changeLocale('en')") English
+        //- button.link(:class="{ active: $i18n.locale === 'en' }", @click="changeLocale('en')") English
         button.link(:class="{ active: $i18n.locale === 'ko' }", @click="changeLocale('ko')") 한국어
       section.section
         h2.section-title {{ $t('asmProtocol') }}

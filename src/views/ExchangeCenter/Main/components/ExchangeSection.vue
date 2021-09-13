@@ -245,16 +245,18 @@ export default {
         if (from > 0) this.from = from;
         else this.from = 0;
       } else {
-        this.from = Number(this.asmBalance);
+        this.from = parseFloat((this.asmBalance).toFixed(0));
       }
       this.calcTo();
     },
     toggleExchangeMethod() {
-      const temp = this.to;
-      this.to = this.from;
-      this.from = temp;
-      if (this.exchangeMethod === 'toASM') this.exchangeMethod = 'toPoint';
-      else this.exchangeMethod = 'toASM';
+      if (this.exchangeMethod === 'toASM') {
+        this.exchangeMethod = 'toPoint';
+        this.from = parseFloat((this.asmBalance).toFixed(0));
+      } else {
+        this.exchangeMethod = 'toASM';
+        this.from = parseFloat((this.asp).toFixed(0));
+      }
       this.$nextTick(() => {
         this.$refs.fromInput.doFocus();
         this.calcTo();

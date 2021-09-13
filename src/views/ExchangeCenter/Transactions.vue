@@ -32,20 +32,25 @@
 </style>
 
 <template lang="pug">
-  section.exchange-center-transactions-container
+  section.exchange-center-transactions-container(
+    v-infinite-scroll="fetchTransactions",
+    :infinite-scroll-immediate-check="false",
+  )
     .contents.assemble-section.dark
       header.nav
         h1.nav-title {{ $t('title') }}
       .transaction-list
         transaction-item(
-          v-for="walletHistory in walletHistories",
-          :key="walletHistory._id",
-          :transaction="walletHistory",
+          v-for="transaction in transactions",
+          :key="transaction._id",
+          :transaction="transaction",
         )
 </template>
 
 <script>
 import TransactionItem from './components/TransactionItem';
+
+const LIMIT = 20;
 
 export default {
   components: {
@@ -53,20 +58,53 @@ export default {
   },
   data() {
     return {
-      walletHistories: null,
+      fetchLoading: false,
+      initLoading: false,
+      offset: 0,
+      hasMore: false,
+      transactions: null,
     };
   },
-  async mounted() {
+  mounted() {
     this.$emit('hideNavPoint');
-    await this.fetchHistories();
+    this.initTransactions();
   },
   destroyed() {
     this.$emit('showNavPoint');
   },
   methods: {
-    async fetchHistories() {
-      const { data: walletHistories } = await this.$http.get('/exchange/transactions');
-      this.walletHistories = walletHistories;
+    async initTransactions() {
+      if (this.initLoading) return;
+      this.initLoading = true;
+      try {
+        const { data: transactions } = await this.$http.get('/exchange/transactions', { params: { offset: 0, limit: LIMIT } });
+        this.transactions = transactions;
+
+        if (this.transactions.length === LIMIT) this.hasMore = true;
+        else this.hasMore = false;
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      } finally {
+        this.initLoading = false;
+      }
+    },
+    async fetchTransactions() {
+      if (this.fetchLoading || !this.hasMore) return;
+      this.fetchLoading = true;
+      try {
+        this.offset += LIMIT;
+        const { data: transactions } = await this.$http.get('/exchange/transactions', { params: { offset: this.offset, limit: LIMIT } });
+        transactions.forEach((transaction) => this.transactions.push(transaction));
+
+        if (transactions.length === LIMIT) this.hasMore = true;
+        else this.hasMore = false;
+      } catch (e) {
+        if (!e.response || !e.response.data) return;
+        this.$toast(e.response.data.message);
+      } finally {
+        this.fetchLoading = false;
+      }
     },
   },
 };

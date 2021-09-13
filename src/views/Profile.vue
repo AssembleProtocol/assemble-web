@@ -112,9 +112,9 @@
           @click="handleLink($event, 'https://docs.google.com/document/d/134_NoNW3qLNNn4JSzPAd70E7UteU68VFFyIlFikGs8A/edit?usp=sharing')"
         ) {{ $t('privacy') }}
         a.link(
-          href="https://docs.google.com/forms/d/1goeZlSzYg7EHEK-hj1lu1YdtKt1XOQJ0oA_9NdXjQsU/edit?usp=sharing",
+          href="mailto:contact@assembleprotocol.io",
           target="_blank",
-          @click="handleLink($event, 'https://docs.google.com/forms/d/1goeZlSzYg7EHEK-hj1lu1YdtKt1XOQJ0oA_9NdXjQsU/edit?usp=sharing')"
+          @click="handleLink($event, 'mailto:contact@assembleprotocol.io')"
         ) {{ $t('inquiry') }}
 </template>
 
