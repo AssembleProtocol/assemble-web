@@ -1,5 +1,7 @@
 <style lang="less" scoped>
   .exchange-center-transactions-container {
+    // height: 100%;
+    // overflow-y: auto;
     color: #F7F8FA;
   }
   .nav {
@@ -35,6 +37,7 @@
   section.exchange-center-transactions-container(
     v-infinite-scroll="fetchTransactions",
     :infinite-scroll-immediate-check="false",
+    :infinite-scroll-distance="300",
   )
     .contents.assemble-section.dark
       header.nav
@@ -67,10 +70,12 @@ export default {
   },
   mounted() {
     this.$emit('hideNavPoint');
+    document.documentElement.classList.add('full-height-exchange');
     this.initTransactions();
   },
   destroyed() {
     this.$emit('showNavPoint');
+    document.documentElement.classList.remove('full-height-exchange');
   },
   methods: {
     async initTransactions() {

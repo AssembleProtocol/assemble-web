@@ -13,14 +13,31 @@ html, body {
   overflow-x: hidden;
 }
 
-html, body, #app {
-  height: 100%;
-}
-
 body {
   background-color: #fff;
   &.dark {
     background-color: #000;
+  }
+}
+
+// TODO: element-ui infinite scroll로 인해 리팩토링 필요
+html {
+  &.full-height {
+    height: 100%;
+    overflow-y: auto;
+    body {
+      height: 100%;
+      overflow-y: auto;
+    }
+    #app:not(.dark) {
+      height: 100%;
+      overflow-y: hidden;
+    }
+  }
+  &.full-height-exchange {
+    body, #app {
+      height: 100%;
+    }
   }
 }
 

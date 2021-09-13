@@ -1,4 +1,8 @@
 <style lang="less" scoped>
+  .point-histories-container {
+    height: 100%;
+    overflow-y: auto;
+  }
   .nav {
     position: sticky;
     top: 0;
@@ -55,6 +59,7 @@
   section.point-histories-container(
     v-infinite-scroll="fetchNextHistories",
     :infinite-scroll-immediate-check="false",
+    :infinite-scroll-distance="300",
   )
     nav.nav
       button.back-button(@click="$router.back()")
@@ -112,7 +117,11 @@ export default {
     };
   },
   mounted() {
+    document.documentElement.classList.add('full-height');
     this.initHistories();
+  },
+  destroyed() {
+    document.documentElement.classList.remove('full-height');
   },
   methods: {
     async initHistories() {

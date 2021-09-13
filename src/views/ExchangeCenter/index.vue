@@ -97,7 +97,7 @@
         .nav-point-box
           i.nav-point-icon.asm
           p.nav-point-text.asm {{ asmBalance | displayNumber }}
-    article.article
+    article.exchange-center-article
       transition(name="page", mode="out-in")
         router-view(
           :key="routeName",
