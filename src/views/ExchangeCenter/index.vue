@@ -56,11 +56,13 @@
     }
   }
   .nav-point-text {
+    min-width: 42px;
     border-left: 1px solid #000;
     padding: 0 5px;
     font-weight: bold;
     font-size: 14px;
     line-height: 24px;
+    text-align: right;
     &.asp {
       letter-spacing: 0.05em;
     }

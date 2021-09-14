@@ -84,7 +84,7 @@
       button.back-button(@click="$router.back()")
       h1.title {{ $t('title') }}
     .contents.assemble-section(v-if="isEmpty")
-      p.empty-text {{ $('emptyText') }}
+      p.empty-text {{ $t('emptyText') }}
     .contents.assemble-section(v-else)
       .ticket-item(v-for="purchasedItem in purchasedItems", :key="purchasedItem._id")
         .ticket-item-content

@@ -2,6 +2,7 @@
   .point-histories-container {
     height: 100%;
     overflow-y: auto;
+    padding-bottom: 120px;
   }
   .nav {
     position: sticky;

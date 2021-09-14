@@ -1,4 +1,7 @@
 <style lang="less" scoped>
+  #app {
+    padding-bottom: 120px;
+  }
   .bar {
     display: none;
   }
