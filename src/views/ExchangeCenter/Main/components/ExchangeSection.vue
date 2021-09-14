@@ -77,6 +77,7 @@
   background-repeat: no-repeat;
   background-color: #1C2C43;
   z-index: 1;
+  cursor: default;
 }
 .converted-to-value {
   position: absolute;
@@ -136,7 +137,7 @@ section.section.exchange-section.assemble-section.dark
           :class="[exchangeMethod === 'toASM' ? 'asp' : 'asm']",
         )
       button.link-button.exchange-all-input-button(@click="inputAllFrom") {{ $t('enterTheFullAmount') }}
-    button.change-exchange-button(@click="toggleExchangeMethod()")
+    button.change-exchange-button
     .exchange-input-box
       asm-input(:fontSize="24", :value="to", :disabled="true")
         i.exchange-input-icon(
@@ -249,19 +250,20 @@ export default {
       }
       this.calcTo();
     },
-    toggleExchangeMethod() {
-      if (this.exchangeMethod === 'toASM') {
-        this.exchangeMethod = 'toPoint';
-        this.from = parseFloat((this.asmBalance).toFixed(0));
-      } else {
-        this.exchangeMethod = 'toASM';
-        this.from = parseFloat((this.asp).toFixed(0));
-      }
-      this.$nextTick(() => {
-        this.$refs.fromInput.doFocus();
-        this.calcTo();
-      });
-    },
+    // TODO: 임시로 ASM > Points 막아둠
+    // toggleExchangeMethod() {
+    //   if (this.exchangeMethod === 'toASM') {
+    //     this.exchangeMethod = 'toPoint';
+    //     this.from = parseFloat((this.asmBalance).toFixed(0));
+    //   } else {
+    //     this.exchangeMethod = 'toASM';
+    //     this.from = parseFloat((this.asp).toFixed(0));
+    //   }
+    //   this.$nextTick(() => {
+    //     this.$refs.fromInput.doFocus();
+    //     this.calcTo();
+    //   });
+    // },
     goToExchange() {
       if (this.invalidity) return;
       if (!this.from) return;

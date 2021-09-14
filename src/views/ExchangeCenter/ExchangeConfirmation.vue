@@ -167,11 +167,13 @@ export default {
           const { data } = await this.$http.post('/exchange/point-to-asm', { point: Number(this.from) });
           const { point, asm, price } = data;
           query = { ...query, from: point, to: asm, price };
-        } else {
-          const { data } = await this.$http.post('/exchange/asm-to-point', { asm: Number(this.from) });
-          const { point, asm, price } = data;
-          query = { ...query, from: asm, to: point, price };
         }
+        // TODO: 임시로 ASM > Points 막아둠
+        // else {
+        //   const { data } = await this.$http.post('/exchange/asm-to-point', { asm: Number(this.from) });
+        //   const { point, asm, price } = data;
+        //   query = { ...query, from: asm, to: point, price };
+        // }
         this.$router.push({
           path: this.$localePath('/exchange-center/exchange-result'),
           query,
