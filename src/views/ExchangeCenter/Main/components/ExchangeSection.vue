@@ -137,7 +137,7 @@ section.section.exchange-section.assemble-section.dark
           :class="[exchangeMethod === 'toASM' ? 'asp' : 'asm']",
         )
       button.link-button.exchange-all-input-button(@click="inputAllFrom") {{ $t('enterTheFullAmount') }}
-    button.change-exchange-button
+    //- button.change-exchange-button
     .exchange-input-box
       asm-input(:fontSize="24", :value="to", :disabled="true")
         i.exchange-input-icon(
