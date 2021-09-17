@@ -167,8 +167,8 @@ export default {
     asp(v) {
       let floorNumber;
       this.from = Number(v);
-      if (this.exchangeMethod === 'toASM') floorNumber = (this.from / this.POINT_RATIO).toFixed(0);
-      else floorNumber = (this.from * this.POINT_RATIO).toFixed(0);
+      if (this.exchangeMethod === 'toASM') floorNumber = Math.floor(this.from / this.POINT_RATIO);
+      else floorNumber = Math.floor(this.from * this.POINT_RATIO);
       this.to = parseFloat(floorNumber);
     },
   },
@@ -190,10 +190,10 @@ export default {
     },
     displayConvertedFromValue() {
       if (this.exchangeMethod === 'toASM') {
-        const convertedPoint = Number((this.to * this.POINT_RATIO).toFixed(0)).toLocaleString();
+        const convertedPoint = Number(Math.floor(this.to * this.POINT_RATIO)).toLocaleString();
         return `${convertedPoint} P`;
       }
-      const convertedASM = Number((this.from).toFixed(0)).toLocaleString();
+      const convertedASM = Number(Math.floor(this.from)).toLocaleString();
       return `${convertedASM} ASM`;
     },
   },
@@ -211,7 +211,7 @@ export default {
     const from = Number(this.asp);
     if (from > 0) this.from = from;
     else this.from = 0;
-    const floorNumber = (this.from / this.POINT_RATIO).toFixed(0);
+    const floorNumber = Math.floor(this.from / this.POINT_RATIO);
     this.to = parseFloat(floorNumber);
   },
   destroyed() {
@@ -223,20 +223,20 @@ export default {
       const { price } = data;
       this.POINT_RATIO = price;
       if (this.exchangeMethod === 'toASM') {
-        const floorNumber = (this.from / this.POINT_RATIO).toFixed(0);
+        const floorNumber = Math.floor(this.from / this.POINT_RATIO);
         this.to = parseFloat(floorNumber);
       } else {
-        const floorNumber = (this.from * this.POINT_RATIO).toFixed(0);
+        const floorNumber = Math.floor(this.from * this.POINT_RATIO);
         this.to = parseFloat(floorNumber);
       }
     },
     calcTo(value) {
       if (value) this.from = Number(value);
       if (this.exchangeMethod === 'toASM') {
-        const floorNumber = (this.from / this.POINT_RATIO).toFixed(0);
+        const floorNumber = Math.floor(this.from / this.POINT_RATIO);
         this.to = parseFloat(floorNumber);
       } else {
-        const floorNumber = (this.from * this.POINT_RATIO).toFixed(0);
+        const floorNumber = Math.floor(this.from * this.POINT_RATIO);
         this.to = parseFloat(floorNumber);
       }
     },
@@ -246,7 +246,7 @@ export default {
         if (from > 0) this.from = from;
         else this.from = 0;
       } else {
-        this.from = parseFloat((this.asmBalance).toFixed(0));
+        this.from = parseFloat(Math.floor(this.asmBalance));
       }
       this.calcTo();
     },
@@ -254,10 +254,10 @@ export default {
     // toggleExchangeMethod() {
     //   if (this.exchangeMethod === 'toASM') {
     //     this.exchangeMethod = 'toPoint';
-    //     this.from = parseFloat((this.asmBalance).toFixed(0));
+    //     this.from = parseFloat(Math.floor(this.asmBalance));
     //   } else {
     //     this.exchangeMethod = 'toASM';
-    //     this.from = parseFloat((this.asp).toFixed(0));
+    //     this.from = parseFloat(Math.floor(this.asp));
     //   }
     //   this.$nextTick(() => {
     //     this.$refs.fromInput.doFocus();

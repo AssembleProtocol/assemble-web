@@ -155,8 +155,8 @@ export default {
       const { data } = await this.$http.get('/config/asm-price');
       const { price } = data;
       this.POINT_RATIO = price;
-      if (this.exchangeMethod === 'toASM') this.to = parseFloat((this.from / this.POINT_RATIO).toFixed(0));
-      else this.to = parseFloat((this.from * this.POINT_RATIO).toFixed(0));
+      if (this.exchangeMethod === 'toASM') this.to = parseFloat(Math.floor(this.from / this.POINT_RATIO));
+      else this.to = parseFloat(Math.floor(this.from * this.POINT_RATIO));
     },
     async goToExchangeResult() {
       if (this.loading) return;

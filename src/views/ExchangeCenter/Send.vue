@@ -136,7 +136,7 @@ export default {
         this.$toast(`ASM을 보내는데 ${this.transferFee}ASM이 필요합니다.`);
         asm = 0;
       }
-      this.asm = parseFloat(asm.toFixed(4));
+      this.asm = parseFloat(Math.floor(asm));
     },
     goToNext() {
       const asm = Number(this.asmBalance - this.transferFee);
