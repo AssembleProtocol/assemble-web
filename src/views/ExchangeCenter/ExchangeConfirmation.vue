@@ -215,13 +215,25 @@ export default {
   },
   "ja": {
     "toASMTitle": "Point→ASMを確認します",
+    "toPointTitle": "ASM → ポイント確認",
     "currentRatio": "宛先",
-    "paymentPoints": "支払いポイント"
+    "paymentPoints": "支払いポイント",
+    "paymentASM": "支払い予定ASM",
+    "exchangeASM": "交換予定ASM",
+    "exchangePoints": "交換予定ポイント",
+    "toExchange": "交換する",
+    "description": "ASMは1単位で交換されます。 入力したポイントは、最小単位に合わせて自動調整されました。 <b>交換費のリアルタイム変動によって実際の交換された量には差があり、支払いポイントを超えない金額に自動的に調整されます。</b> 交換後のキャンセルはできません。"
   },
   "cn": {
     "toASMTitle": "确认Point→ASM",
+    "toPointTitle": "ASM → 确认重点",
     "currentRatio": "收件地址",
-    "paymentPoints": "支付点"
+    "paymentPoints": "支付点",
+    "paymentASM": "预定支付ASM",
+    "exchangeASM": "预定交换ASM",
+    "exchangePoints": "交换预定积分",
+    "toExchange": "交换",
+    "description": "ASM可兑换为1单位。 您输入的积分已自动调整到最小单位。 <b>根据交换费的实时变动，实际交换的量可能存在差异，自动调整为不超过支付积分的金额。</b> 换货后不能取消。"
   }
 }
 </i18n>

@@ -190,6 +190,18 @@ export default {
     "emptyText": "There is no ticket you purchased.",
     "expired": "expired",
     "resend": "resend"
+  },
+  "ja": {
+    "title": "購入したチケット",
+    "emptyText": "ご購入されたチケットがありません。",
+    "expired": "満了",
+    "resend": "再送"
+  },
+  "cn": {
+    "title": "购票",
+    "emptyText": "没有购买的门票。",
+    "expired": "过期",
+    "resend": "重新发送"
   }
 }
 </i18n>

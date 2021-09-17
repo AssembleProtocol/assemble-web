@@ -250,6 +250,26 @@ export default {
     "description": "Valid for 30 days.",
     "validityText": "Buy",
     "invalidityText": "Please enter a valid phone number."
+  },
+  "ja": {
+    "title": "ポイントで購入する",
+    "placeholder": "チケットを受信する携帯電話番号の入力。",
+    "holdingPoints": "保有ポイント",
+    "productPrice": "商品価格",
+    "sum": "合計",
+    "description": "30日間有効です。",
+    "validityText": "購入する",
+    "invalidityText": "有効な携帯電話番号を入力してください。"
+  },
+  "cn": {
+    "title": "作为点缀购买",
+    "placeholder": "入可领取门票的手机号",
+    "holdingPoints": "仓点",
+    "productPrice": "品价格",
+    "sum": "计",
+    "description": "效期30天。",
+    "validityText": "买",
+    "invalidityText": "输入有效的手机号码。"
   }
 }
 </i18n>

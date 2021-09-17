@@ -181,6 +181,28 @@ export default {
     "toASMDescription": "You can check the exchanged ASM on the exchange office's ASM.",
     "toPointDescription": "The exchanged points can be found at the top of the exchange or at the assemble home.",
     "returnToExcahnge": "Return to Exchange"
+  },
+  "ja": {
+    "title": "交換が完了しました。",
+    "currentRatio": "適用交換費",
+    "paymentPoints": "支払われたポイント",
+    "paymentASM": "支払われたASM",
+    "exchangeASM": "交換されたASM",
+    "exchangePoints": "交換されたポイント",
+    "toASMDescription": "交換されたASMは交換所保有ASMでご確認いただけます。",
+    "toPointDescription": "交換されたポイントは交換所の上段、またはアセンブルホームでご確認いただけます。",
+    "returnToExcahnge": "交換所に戻る"
+  },
+  "cn": {
+    "title": "交换已完成。",
+    "currentRatio": "适用交换费",
+    "paymentPoints": "已付点",
+    "paymentASM": "已付的ASM",
+    "exchangeASM": "交换的ASM",
+    "exchangePoints": "交换的亮点",
+    "toASMDescription": "交换的ASM可在交换所拥有的ASM中确认。",
+    "toPointDescription": "交换的积分可在交换所上端或汇编中心确认。",
+    "returnToExcahnge": "返回交换站"
   }
 }
 </i18n>

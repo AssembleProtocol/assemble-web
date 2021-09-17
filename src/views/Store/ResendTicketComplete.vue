@@ -146,6 +146,16 @@ export default {
     "title": "Your re-send request has been completed.",
     "receivePhoneNumber": "receive phone number",
     "description": "Your ticket will arrive in a few minutes at the phone number you receive!"
+  },
+  "ja": {
+    "title": "再送の要請が完了しました。",
+    "receivePhoneNumber": "受け取る番号",
+    "description": "受け取る番号で数分以内にチケットが届きます！"
+  },
+  "cn": {
+    "title": "重新发送请求已完成 。",
+    "receivePhoneNumber": "收件编号",
+    "description": "几分钟内就能收到票！"
   }
 }
 </i18n>

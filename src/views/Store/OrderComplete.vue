@@ -191,6 +191,22 @@ export default {
     "productPrice": "product price",
     "sum": "sum",
     "description": "Your ticket will arrive in a few minutes at the number you receive!"
+  },
+  "ja": {
+    "title": "購入が完了しました！",
+    "receivePhoneNumber": "受信する携帯番号",
+    "holdingPoints": "保有ポイント",
+    "productPrice": "商品価格",
+    "sum": "合計",
+    "description": "受信番号で数分以内にチケットが到着します!"
+  },
+  "cn": {
+    "title": "购买完毕！",
+    "receivePhoneNumber": "收件手机号",
+    "holdingPoints": "持仓点",
+    "productPrice": "商品价格",
+    "sum": "合计",
+    "description": "几分钟内就能收到票！"
   }
 }
 </i18n>

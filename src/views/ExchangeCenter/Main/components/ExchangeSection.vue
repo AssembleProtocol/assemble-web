@@ -296,12 +296,14 @@ export default {
     "exchangeTitle": "交換する",
     "enterTheFullAmount": "全額を記入する",
     "notEnoughRemainingPoints": "残りの点が足りない",
+    "notEnoughRemainingASM": "残余ASM不足",
     "exchangeText": "●{from}を{to}に交換"
   },
   "cn": {
     "exchangeTitle": "交换",
     "enterTheFullAmount": "输入全部金额",
     "notEnoughRemainingPoints": "剩下的分数不够",
+    "notEnoughRemainingASM": "剩余ASM不足",
     "exchangeText": "将{from}替换为{to}"
   }
 }
