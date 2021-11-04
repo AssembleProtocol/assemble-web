@@ -87,6 +87,8 @@
 </template>
 
 <script>
+import WAValidator from 'wallet-address-validator';
+
 import AsmInput from '@/components/AsmInput';
 
 let timer;
@@ -131,14 +133,24 @@ export default {
       }
     },
     inputAllBalance() {
-      let asm = Number(this.asmBalance - this.transferFee);
+      let asm = Number(this.asmBalance);
       if (asm < this.transferFee) {
         this.$toast(`ASM을 보내는데 ${this.transferFee}ASM이 필요합니다.`);
         asm = 0;
+      } else {
+        asm = Number(this.asmBalance - this.transferFee);
       }
       this.asm = parseFloat(Math.floor(asm));
     },
     goToNext() {
+      if (!WAValidator.validate(this.address, 'ETH')) {
+        this.$toast('올바른 주소를 입력해주세요.');
+        return;
+      }
+      if (!this.asm) {
+        this.$toast('ASM을 입력해주세요.');
+        return;
+      }
       const asm = Number(this.asmBalance - this.transferFee);
       if (this.asm > asm) {
         this.$toast(`잔액이 부족합니다. 수수료로 ${this.transferFee}ASM이 필요합니다.`);
