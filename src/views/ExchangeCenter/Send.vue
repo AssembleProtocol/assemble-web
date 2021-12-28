@@ -164,7 +164,6 @@ export default {
   },
 };
 </script>
-
 <i18n>
 {
   "ko": {

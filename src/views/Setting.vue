@@ -86,8 +86,10 @@
     .contents.assemble-section
       section.section
         h2.section-title {{ $t('languageTitle') }}
-        //- button.link(:class="{ active: $i18n.locale === 'en' }", @click="changeLocale('en')") English
+        button.link(:class="{ active: $i18n.locale === 'en' }", @click="changeLocale('en')") English
         button.link(:class="{ active: $i18n.locale === 'ko' }", @click="changeLocale('ko')") 한국어
+        button.link(:class="{ active: $i18n.locale === 'ja' }", @click="changeLocale('ja')") 日本語
+        button.link(:class="{ active: $i18n.locale === 'cn' }", @click="changeLocale('cn')") 简体中文
       section.section
         h2.section-title {{ $t('asmProtocol') }}
         a.link(
