@@ -113,7 +113,7 @@
           .point-box
             nav.point-box-nav
               strong.point-box-title {{ $t('pointBoxTitle') }}
-              .point-box-nav-right
+              //- .point-box-nav-right
                 button.point-box-nav-button.send(@click="goToSendAsm")
                 button.point-box-nav-button.receive(@click="showReceivingAsm")
             point-text.point-box-text(:value="asmBalance", pointType="asm")
@@ -129,7 +129,7 @@
               :key="walletHistory._id",
               :transaction="walletHistory",
             )
-        section.section.shortcut-section.assemble-section.dark
+        //- section.section.shortcut-section.assemble-section.dark
           nav.section-nav
             h2.section-title {{ $t('shortcut') }}
           .shortcut-button-group
