@@ -127,7 +127,7 @@
         button.login(type="submit") {{ $t('signInButton') }}
         p.error-message(v-if="error") {{ $t('errorMessage') }}
       locale-router-link.link-button(to="/request-reset-password") {{ $t('resetPassword') }}
-      locale-router-link.link-button(to="/signup") {{ $t('signUp') }}
+      //- locale-router-link.link-button(to="/signup") {{ $t('signUp') }}
 </template>
 
 <script>

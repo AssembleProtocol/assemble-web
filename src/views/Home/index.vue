@@ -154,7 +154,7 @@
         section.section.app-section
           h1.section-title {{ $t('connectedApps') }}
           .list-item-group
-            locale-router-link.list-item-wrapper(to="/exchange-center")
+            //- locale-router-link.list-item-wrapper(to="/exchange-center")
               list-item(
                 :title="$t('asmExchange')",
                 appId="exchange",
